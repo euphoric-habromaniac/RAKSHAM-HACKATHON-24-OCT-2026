@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Asli Awaaz // SafeBank Mobile</title>
+  <link rel="stylesheet" href="/ui/shared.css">
+  <style>
+    body {
+      background: #030712;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .phone-frame {
+      width: 100%;
+      max-width: 420px;
+      min-height: 720px;
+      background: #0f172a;
+      border: 3px solid #334155;
+      border-radius: 36px;
+      padding: 24px 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .phone-notch {
+      width: 140px;
+      height: 22px;
+      background: #030712;
+      border-radius: 0 0 16px 16px;
+      margin: -24px auto 16px auto;
+    }
+    .bank-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .tab-bar {
+      display: flex;
+      background: #1e293b;
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: var(--bg-primary);
+      color: #fff;
+    }
+    .timer-ring {
+      font-size: 42px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: #f59e0b;
+      text-align: center;
+      margin: 12px 0;
+    }
+    .prompt-box {
+      background: rgba(217, 70, 239, 0.08);
+      border: 2px solid var(--magenta-primary);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      margin: 16px 0;
+    }
+    .prompt-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #f5d0fe;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .prompt-meta {
+      font-size: 15px;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+    }
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <div class="phone-notch"></div>
+
+    <div class="bank-brand">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: var(--teal-primary); width: 14px; height: 14px; border-radius: 50%;"></span>
+        <span style="font-weight: 800; letter-spacing: 0.05em; font-size: 16px;">SAFEBANK INDIA</span>
+      </div>
+      <span class="badge badge-teal" style="font-size: 11px;">SECURE APP</span>
+    </div>
+
+    <!-- Mode Selector Tabs -->
+    <div class="tab-bar">
+      <button id="tab-prompt" class="tab-btn active" onclick="setMode('prompt')">Helpline Auth</button>
+      <button id="tab-enrol" class="tab-btn" onclick="setMode('enrol')">Voice Enrolment</button>
+    </div>
+
+    <!-- ================= MODE 1: PROMPT SCREEN ================= -->
+    <div id="section-prompt" style="display: flex; flex-direction: column; flex: 1;">
+      
+      <div id="prompt-loading" style="text-align: center; padding: 40px 0; color: var(--text-secondary);">
+        <div style="font-size: 28px; margin-bottom: 12px;">📲</div>
+        <p style="font-size: 16px;">Listening for live helpline requests...</p>
+        <div style="margin-top: 16px;">
+          <input type="text" id="manual-token" placeholder="Enter Token / Call ID" style="background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; width: 80%; text-align: center;">
+          <button class="btn btn-secondary" onclick="loadPromptManually()" style="margin-top: 8px; padding: 6px 14px; font-size: 13px;">Check Prompt</button>
+        </div>
+      </div>
+
+      <div id="prompt-active" style="display: none; flex-direction: column; flex: 1;">
+        <div class="prompt-box">
+          <div class="prompt-title">Your helpline request is paused.</div>
+          <p style="font-size: 16px; color: #cbd5e1; font-weight: 600;">
+            Do you approve the request from your helpline call?
+          </p>
+        </div>
+
+        <div class="prompt-meta">
+          <div><strong>Request:</strong> <span id="prompt-action" style="color: #38bdf8;">Limit Increase to ₹5,00,000</span></div>
+          <div style="margin-top: 4px;"><strong>Target Call:</strong> <span id="prompt-call-id" style="font-family: var(--font-mono);">call-demo-replay</span></div>
+          <div style="margin-top: 4px;"><strong>Customer:</strong> <span id="prompt-customer">cust_victim</span></div>
+        </div>
+
+        <div style="text-align: center; margin: 10px 0;">
+          <div style="font-size: 12px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Prompt Expires In</div>
+          <div id="prompt-timer" class="timer-ring">30s</div>
+        </div>
+
+        <div class="action-stack">
+          <button class="btn btn-teal btn-lg" onclick="sendPromptResponse('confirm')">
+            ✓ Yes, I Approve This Request
+          </button>
+          <button class="btn btn-magenta btn-lg" onclick="sendPromptResponse('deny')">
+            ✕ No, I Did Not Call (Deny)
+          </button>
+          <button class="btn btn-outline-danger" onclick="sendPromptResponse('report')">
+            🚨 Report Fraud Immediately
+          </button>
+        </div>
+      </div>
+
+      <div id="prompt-result" style="display: none; text-align: center; padding: 40px 16px;">
+        <div id="result-icon" style="font-size: 48px; margin-bottom: 16px;">✓</div>
+        <div id="result-title" style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Response Recorded</div>
+        <p id="result-desc" style="color: var(--text-secondary); font-size: 15px;">Your decision has been transmitted instantly to the helpline fraud engine.</p>
+        <button class="btn btn-secondary" onclick="resetPromptView()" style="margin-top: 24px;">Back to App</button>
+      </div>
+
+    </div>
+
+    <!-- ================= MODE 2: ENROLMENT SCREEN ================= -->
+    <div id="section-enrol" style="display: none; flex-direction: column; flex: 1;">
+      <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Biometric Voice Enrolment</h3>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+        Register your authentic voiceprint to protect your account against AI clone fraud.
+      </p>
+
+      <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid #334155; padding: 12px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 12px; color: #94a3b8;">
+        <strong>Explicit Consent Notice:</strong> Your voice sample will be stored locally as a mathematical vector for helpline authentication. You may withdraw this consent and delete your biometric record at any time.
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Customer ID:</label>
+        <input type="text" id="enrol-cust-id" value="cust_genuine" style="width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 8px; border-radius: 4px; font-family: var(--font-mono); margin-top: 4px;">
+      </div>
+
+      <div style="background: #1e293b; padding: 16px; border-radius: var(--radius-md); text-align: center; margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">Enrolment Samples (3 Required)</div>
+        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;">
+          <div id="sample-1" style="width: 28px; height: 28px; border-radius: 50%; background: var(--teal-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;">✓</div>
+          <div id="sample-2" style="width: 28px; height: 28px; border-radius: 50%; background: var(--teal-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;">✓</div>
+          <div id="sample-3" style="width: 28px; height: 28px; border-radius: 50%; background: var(--teal-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;">✓</div>
+        </div>
+        <span class="badge badge-teal">Status: Enrolled & Active</span>
+      </div>
+
+      <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+        <button class="btn btn-secondary" onclick="simulateRecord()">
+          🎙 Record New Sample
+        </button>
+        <button class="btn btn-outline-danger" onclick="withdrawEnrolment()">
+          🗑 Withdraw Biometric & Delete Voiceprint
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentToken = '';
+    let currentCallId = 'call-demo-replay';
+    let countdownSec = 30;
+    let countdownTimer = null;
+
+    function setMode(mode) {
+      document.getElementById('tab-prompt').className = mode === 'prompt' ? 'tab-btn active' : 'tab-btn';
+      document.getElementById('tab-enrol').className = mode === 'enrol' ? 'tab-btn active' : 'tab-btn';
+      document.getElementById('section-prompt').style.display = mode === 'prompt' ? 'flex' : 'none';
+      document.getElementById('section-enrol').style.display = mode === 'enrol' ? 'flex' : 'none';
+    }
+
+    function checkActivePrompt() {
+      // Check query parameter ?token= or fallback to demo call
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      if (token) {
+        currentToken = token;
+        fetchPrompt(token);
+      }
+    }
+
+    function loadPromptManually() {
+      const val = document.getElementById('manual-token').value.trim();
+      if (!val) return;
+      if (val.startsWith('call-') || val.startsWith('sim-')) {
+        // Direct call fallback for demo
+        currentCallId = val;
+        showPromptUI({
+          call_id: val,
+          customer_id: 'cust_victim',
+          action: 'Online Transaction Authorization (₹5,00,000)'
+        });
+      } else {
+        currentToken = val;
+        fetchPrompt(val);
+      }
+    }
+
+    function fetchPrompt(token) {
+      fetch(`/app/prompt/${encodeURIComponent(token)}`)
+        .then(r => {
+          if (!r.ok) throw new Error("Invalid or expired prompt token");
+          return r.json();
+        })
+        .then(data => {
+          currentToken = data.token;
+          currentCallId = data.call_id;
+          showPromptUI(data);
+        })
+        .catch(err => {
+          alert("Error: " + err.message);
+        });
+    }
+
+    function showPromptUI(data) {
+      document.getElementById('prompt-loading').style.display = 'none';
+      document.getElementById('prompt-result').style.display = 'none';
+      document.getElementById('prompt-active').style.display = 'flex';
+
+      document.getElementById('prompt-call-id').textContent = data.call_id;
+      document.getElementById('prompt-customer').textContent = data.customer_id;
+      if (data.action) document.getElementById('prompt-action').textContent = data.action;
+
+      countdownSec = 30;
+      document.getElementById('prompt-timer').textContent = `${countdownSec}s`;
+      clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        countdownSec--;
+        document.getElementById('prompt-timer').textContent = `${countdownSec}s`;
+        if (countdownSec <= 0) {
+          clearInterval(countdownTimer);
+          sendPromptResponse('timeout');
+        }
+      }, 1000);
+    }
+
+    function sendPromptResponse(result) {
+      clearInterval(countdownTimer);
+      
+      const payload = { result: result };
+      let endpoint = currentToken ? `/app/prompt/${currentToken}/respond` : `/calls/${currentCallId}/app-response`;
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(r => r.json())
+      .then(res => {
+        document.getElementById('prompt-active').style.display = 'none';
+        document.getElementById('prompt-result').style.display = 'block';
+
+        const title = document.getElementById('result-title');
+        const icon = document.getElementById('result-icon');
+        const desc = document.getElementById('result-desc');
+
+        if (result === 'confirm') {
+          icon.textContent = '✓';
+          icon.style.color = 'var(--teal-light)';
+          title.textContent = 'Request Approved';
+          desc.textContent = 'Helpline agent has been authorized to proceed with your transaction.';
+        } else if (result === 'deny') {
+          icon.textContent = '✕';
+          icon.style.color = 'var(--magenta-light)';
+          title.textContent = 'Call Denied & Blocked';
+          desc.textContent = 'The active phone call has been blocked. A fraud investigation case was raised.';
+        } else if (result === 'report') {
+          icon.textContent = '🚨';
+          icon.style.color = '#ef4444';
+          title.textContent = 'Fraud Reported';
+          desc.textContent = 'Helpline session terminated. Account credentials flagged for fraud review.';
+        } else {
+          icon.textContent = '⌛';
+          icon.style.color = '#f59e0b';
+          title.textContent = 'Prompt Timed Out';
+          desc.textContent = 'No response received within 30 seconds. Request was held for safety.';
+        }
+      })
+      .catch(err => {
+        alert("Failed to submit response: " + err.message);
+      });
+    }
+
+    function resetPromptView() {
+      document.getElementById('prompt-result').style.display = 'none';
+      document.getElementById('prompt-active').style.display = 'none';
+      document.getElementById('prompt-loading').style.display = 'block';
+    }
+
+    function withdrawEnrolment() {
+      const custId = document.getElementById('enrol-cust-id').value.trim();
+      if (!custId) return;
+      if (!confirm(`Are you sure you want to delete all biometric data for customer '${custId}'?`)) return;
+
+      fetch(`/enrol/${encodeURIComponent(custId)}`, { method: 'DELETE' })
+        .then(r => r.json())
+        .then(res => {
+          alert(`Biometric record withdrawn for ${custId}. Data purged per DPDP compliance.`);
+          document.getElementById('sample-1').style.background = '#475569';
+          document.getElementById('sample-2').style.background = '#475569';
+          document.getElementById('sample-3').style.background = '#475569';
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function simulateRecord() {
+      alert("Microphone capture active. Speak 5 seconds for acoustic feature extraction.");
+    }
+
+    checkActivePrompt();
+  </script>
+</body>
+</html>

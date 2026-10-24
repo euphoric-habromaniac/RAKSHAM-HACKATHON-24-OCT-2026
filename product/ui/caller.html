@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asli Awaaz // Softphone Telephony Caller</title>
+  <link rel="stylesheet" href="/ui/shared.css">
+  <style>
+    .meter-container {
+      width: 100%;
+      height: 24px;
+      background: #0f172a;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin: 16px 0;
+    }
+    .meter-level {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #14b8a6 0%, #38bdf8 70%, #d946ef 100%);
+      transition: width 0.08s ease;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    <span>⚠️ DEMO MODE — SYNTHETIC VOICE FRAUD TESTBENCH — IIT DELHI RAKSHAM 2026</span>
+  </div>
+
+  <header class="header-bar">
+    <a href="/ui/" class="brand">
+      <span class="brand-badge">ASLI AWAAZ</span>
+      <span class="brand-title">Telephony Softphone (D5)</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/ui/">Overview</a>
+      <a href="/ui/caller.html" class="active">Live Caller</a>
+      <a href="/ui/agent.html">Agent Softphone</a>
+      <a href="/ui/sim.html">Demo Runner</a>
+    </nav>
+  </header>
+
+  <main class="container" style="max-width: 800px;">
+    <div class="card">
+      <div class="card-title">
+        <span>Helpline Outbound Call Simulator</span>
+        <span id="call-state-badge" class="badge badge-gray">Idle / On Hook</span>
+      </div>
+
+      <!-- Telephony Parameters -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label>Audio Input Device (Mic / Virtual Cable):</label>
+          <select id="audio-input-device" class="form-control">
+            <option value="">Default Microphone</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Caller Persona / Customer ID:</label>
+          <select id="caller-persona" class="form-control">
+            <option value="cust_genuine">cust_genuine (Rajesh Sharma - Enrolled Genuine)</option>
+            <option value="cust_victim">cust_victim (Kushagra Raj - Clone Target)</option>
+            <option value="cust_new">cust_new (Unenrolled Caller)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label>Helpline Request Type:</label>
+          <select id="request-type" class="form-control">
+            <option value="balance">Account Balance Enquiry (Standard / Clear)</option>
+            <option value="limit_change">Credit Limit Change (Sensitive Step-Up)</option>
+            <option value="new_payee">Add High-Value Payee (High Risk / Hold)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Simulated Call ID:</label>
+          <input type="text" id="call-id" class="form-control" value="call-live-caller" style="font-family: var(--font-mono);">
+        </div>
+      </div>
+
+      <!-- Bank Risk Flags -->
+      <div class="form-group">
+        <label>Simulated Bank Risk Flags (L4 Context):</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" id="flag-device"> New Device Login
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="flag-payee"> New Payee Addition
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="flag-amount"> Unusual Amount Spike
+          </label>
+        </div>
+      </div>
+
+      <!-- Microphone Level Meter -->
+      <div style="margin-top: 16px;">
+        <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary);">
+          <span>Microphone Input Level (PCM 16 kHz):</span>
+          <span id="meter-db">-inf dB</span>
+        </div>
+        <div class="meter-container">
+          <div id="meter-fill" class="meter-level"></div>
+        </div>
+      </div>
+
+      <!-- Call Notice Player -->
+      <div id="notice-box" style="background: rgba(13, 148, 136, 0.1); border: 1px solid var(--teal-border); padding: 12px; border-radius: var(--radius-sm); margin: 16px 0; display: none;">
+        <div style="font-size: 13px; font-weight: 700; color: #5eead4;">
+          📢 Mandatory Call Recording Disclosure Playing...
+        </div>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">
+          "This call may be monitored and recorded for security and fraud prevention purposes."
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div style="display: flex; gap: 12px; margin-top: 24px;">
+        <button id="btn-start" class="btn btn-teal btn-lg" onclick="startCall()">
+          📞 Place Helpline Call
+        </button>
+        <button id="btn-mute" class="btn btn-secondary btn-lg" onclick="toggleMute()" disabled>
+          🎙 Mute Mic
+        </button>
+        <button id="btn-hangup" class="btn btn-outline-danger btn-lg" onclick="hangupCall()" disabled>
+          📵 Hang Up
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Live Telephony Transcript Simulation -->
+    <div class="card">
+      <div class="card-title">Caller Speech Transcript Simulation</div>
+      <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">
+        Transmit simulated Hindi/Hinglish speech to the ASR layer for instant intent alignment.
+      </p>
+      <div style="display: flex; gap: 12px;">
+        <input type="text" id="transcript-input" class="form-control" placeholder="e.g. mera balance bata dijiye / urgent hai limit badhao" value="mera balance bata dijiye">
+        <button class="btn btn-secondary" onclick="sendTranscript()">Send to ASR</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-bar">
+    <span>Asli Awaaz Softphone // Real-Time Web Audio PCM16 Stream</span>
+    <span id="stream-status" style="color: var(--text-muted);">Idle</span>
+  </footer>
+
+  <script>
+    let audioCtx = null;
+    let micStream = null;
+    let audioWorklet = null;
+    let streamWs = null;
+    let isMuted = false;
+    let isCallActive = false;
+
+    // Enumerate audio devices
+    async function initDevices() {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const select = document.getElementById('audio-input-device');
+        select.innerHTML = '';
+        devices.filter(d => d.kind === 'audioinput').forEach((d, i) => {
+          const opt = document.createElement('option');
+          opt.value = d.deviceId;
+          opt.textContent = d.label || `Microphone ${i + 1}`;
+          select.appendChild(opt);
+        });
+      } catch (e) {
+        console.warn("Device enumeration failed:", e);
+      }
+    }
+
+    async function startCall() {
+      const callId = document.getElementById('call-id').value.trim() || `call-${Date.now()}`;
+      const customer = document.getElementById('caller-persona').value;
+      const requestType = document.getElementById('request-type').value;
+
+      const bankFlags = {
+        new_device: document.getElementById('flag-device').checked,
+        new_payee: document.getElementById('flag-payee').checked,
+        amount_jump: document.getElementById('flag-amount').checked
+      };
+
+      // 1. Post to /calls
+      try {
+        const res = await fetch('/calls', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            call_id: callId,
+            customer_id: customer,
+            request_type: requestType,
+            enrolled: customer !== 'cust_new',
+            bank_flags: bankFlags
+          })
+        });
+        if (!res.ok) throw new Error("Failed to start call session");
+      } catch (err) {
+        alert("Could not start call: " + err.message);
+        return;
+      }
+
+      // 2. Play recording disclosure
+      document.getElementById('notice-box').style.display = 'block';
+      playNoticeTone();
+
+      // 3. Open audio capture
+      await startAudioStreaming(callId);
+
+      // UI state
+      isCallActive = true;
+      document.getElementById('call-state-badge').textContent = 'Call Live (Connected)';
+      document.getElementById('call-state-badge').className = 'badge badge-teal';
+      document.getElementById('btn-start').disabled = true;
+      document.getElementById('btn-mute').disabled = false;
+      document.getElementById('btn-hangup').disabled = false;
+    }
+
+    function playNoticeTone() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+      } catch (e) {}
+    }
+
+    async function startAudioStreaming(callId) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+      const deviceId = document.getElementById('audio-input-device').value;
+      const constraints = {
+        audio: deviceId ? { deviceId: { exact: deviceId }, echoCancellation: false } : true
+      };
+
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia(constraints);
+        const source = audioCtx.createMediaStreamSource(micStream);
+        const analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        source.connect(analyser);
+
+        // Level meter loop
+        const dataArr = new Uint8Array(analyser.frequencyBinCount);
+        const updateMeter = () => {
+          if (!isCallActive) return;
+          analyser.getByteFrequencyData(dataArr);
+          let sum = 0;
+          for (let i = 0; i < dataArr.length; i++) sum += dataArr[i];
+          const avg = sum / dataArr.length;
+          const pct = Math.min(100, Math.round((avg / 128) * 100));
+          document.getElementById('meter-fill').style.width = `${pct}%`;
+          document.getElementById('meter-db').textContent = `${Math.round(pct - 100)} dB`;
+          requestAnimationFrame(updateMeter);
+        };
+        updateMeter();
+
+        // Connect Ingest WebSocket
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        streamWs = new WebSocket(`${proto}//${window.location.host}/ws/calls/${callId}/stream`);
+
+        // Audio processor using ScriptProcessor fallback for offline browser compatibility
+        const processor = audioCtx.createScriptProcessor(4096, 1, 1);
+        source.connect(processor);
+        processor.connect(audioCtx.destination);
+
+        processor.onaudioprocess = (e) => {
+          if (!isCallActive || isMuted || !streamWs || streamWs.readyState !== WebSocket.OPEN) return;
+          const input = e.inputBuffer.getChannelData(0);
+          // Convert Float32 to Int16 PCM
+          const pcm16 = new Int16Array(input.length);
+          for (let i = 0; i < input.length; i++) {
+            let s = Math.max(-1, Math.min(1, input[i]));
+            pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+          }
+          streamWs.send(pcm16.buffer);
+        };
+
+        document.getElementById('stream-status').textContent = 'Streaming PCM16 @ 16 kHz';
+        document.getElementById('stream-status').style.color = 'var(--teal-light)';
+      } catch (e) {
+        console.error("Mic access error:", e);
+        document.getElementById('stream-status').textContent = 'Microphone Inactive / Simulated Mode';
+      }
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      document.getElementById('btn-mute').textContent = isMuted ? '🔇 Unmute Mic' : '🎙 Mute Mic';
+      document.getElementById('btn-mute').className = isMuted ? 'btn btn-magenta btn-lg' : 'btn btn-secondary btn-lg';
+    }
+
+    function hangupCall() {
+      isCallActive = false;
+      if (micStream) micStream.getTracks().forEach(t => t.stop());
+      if (streamWs) streamWs.close();
+      if (audioCtx) audioCtx.close();
+
+      document.getElementById('call-state-badge').textContent = 'Call Terminated';
+      document.getElementById('call-state-badge').className = 'badge badge-gray';
+      document.getElementById('btn-start').disabled = false;
+      document.getElementById('btn-mute').disabled = true;
+      document.getElementById('btn-hangup').disabled = true;
+      document.getElementById('meter-fill').style.width = '0%';
+      document.getElementById('meter-db').textContent = '-inf dB';
+      document.getElementById('notice-box').style.display = 'none';
+      document.getElementById('stream-status').textContent = 'Call Ended';
+    }
+
+    function sendTranscript() {
+      const callId = document.getElementById('call-id').value.trim();
+      const text = document.getElementById('transcript-input').value.trim();
+      if (!callId || !text) return;
+
+      fetch(`/calls/${encodeURIComponent(callId)}/transcript`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+      })
+      .then(r => r.json())
+      .then(res => {
+        alert(`Transcript injected into Call ${callId}. Current band: ${res.band || 'Scoring'}`);
+      })
+      .catch(err => alert("Error: " + err.message));
+    }
+
+    initDevices();
+  </script>
+</body>
+</html>

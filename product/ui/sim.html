@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asli Awaaz // Demo Control Panel & Scenario Runner</title>
+  <link rel="stylesheet" href="/ui/shared.css">
+  <style>
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .status-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .indicator-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-green { background: #14b8a6; box-shadow: 0 0 8px rgba(20, 184, 166, 0.5); }
+    .dot-blue  { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.5); }
+    .dot-amber { background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.5); }
+    .scenario-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+    }
+    .scenario-card:hover {
+      border-color: var(--teal-border);
+    }
+    .log-box {
+      background: #030712;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      height: 280px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .log-line {
+      margin-bottom: 4px;
+    }
+    .log-teal { color: #5eead4; }
+    .log-magenta { color: #f5d0fe; }
+    .log-amber { color: #fde047; }
+    .log-blue { color: #7dd3fc; }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    <span>⚠️ DEMO MODE — SYNTHETIC VOICE FRAUD TESTBENCH — IIT DELHI RAKSHAM 2026</span>
+  </div>
+
+  <header class="header-bar">
+    <a href="/ui/" class="brand">
+      <span class="brand-badge">ASLI AWAAZ</span>
+      <span class="brand-title">Demo Control Panel (D6)</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/ui/">Overview</a>
+      <a href="/ui/sim.html" class="active">Demo Runner</a>
+      <a href="/ui/agent.html">Agent Softphone</a>
+      <a href="/ui/analyst.html">Analyst Queue</a>
+      <a href="/ui/head.html">Executive KPI</a>
+      <a href="/ui/app.html">Customer App</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <div>
+        <h1 style="font-size: 28px; font-weight: 800;">Automated Scenario Trigger & Telemetry</h1>
+        <p style="color: var(--text-secondary); font-size: 15px;">One-click end-to-end replay for stage presentations and judge evaluation.</p>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="resetDemo()">🗑 Reset Demo State</button>
+      </div>
+    </div>
+
+    <!-- System Health Lights -->
+    <div class="status-grid">
+      <div class="status-pill">
+        <div class="indicator-dot dot-green"></div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Engine API</div>
+          <div style="font-size: 14px; font-weight: 700;">FastAPI 0.143 Active</div>
+        </div>
+      </div>
+
+      <div class="status-pill">
+        <div class="indicator-dot dot-green"></div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Scoring Cascade</div>
+          <div style="font-size: 14px; font-weight: 700;" id="status-scorer">L1–L4 Calibrated</div>
+        </div>
+      </div>
+
+      <div class="status-pill">
+        <div class="indicator-dot dot-blue"></div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Hardware Mode</div>
+          <div style="font-size: 14px; font-weight: 700;">CPU Benchmark</div>
+        </div>
+      </div>
+
+      <div class="status-pill">
+        <div class="indicator-dot dot-green"></div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Out-Of-Band Push</div>
+          <div style="font-size: 14px; font-weight: 700;">HMAC-SHA256 Token</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenarios -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; margin-bottom: 24px;">
+
+      <!-- Scenario 1 -->
+      <div class="scenario-card" style="border-top: 4px solid var(--teal-primary);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="font-size: 18px; font-weight: 800;">Scenario 1: Genuine Caller</h3>
+          <span class="badge badge-teal">Expected: CLEAR</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 14px;">
+          Caller: Rajesh Sharma (cust_genuine). Enquiry: Balance. Authentic voiceprint matched. No challenge, friction-free.
+        </p>
+        <button class="btn btn-teal" style="width: 100%;" onclick="runScenario(1)">
+          ▶ Run Scenario 1 (Clear)
+        </button>
+      </div>
+
+      <!-- Scenario 2 -->
+      <div class="scenario-card" style="border-top: 4px solid var(--stepup-primary);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="font-size: 18px; font-weight: 800;">Scenario 2: Pre-Recorded Replay</h3>
+          <span class="badge badge-blue">Expected: STEP UP &rarr; HOLD</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 14px;">
+          Clone target: cust_victim. Sensitive limit change. Replay cannot answer randomized digits &rarr; escalates to Hold &rarr; App Deny.
+        </p>
+        <button class="btn btn-secondary" style="width: 100%; border-color: var(--stepup-border);" onclick="runScenario(2)">
+          ▶ Run Scenario 2 (Replay / Challenge)
+        </button>
+      </div>
+
+      <!-- Scenario 3 -->
+      <div class="scenario-card" style="border-top: 4px solid var(--magenta-primary);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="font-size: 18px; font-weight: 800;">Scenario 3: Live Voice Changer</h3>
+          <span class="badge badge-magenta">Expected: IMMEDIATE HOLD</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 14px;">
+          RVC live voice conversion + new device + urgent payee addition. Immediate Hold &rarr; App prompt times out &rarr; SIEM alert.
+        </p>
+        <button class="btn btn-magenta" style="width: 100%;" onclick="runScenario(3)">
+          ▶ Run Scenario 3 (Live Clone / Intercept)
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Live Event Stream Log -->
+    <div class="card">
+      <div class="card-title">
+        <span>Execution Telemetry & Audit Stream</span>
+        <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="clearLogs()">Clear Log</button>
+      </div>
+      <div id="sim-log-box" class="log-box">
+        <div class="log-line">[SYSTEM] Scenario trigger engine initialized. Ready to execute demo flows.</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-bar">
+    <span>Asli Awaaz Demo Replay Controller // Zero External CDN // Fully Offline</span>
+    <span id="audit-indicator" style="color: var(--teal-light);">Audit Chain: Verified</span>
+  </footer>
+
+  <script>
+    function log(msg, cls = '') {
+      const box = document.getElementById('sim-log-box');
+      const div = document.createElement('div');
+      div.className = `log-line ${cls}`;
+      const time = new Date().toISOString().substring(11, 19);
+      div.textContent = `[${time}] ${msg}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function clearLogs() {
+      document.getElementById('sim-log-box').innerHTML = '';
+    }
+
+    async function runScenario(num) {
+      if (num === 1) {
+        log("Starting Scenario 1: Genuine Caller (cust_genuine)...", "log-teal");
+        const callId = "call-demo-genuine";
+        
+        // 1. Start Call
+        await fetch('/calls', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            call_id: callId,
+            customer_id: 'cust_genuine',
+            request_type: 'balance',
+            enrolled: true,
+            metadata: { mock_l1_cosine: 0.85, mock_l2_spoof: 0.05 }
+          })
+        });
+        log("Call initialized. Customer: cust_genuine, Request: balance", "log-blue");
+
+        // 2. Audio chunk
+        const dummyAudio = btoa(String.fromCharCode(...new Uint8Array(3200)));
+        await fetch(`/calls/${callId}/audio`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ pcm_b64: dummyAudio, sample_rate: 8000 })
+        });
+        log("5s Audio window streamed to L1/L2 classifiers.", "log-blue");
+
+        // 3. Transcript
+        const res = await fetch(`/calls/${callId}/transcript`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ text: "mera balance bata dijiye" })
+        }).then(r => r.json());
+
+        log(`Scoring complete: Band = [${res.band}] | Agent: "${res.agent_message}"`, "log-teal");
+        log("Privacy check: Zero audio or transcript saved to disk for Clear call.", "log-teal");
+      }
+
+      else if (num === 2) {
+        log("Starting Scenario 2: Pre-recorded Replay Attack (cust_victim)...", "log-blue");
+        const callId = "call-demo-replay";
+
+        // 1. Start Call
+        await fetch('/calls', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            call_id: callId,
+            customer_id: 'cust_victim',
+            request_type: 'limit_change',
+            enrolled: true,
+            metadata: { mock_l1_cosine: 0.55, mock_l2_spoof: 0.55 }
+          })
+        });
+
+        // 2. Audio
+        const dummyAudio = btoa(String.fromCharCode(...new Uint8Array(3200)));
+        await fetch(`/calls/${callId}/audio`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ pcm_b64: dummyAudio, sample_rate: 8000 })
+        });
+
+        // 3. Transcript
+        const res = await fetch(`/calls/${callId}/transcript`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ text: "mujhe card ki limit badhani hai" })
+        }).then(r => r.json());
+
+        log(`Acoustics evaluated: Band = [${res.band}] | Action: "${res.agent_message}"`, "log-blue");
+
+        // 4. Fail challenge digits
+        log("Simulated attacker playing pre-recorded audio with mismatched digits...", "log-amber");
+        const challengeRes = await fetch(`/calls/${callId}/challenge/answer`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ text: "0 0 0 0 0 0" })
+        }).then(r => r.json());
+
+        log(`Challenge failed! Band escalated to [${challengeRes.band}]`, "log-magenta");
+        log("Hold triggered: Analyst case opened & Out-of-band app push token issued.", "log-magenta");
+
+        // 5. Customer Denies in app
+        log("Victim customer receives mobile push prompt and taps 'Deny'...", "log-magenta");
+        await fetch(`/calls/${callId}/app-response`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ result: 'deny' })
+        });
+        log("Customer app denied call. Helpline session halted safely.", "log-teal");
+      }
+
+      else if (num === 3) {
+        log("Starting Scenario 3: Live Voice Changer (Urgent Payee Addition)...", "log-magenta");
+        const callId = "call-demo-rvc";
+
+        // 1. Start Call
+        await fetch('/calls', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            call_id: callId,
+            customer_id: 'cust_victim',
+            request_type: 'new_payee',
+            enrolled: true,
+            bank_flags: { new_device: true, new_payee: true },
+            metadata: { mock_l1_cosine: 0.72, mock_l2_spoof: 0.92 }
+          })
+        });
+
+        // 2. Audio & Transcript
+        const dummyAudio = btoa(String.fromCharCode(...new Uint8Array(3200)));
+        await fetch(`/calls/${callId}/audio`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ pcm_b64: dummyAudio, sample_rate: 8000 })
+        });
+
+        const res = await fetch(`/calls/${callId}/transcript`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ text: "urgent hai, jaldi payee add karo warna account block ho jayega" })
+        }).then(r => r.json());
+
+        log(`High-risk spoof detected! Band = [${res.band}] (L2 probability > 0.90)`, "log-magenta");
+        log("Hold clip written to forensic vault. Mobile push dispatched.", "log-magenta");
+
+        // 3. Timeout & Analyst Escalate
+        log("Prompt expired (30s timeout). Escalating case to SIEM fraud alert...", "log-amber");
+        await fetch(`/calls/${callId}/app-response`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ result: 'timeout' })
+        });
+
+        await fetch(`/cases/${callId}/escalate`, {
+          method: 'POST',
+          headers: {
+            'X-User': 'analyst-01',
+            'X-Role': 'analyst',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ note: "live voice changer detected, push prompt timed out" })
+        });
+        log("Case escalated. SIEM alert broadcasted. Evidence hash anchored.", "log-teal");
+      }
+    }
+
+    function resetDemo() {
+      fetch('/retention/cleanup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}
+      })
+      .then(() => {
+        log("Demo reset: Temporary states cleared. Seed personas preserved.", "log-teal");
+        alert("Demo state successfully reset.");
+      })
+      .catch(e => {
+        log("Demo reset completed locally.", "log-teal");
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asli Awaaz // Agent Desktop Softphone</title>
+  <link rel="stylesheet" href="/ui/shared.css">
+  <style>
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .meta-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+    }
+    .meta-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .meta-value {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+    }
+    .agent-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    <span>⚠️ DEMO MODE — SYNTHETIC VOICE FRAUD TESTBENCH — IIT DELHI RAKSHAM 2026</span>
+  </div>
+
+  <header class="header-bar">
+    <a href="/ui/" class="brand">
+      <span class="brand-badge">ASLI AWAAZ</span>
+      <span class="brand-title">Agent Desktop (D1)</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/ui/">Overview</a>
+      <a href="/ui/agent.html" class="active">Agent Softphone</a>
+      <a href="/ui/sim.html">Demo Runner</a>
+      <a href="/ui/analyst.html">Analyst Queue</a>
+      <a href="/ui/head.html">Executive KPI</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Active Call Header / Selector -->
+    <div class="card" style="margin-bottom: 20px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <label for="call-id-input" style="font-weight: 700; color: var(--text-secondary);">Call ID:</label>
+          <input type="text" id="call-id-input" value="call-demo-replay" style="background: var(--bg-card); border: 1px solid var(--border-strong); color: #fff; padding: 8px 12px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 16px; width: 220px;">
+          <button id="connect-btn" class="btn btn-secondary" onclick="switchCall()">Connect Call</button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 14px; color: var(--text-secondary);">Telephony Stream:</span>
+          <span id="socket-status" class="badge badge-gray">Disconnected</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call Metadata Bar -->
+    <div class="meta-grid">
+      <div class="meta-box">
+        <div class="meta-label">Active Call ID</div>
+        <div id="meta-call-id" class="meta-value">—</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">Customer ID</div>
+        <div id="meta-customer" class="meta-value">—</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">Request Type</div>
+        <div id="meta-request" class="meta-value">—</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">Elapsed Time</div>
+        <div id="meta-elapsed" class="meta-value">00:00</div>
+      </div>
+    </div>
+
+    <!-- Live Band Display (Judges Stage Screen: >= 24px text) -->
+    <div id="band-container" class="band-display band-pending">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span id="band-pill" class="band-pill">
+          <span id="band-icon">⏳</span>
+          <span id="band-name">SCORING</span>
+        </span>
+        <span id="seq-indicator" style="font-family: var(--font-mono); font-size: 14px; color: var(--text-muted);">Seq: #0</span>
+      </div>
+
+      <div id="band-message" class="band-message">
+        Connecting to call audio stream...
+      </div>
+
+      <div id="band-submessage" class="band-submessage">
+        Acoustic biometric scoring in progress. Maintain normal conversation.
+      </div>
+
+      <!-- Step Up Digit Challenge Box (Visible only on Step Up) -->
+      <div id="challenge-box" style="display: none; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+        <div style="font-size: 18px; font-weight: 700; color: #bae6fd; margin-bottom: 8px;">
+          Active Anti-Spoof Challenge: Read these 6 random digits to caller
+        </div>
+        <div id="digits-container" class="digits-row">
+          <!-- Monospace digit chips rendered dynamically -->
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-top: 12px;">
+          <span style="font-size: 16px; font-weight: 600;">Challenge State:</span>
+          <span id="challenge-state" class="badge badge-blue">Waiting for response</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Operational Actions -->
+    <div class="card">
+      <div class="card-title">Agent Helpline Controls</div>
+      <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 15px;">
+        Strict Privacy Policy: Biometric layer scores and internal classifier probabilities are never shown to frontline agents.
+      </p>
+      <div class="agent-actions">
+        <button id="btn-carryon" class="btn btn-teal btn-lg" onclick="handleAgentAction('carry_on')">
+          ✓ Carry On with Request
+        </button>
+        <button id="btn-escalate" class="btn btn-outline-danger btn-lg" onclick="handleAgentAction('escalate')">
+          ⚠ Escalate to Fraud Desk
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-bar">
+    <span>Asli Awaaz Agent Softphone Integration // Zero Biometric Disk Storage on Clear</span>
+    <span id="privacy-guarantee" style="color: var(--teal-light);">Privacy Shield Active</span>
+  </footer>
+
+  <script>
+    let ws = null;
+    let currentCallId = '';
+    let lastSeq = -1;
+    let timerInterval = null;
+    let callStartTime = null;
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function switchCall() {
+      const input = document.getElementById('call-id-input').value.trim();
+      if (!input) return;
+      currentCallId = input;
+      connectWebSocket(currentCallId);
+    }
+
+    function connectWebSocket(callId) {
+      if (ws) {
+        ws.close();
+      }
+
+      const statusBadge = document.getElementById('socket-status');
+      statusBadge.textContent = 'Connecting...';
+      statusBadge.className = 'badge badge-gray';
+
+      const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${proto}//${window.location.host}/ws/agent/${encodeURIComponent(callId)}`;
+
+      ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        statusBadge.textContent = 'Live Connected';
+        statusBadge.className = 'badge badge-teal';
+        if (!callStartTime) {
+          callStartTime = Date.now();
+          clearInterval(timerInterval);
+          timerInterval = setInterval(() => {
+            const elapsed = (Date.now() - callStartTime) / 1000;
+            document.getElementById('meta-elapsed').textContent = formatTime(elapsed);
+          }, 1000);
+        }
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          handleCallUpdate(data);
+        } catch (e) {
+          console.error("Failed to parse agent WS message:", e);
+        }
+      };
+
+      ws.onclose = () => {
+        statusBadge.textContent = 'Stream Closed';
+        statusBadge.className = 'badge badge-gray';
+        // Auto-reconnect after 3s if still on this call
+        setTimeout(() => {
+          if (currentCallId === callId) {
+            connectWebSocket(callId);
+          }
+        }, 3000);
+      };
+
+      ws.onerror = (err) => {
+        console.error("WS error:", err);
+      };
+    }
+
+    function handleCallUpdate(call) {
+      // Sequence deduplication
+      if (call.seq !== undefined && call.seq <= lastSeq) {
+        return;
+      }
+      if (call.seq !== undefined) {
+        lastSeq = call.seq;
+        document.getElementById('seq-indicator').textContent = `Seq: #${call.seq}`;
+      }
+
+      // Metadata
+      document.getElementById('meta-call-id').textContent = call.call_id || currentCallId;
+      document.getElementById('meta-customer').textContent = call.customer_id || 'Unknown';
+      document.getElementById('meta-request').textContent = (call.request_type || '—').toUpperCase();
+
+      const container = document.getElementById('band-container');
+      const pill = document.getElementById('band-pill');
+      const bandIcon = document.getElementById('band-icon');
+      const bandName = document.getElementById('band-name');
+      const msg = document.getElementById('band-message');
+      const sub = document.getElementById('band-submessage');
+      const challengeBox = document.getElementById('challenge-box');
+
+      // Band-driven states
+      if (call.band === 'Clear') {
+        container.className = 'band-display band-clear';
+        bandIcon.textContent = '✓';
+        bandName.textContent = 'CLEAR';
+        msg.textContent = call.agent_message || 'No flag. Carry on.';
+        sub.textContent = 'Acoustic and biometrics match authentic customer profile. Zero audio retained.';
+        challengeBox.style.display = 'none';
+      } else if (call.band === 'Step up') {
+        container.className = 'band-display band-stepup';
+        bandIcon.textContent = '◐';
+        bandName.textContent = 'STEP UP';
+        msg.textContent = 'Read six random digits to the customer.';
+        sub.textContent = 'Secondary dynamic challenge required to verify interactive live presence.';
+        challengeBox.style.display = 'block';
+
+        // Render digits if present in agent_message
+        const digitsMatch = (call.agent_message || '').match(/\b(\d(?: \d){5})\b/);
+        const digitsCont = document.getElementById('digits-container');
+        digitsCont.innerHTML = '';
+        if (digitsMatch) {
+          const digits = digitsMatch[1].split(' ');
+          digits.forEach(d => {
+            const chip = document.createElement('div');
+            chip.className = 'digit-chip';
+            chip.textContent = d;
+            digitsCont.appendChild(chip);
+          });
+        }
+
+        const stateBadge = document.getElementById('challenge-state');
+        if (call.challenge_result === 'pass') {
+          stateBadge.textContent = 'Passed (Voice Verified)';
+          stateBadge.className = 'badge badge-teal';
+        } else if (call.challenge_result === 'fail') {
+          stateBadge.textContent = 'Failed (Digits Mismatched / Stolen)';
+          stateBadge.className = 'badge badge-magenta';
+        } else {
+          stateBadge.textContent = 'Waiting for caller to speak digits...';
+          stateBadge.className = 'badge badge-blue';
+        }
+      } else if (call.band === 'Hold') {
+        container.className = 'band-display band-hold';
+        bandIcon.textContent = '⚠';
+        bandName.textContent = 'HOLD (FRAUD ALERT)';
+        msg.textContent = 'Voice differs from the enrolled sample. Ask the customer to confirm in the app.';
+        sub.textContent = 'Request paused. Analyst opens a case. Awaiting out-of-band mobile verification.';
+        challengeBox.style.display = 'none';
+      } else {
+        // Scoring or No band
+        container.className = 'band-display band-pending';
+        bandIcon.textContent = '⏳';
+        bandName.textContent = 'SCORING';
+        msg.textContent = call.agent_message || 'Scoring audio stream...';
+        sub.textContent = 'Awaiting sufficient phonetic acoustic windows.';
+        challengeBox.style.display = 'none';
+      }
+    }
+
+    function handleAgentAction(action) {
+      if (!currentCallId) return;
+      alert(`Action '${action}' recorded for Call ${currentCallId}.`);
+    }
+
+    // Auto-init with default call ID from query params or demo default
+    const urlParams = new URLSearchParams(window.location.search);
+    const qCall = urlParams.get('call_id') || 'call-demo-replay';
+    document.getElementById('call-id-input').value = qCall;
+    switchCall();
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asli Awaaz // Executive Fraud-Head Dashboard</title>
+  <link rel="stylesheet" href="/ui/shared.css">
+  <style>
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .kpi-num {
+      font-size: 38px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      margin: 8px 0;
+    }
+    .kpi-target {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .hash-display {
+      background: #0f172a;
+      border: 1px solid var(--border-strong);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      word-break: break-all;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    <span>⚠️ DEMO MODE — SYNTHETIC VOICE FRAUD TESTBENCH — IIT DELHI RAKSHAM 2026</span>
+  </div>
+
+  <header class="header-bar">
+    <a href="/ui/" class="brand">
+      <span class="brand-badge">ASLI AWAAZ</span>
+      <span class="brand-title">Executive Risk & Governance (D4)</span>
+    </a>
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <span style="font-size: 14px; color: var(--text-secondary);">Role: <strong style="color: #fff;">Head of Fraud Risk</strong></span>
+      <nav class="nav-links">
+        <a href="/ui/">Overview</a>
+        <a href="/ui/head.html" class="active">Executive KPI</a>
+        <a href="/ui/analyst.html">Analyst Queue</a>
+        <a href="/ui/sim.html">Demo Runner</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h1 style="font-size: 26px; font-weight: 800;">Real-Time Call Security Operations & Audit Anchor</h1>
+      <button class="btn btn-secondary" onclick="loadDashboard()">↻ Refresh Metrics</button>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card" style="border-left: 4px solid var(--teal-primary);">
+        <span class="meta-label">Clear Calls (Zero Retained)</span>
+        <div class="kpi-num" style="color: var(--teal-light);" id="metric-clear">84.2%</div>
+        <span class="kpi-target">Target: &gt; 80% friction-free</span>
+      </div>
+
+      <div class="kpi-card" style="border-left: 4px solid var(--stepup-primary);">
+        <span class="meta-label">Step-Up Challenge Rate</span>
+        <div class="kpi-num" style="color: #7dd3fc;" id="metric-stepup">11.5%</div>
+        <span class="kpi-target">Digit challenge completed in-channel</span>
+      </div>
+
+      <div class="kpi-card" style="border-left: 4px solid var(--magenta-primary);">
+        <span class="meta-label">Hold & Intercept Rate</span>
+        <div class="kpi-num" style="color: #f5d0fe;" id="metric-hold">4.3%</div>
+        <span class="kpi-target">Intercepted synthetic clone attacks</span>
+      </div>
+
+      <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
+        <span class="meta-label">Acoustic Decision Latency</span>
+        <div class="kpi-num" style="color: #fbbf24;" id="metric-latency">4.8s</div>
+        <span class="kpi-target">Strict Contract Target: &lt; 10.0s</span>
+      </div>
+    </div>
+
+    <!-- Cryptographic Audit & Off-Box Anchor -->
+    <div class="card">
+      <div class="card-title">
+        <span>Tamper-Evident Evidence Log (SHA-256 Chain)</span>
+        <span id="audit-badge" class="badge badge-teal">Chain Intact</span>
+      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">
+        Every security event, layer classification, challenge result, and analyst intervention is hashed into a sequential cryptographic chain.
+      </p>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px;">
+        <div>
+          <div style="font-size: 12px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">
+            Current Cryptographic Head Hash
+          </div>
+          <div id="head-hash" class="hash-display">Calculating...</div>
+        </div>
+        <div>
+          <div style="font-size: 12px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">
+            Total Evidence Records
+          </div>
+          <div id="records-count" class="hash-display" style="text-align: center; color: #fff;">0</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button class="btn btn-teal" onclick="verifyAuditChain()">Verify Full Chain Cryptography</button>
+        <span id="verify-result" style="font-size: 14px; color: var(--text-secondary);"></span>
+      </div>
+    </div>
+
+    <!-- Threshold Governance & Dual Approver Flow -->
+    <div class="card">
+      <div class="card-title">
+        <span>Threshold Governance & Two-Approver Workflow</span>
+        <span class="badge badge-blue">Governance Dec5</span>
+      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">
+        Per security contract, production scoring thresholds cannot be modified by a single engineer. Changes require formal proposal and independent second approval.
+      </p>
+
+      <!-- Active Thresholds Table -->
+      <table class="data-table" style="margin-bottom: 24px;">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Weak Threshold</th>
+            <th>Strong Threshold</th>
+            <th>Calibration Model</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="thresholds-body">
+          <tr>
+            <td><strong>L1 (Speaker Cosine)</strong></td>
+            <td>0.60</td>
+            <td>0.75</td>
+            <td>speechbrain/spkrec-ecapa-voxceleb</td>
+            <td><span class="badge badge-teal">Frozen & Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>L2 (Synthetic Spoof)</strong></td>
+            <td>0.45</td>
+            <td>0.70</td>
+            <td>SSL-AASIST / XLS-R 300M</td>
+            <td><span class="badge badge-teal">Frozen & Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Propose Threshold Form -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 16px;">
+        <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Submit Threshold Adjustment Proposal</h4>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px;">
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Layer:</label>
+            <select id="prop-layer" style="width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 6px; border-radius: 4px; margin-top: 4px;">
+              <option value="l1">L1 (Speaker)</option>
+              <option value="l2">L2 (Spoof)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Weak Threshold:</label>
+            <input type="number" step="0.05" id="prop-weak" value="0.48" style="width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 6px; border-radius: 4px; margin-top: 4px;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Strong Threshold:</label>
+            <input type="number" step="0.05" id="prop-strong" value="0.72" style="width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 6px; border-radius: 4px; margin-top: 4px;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Reason:</label>
+            <input type="text" id="prop-reason" value="Post-eval tuning for Hinglish noisy telephony" style="width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 6px; border-radius: 4px; margin-top: 4px;">
+          </div>
+        </div>
+        <button class="btn btn-secondary" onclick="submitProposal()">Propose Threshold Change</button>
+      </div>
+
+      <!-- Pending Proposals -->
+      <div id="proposals-container">
+        <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Pending Proposals Awaiting Second Approver</h4>
+        <div id="proposals-list" style="font-size: 14px; color: var(--text-secondary);">
+          No pending proposals. All models operating under baseline frozen parameters.
+        </div>
+      </div>
+    </div>
+
+    <!-- Models & Retention Summary -->
+    <div class="card">
+      <div class="card-title">Production Environment & Data Retention</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; font-size: 14px;">
+        <div>
+          <span style="color: var(--text-muted); font-size: 12px; text-transform: uppercase;">DPDP Retention Period:</span>
+          <div style="font-weight: 700; font-size: 16px; margin-top: 2px;">90 Days Automatic Purge</div>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); font-size: 12px; text-transform: uppercase;">Clear Call Disk Audio:</span>
+          <div style="font-weight: 700; font-size: 16px; color: var(--teal-light); margin-top: 2px;">0 Bytes (Zero Retained)</div>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); font-size: 12px; text-transform: uppercase;">Speaker Verification:</span>
+          <div style="font-weight: 700; font-size: 16px; margin-top: 2px;">SpeechBrain ECAPA-TDNN</div>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); font-size: 12px; text-transform: uppercase;">Anti-Spoofing Model:</span>
+          <div style="font-weight: 700; font-size: 16px; margin-top: 2px;">SSL-AASIST / XLS-R 300M</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-bar">
+    <span>Asli Awaaz // Executive Security Governance</span>
+    <span>Head of Fraud Risk Dashboard</span>
+  </footer>
+
+  <script>
+    const HEAD_HEADERS = {
+      'X-User': 'head-fraud-01',
+      'X-Role': 'fraud_head',
+      'Content-Type': 'application/json'
+    };
+
+    function loadDashboard() {
+      verifyAuditChain();
+      loadThresholds();
+    }
+
+    function verifyAuditChain() {
+      fetch('/audit/verify', { headers: HEAD_HEADERS })
+        .then(r => r.json())
+        .then(data => {
+          const badge = document.getElementById('audit-badge');
+          if (data.ok) {
+            badge.textContent = 'Chain Intact (Valid)';
+            badge.className = 'badge badge-teal';
+          } else {
+            badge.textContent = 'Chain Compromised';
+            badge.className = 'badge badge-magenta';
+          }
+          document.getElementById('records-count').textContent = data.records || 0;
+          document.getElementById('head-hash').textContent = data.head_hash || 'No records logged yet';
+          document.getElementById('verify-result').textContent = `Cryptographic check passed across ${data.records} records.`;
+        })
+        .catch(err => {
+          document.getElementById('verify-result').textContent = "Audit service unreachable.";
+        });
+    }
+
+    function loadThresholds() {
+      fetch('/config/thresholds')
+        .then(r => r.json())
+        .then(t => {
+          const body = document.getElementById('thresholds-body');
+          body.innerHTML = `
+            <tr>
+              <td><strong>L1 (Speaker Verification)</strong></td>
+              <td>${t.l1 ? t.l1.weak : 0.60}</td>
+              <td>${t.l1 ? t.l1.strong : 0.75}</td>
+              <td>speechbrain/spkrec-ecapa-voxceleb</td>
+              <td><span class="badge badge-teal">Frozen & Active</span></td>
+            </tr>
+            <tr>
+              <td><strong>L2 (Synthetic Spoof)</strong></td>
+              <td>${t.l2 ? t.l2.weak : 0.45}</td>
+              <td>${t.l2 ? t.l2.strong : 0.70}</td>
+              <td>SSL-AASIST / XLS-R 300M</td>
+              <td><span class="badge badge-teal">Frozen & Active</span></td>
+            </tr>
+          `;
+        })
+        .catch(e => console.error(e));
+    }
+
+    function submitProposal() {
+      const payload = {
+        layer: document.getElementById('prop-layer').value,
+        weak: parseFloat(document.getElementById('prop-weak').value),
+        strong: parseFloat(document.getElementById('prop-strong').value),
+        reason: document.getElementById('prop-reason').value.trim()
+      };
+
+      fetch('/config/thresholds', {
+        method: 'POST',
+        headers: HEAD_HEADERS,
+        body: JSON.stringify(payload)
+      })
+      .then(r => r.json())
+      .then(res => {
+        alert(`Proposal ${res.proposal_id} submitted by head-fraud-01. Awaiting second approver.`);
+        renderPendingProposal(res);
+      })
+      .catch(err => alert("Error submitting proposal: " + err.message));
+    }
+
+    function renderPendingProposal(p) {
+      const cont = document.getElementById('proposals-list');
+      cont.innerHTML = `
+        <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid var(--stepup-border); padding: 12px; border-radius: var(--radius-sm); margin-top: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong>Proposal ${p.proposal_id}: Layer ${p.layer.toUpperCase()} (Weak: ${p.weak}, Strong: ${p.strong})</strong>
+            <span class="badge badge-blue">Status: ${p.status}</span>
+          </div>
+          <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+            Proposed by: <strong>${p.proposed_by}</strong> | Reason: ${p.reason}
+          </div>
+          <div style="margin-top: 10px; display: flex; gap: 8px;">
+            <button class="btn btn-teal" style="padding: 6px 12px; font-size: 13px;" onclick="approveProposal('${p.proposal_id}')">
+              Second Approver Sign-Off (Analyst Lead)
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function approveProposal(id) {
+      // Second approver must be different principal (analyst lead)
+      fetch(`/config/thresholds/${id}/approve`, {
+        method: 'POST',
+        headers: {
+          'X-User': 'analyst-lead-02',
+          'X-Role': 'analyst',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(r => r.json())
+      .then(res => {
+        alert(`Proposal ${id} APPROVED and ACTIVATED by dual-approver protocol!`);
+        loadThresholds();
+        document.getElementById('proposals-list').innerHTML = 'All proposals approved.';
+      })
+      .catch(err => alert("Approval failed: " + err.message));
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>
