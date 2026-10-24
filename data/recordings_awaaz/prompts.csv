@@ -1,0 +1,101 @@
+﻿n,id,language,topic,text
+1,p001_hi,hindi,Balance,"मेरे खाते में कितना बैलेंस है, बता दीजिए।"
+2,p002_en,english,Balance,What is my current account balance?
+3,p003_hg,hinglish,Balance,"Mera savings account ka balance kitna hai, zara bata do."
+4,p004_hi,hindi,Mini statement,मुझे आखिरी पाँच लेन-देन का मिनी स्टेटमेंट चाहिए।
+5,p005_en,english,Mini statement,Please send me a mini statement of my last five transactions.
+6,p006_hg,hinglish,Mini statement,Pichhle das transactions ka mini statement SMS pe bhej do.
+7,p007_hi,hindi,Card block,"मेरा कार्ड खो गया है, इसे अभी ब्लॉक कर दीजिए।"
+8,p008_en,english,Card block,"I lost my debit card, please block it right now."
+9,p009_hg,hinglish,Card block,"Mera card chori ho gaya hai, jaldi block karo warna paise nikal jayenge."
+10,p010_hi,hindi,Card unblock,"मेरा कार्ड मिल गया है, कृपया उसे दोबारा चालू कर दीजिए।"
+11,p011_en,english,Card unblock,"I found my card, so please unblock it."
+12,p012_hg,hinglish,Card unblock,"Card mil gaya hai, usse unblock kar dijiye please."
+13,p013_hi,hindi,UPI,"यूपीआई से भेजे गए पैसे कट गए, पर सामने वाले को नहीं पहुँचे।"
+14,p014_en,english,UPI,"My UPI payment of 2,000 rupees failed, but the money was debited."
+15,p015_hg,hinglish,UPI,"UPI se paanch sau rupaye bheje, paise kat gaye par receiver ko nahi mile."
+16,p016_hi,hindi,NEFT,"मुझे नेफ्ट से पचास हज़ार रुपये भेजने हैं, कितना समय लगेगा?"
+17,p017_en,english,NEFT,"I am in a hurry, how long does an NEFT transfer take today?"
+18,p018_hg,hinglish,NEFT,"NEFT karna hai, abhi karun toh paise kab tak pahunchenge?"
+19,p019_hi,hindi,IMPS,आईएमपीएस से तुरंत पैसे भेजने की सीमा कितनी है?
+20,p020_en,english,IMPS,I want to send ten thousand rupees using IMPS.
+21,p021_hg,hinglish,IMPS,"IMPS se turant paise bhejne hain, jaldi process kar do."
+22,p022_hi,hindi,RTGS,"दो लाख रुपये का आरटीजीएस करना है, शाखा कब तक खुली है?"
+23,p023_en,english,RTGS,Is RTGS available after five thirty in the evening?
+24,p024_hg,hinglish,RTGS,"Do lakh ka RTGS karna hai, kya aaj ho jayega?"
+25,p025_hi,hindi,Add payee,"मुझे नया लाभार्थी जोड़ना है, नाम प्रिया नायर है।"
+26,p026_en,english,Add payee,Please add Amit Verma as a new payee to my account.
+27,p027_hg,hinglish,Add payee,"Umm, naya payee add karna hai, uska naam Rohan Mehta hai."
+28,p028_hi,hindi,Limit change,मेरी रोज़ की ट्रांसफर लिमिट बढ़ाकर एक लाख कर दीजिए।
+29,p029_en,english,Limit change,"Please reduce my daily transfer limit to 25,000 rupees."
+30,p030_hg,hinglish,Limit change,"Mera daily limit badha do, mujhe ek lakh tak bhejna hai."
+31,p031_hi,hindi,OTP,"ओटीपी नहीं आ रहा है, कृपया दोबारा भेजिए।"
+32,p032_en,english,OTP,"The OTP has expired, send me a new one."
+33,p033_hg,hinglish,OTP,"OTP aa gaya par app mein accept nahi ho raha, dobara bhejo."
+34,p034_hi,hindi,Mobile change,मेरा रजिस्टर्ड मोबाइल नंबर बदलना है।
+35,p035_en,english,Mobile change,I need to update my registered mobile number.
+36,p036_hg,hinglish,Mobile change,"Mera number change hua hai, bank mein naya number update karna hai."
+37,p037_hi,hindi,Address change,"मैं जयपुर से लखनऊ शिफ्ट हो गया हूँ, मेरा पता बदल दीजिए।"
+38,p038_en,english,Address change,I have moved to Bengaluru and want to change my address.
+39,p039_hg,hinglish,Address change,"Ghar badal liya hai, naya address Chennai ka daalna hai."
+40,p040_hi,hindi,Email change,मेरी ईमेल आईडी अपडेट करनी है।
+41,p041_en,english,Email change,Please update my email address.
+42,p042_hg,hinglish,Email change,"Email id change karni hai, statement wahin aana chahiye."
+43,p043_hi,hindi,Loan EMI,मेरी होम लोन की ईएमआई इस महीने की पाँच तारीख को कटनी थी।
+44,p044_en,english,Loan EMI,"When is my loan EMI of 8,500 rupees due this month?"
+45,p045_hg,hinglish,Loan EMI,"Meri car loan ki EMI kitni bachi hai, aur kab tak chalegi?"
+46,p046_hi,hindi,Fixed deposit,मैं एक लाख रुपये की एफडी एक साल के लिए खुलवाना चाहता हूँ।
+47,p047_en,english,Fixed deposit,What is the current interest rate on a one year fixed deposit?
+48,p048_hg,hinglish,Fixed deposit,FD maturity se pehle tod doon toh kitna penalty lagega?
+49,p049_hi,hindi,Recurring deposit,मुझे पाँच सौ रुपये महीने की आरडी शुरू करनी है।
+50,p050_en,english,Recurring deposit,"I want to start a recurring deposit of 1,000 rupees every month."
+51,p051_hg,hinglish,Recurring deposit,"RD ki kisht miss ho gayi, ab kya karna padega?"
+52,p052_hi,hindi,Cheque book,"नई चेकबुक चाहिए, पच्चीस पन्नों वाली।"
+53,p053_en,english,Cheque book,Please issue a new cheque book to my registered address.
+54,p054_hg,hinglish,Cheque book,"Cheque book kab tak aayegi, pichhle hafte apply kiya tha."
+55,p055_hi,hindi,ATM issue,एटीएम से पैसे नहीं निकले लेकिन खाते से कट गए।
+56,p056_en,english,ATM issue,"The ATM did not give any cash, but my account was debited."
+57,p057_hg,hinglish,ATM issue,"ATM machine mein card atak gaya, jaldi batao, account band ho jayega kya?"
+58,p058_hi,hindi,Complaint,"मुझे शिकायत दर्ज करनी है, रिफ़ंड अभी तक नहीं आया।"
+59,p059_en,english,Complaint,"I want to file a complaint, this is urgent, I have been waiting three weeks."
+60,p060_hg,hinglish,Complaint,"Complaint register karni hai, aap log sunte hi nahi ho, yeh bahut galat hai."
+61,p061_hi,hindi,Fraud report,"किसी ने मेरे खाते से बिना पूछे पैसे निकाल लिए, यह धोखाधड़ी है।"
+62,p062_en,english,Fraud report,"Someone withdrew money without my permission, this is fraud, block my account immediately."
+63,p063_hg,hinglish,Fraud report,"Mere account se fraud transaction hua hai, turant block karo, abhi ke abhi!"
+64,p064_hi,hindi,KYC,"केवाईसी नहीं की तो खाता ब्लॉक हो जाएगा, कौन से कागज़ चाहिए?"
+65,p065_en,english,KYC,Which documents do I need for KYC? My account will be blocked otherwise.
+66,p066_hg,hinglish,KYC,KYC update nahi kiya toh account block ho jayega kya?
+67,p067_hi,hindi,Branch timing,शाखा सुबह कितने बजे खुलती है और शाम को कब बंद होती है?
+68,p068_en,english,Branch timing,What are the branch timings on Saturday?
+69,p069_hg,hinglish,Branch timing,Aapki Hyderabad wali branch kal khuli rahegi kya?
+70,p070_hi,hindi,Net banking login,नेट बैंकिंग में लॉगिन नहीं हो रहा है।
+71,p071_en,english,Net banking login,"I cannot log in to net banking, it keeps showing an error."
+72,p072_hg,hinglish,Net banking login,"Net banking login pe error aa raha hai, haan ji, password sahi hi daala tha."
+73,p073_hi,hindi,Forgot password,"मैं अपना पासवर्ड भूल गया हूँ, नया पासवर्ड बनाइए।"
+74,p074_en,english,Forgot password,"I forgot my password, how do I reset it?"
+75,p075_hg,hinglish,Forgot password,"Password bhool gaya, reset karne ka link bhejo please."
+76,p076_hi,hindi,Credit card bill,"इस महीने का क्रेडिट कार्ड बिल कितना है, और आखिरी तारीख कब है?"
+77,p077_en,english,Credit card bill,"My credit card bill is 12,400 rupees, can I pay it in installments?"
+78,p078_hg,hinglish,Credit card bill,"Credit card ka bill jaldi bharna hai, warna late fee lag jayegi."
+79,p079_hi,hindi,International usage,मुझे विदेश यात्रा के लिए कार्ड पर अंतरराष्ट्रीय उपयोग चालू करना है।
+80,p080_en,english,International usage,"Please enable international transactions on my card, I travel to Dubai on 15 August."
+81,p081_hg,hinglish,International usage,"Main next month Singapore ja raha hoon, card ka international usage on kar do."
+82,p082_hi,hindi,Standing instruction,हर महीने की पहली तारीख को किराया भेजने का स्टैंडिंग इंस्ट्रक्शन लगाइए।
+83,p083_en,english,Standing instruction,Please set up a standing instruction to pay my rent on the first of every month.
+84,p084_hg,hinglish,Standing instruction,"Standing instruction cancel karna hai, har mahine paise kat rahe hain."
+85,p085_hi,hindi,Digits 0-9,"शून्य, एक, दो, तीन, चार, पाँच, छह, सात, आठ, नौ।"
+86,p086_en,english,Digits 0-9,"Zero, one, two, three, four, five, six, seven, eight, nine."
+87,p087_hg,hinglish,Digits 0-9,"Zero, ek, do, teen, chaar, paanch, chhe, saat, aath, nau."
+88,p088_hi,hindi,4-digit code,"ओटीपी है 4 7 2 9, कृपया जाँच लीजिए।"
+89,p089_en,english,6-digit code,The six digit OTP is 3 8 0 5 6 2.
+90,p090_hg,hinglish,6-digit code,"OTP hai 7 4 2 9 1 8, jaldi verify kar do."
+91,p091_hi,hindi,10-digit number,मेरा मोबाइल नंबर 9 0 1 2 3 4 5 6 7 8 है।
+92,p092_en,english,10-digit number,My registered mobile number is 8 7 6 5 4 3 2 1 0 9.
+93,p093_hg,hinglish,10-digit number,"Mera number hai 9 0 1 2 3 4 5 6 7 8, isi pe OTP bhejna."
+94,p094_hi,hindi,Dates,मेरी एफडी पंद्रह अगस्त दो हज़ार छब्बीस को पूरी होगी।
+95,p095_en,english,Dates and amounts,"On the third of March I deposited 15,000 rupees in my account."
+96,p096_hg,hinglish,Dates and amounts,"Pachees January ko mera salary aaya tha, paanch hazaar kam kyun hai?"
+97,p097_hi,hindi,Names and places,मेरा नाम सुनीता वर्मा है और मैं कोलकाता की शाखा से बोल रही हूँ।
+98,p098_en,english,Names and places,This is Karthik Iyer calling from Coimbatore about my account.
+99,p099_hg,hinglish,Fillers,"Haan ji, umm, main Ahmedabad se bol raha hoon, mera account ka thoda issue hai."
+100,p100_hi,hindi,Impatient,"मेरा खाता बंद हो जाएगा, जल्दी कुछ कीजिए, मैं बहुत परेशान हूँ।"

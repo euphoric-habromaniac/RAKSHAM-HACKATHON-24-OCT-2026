@@ -1,0 +1,313 @@
+﻿ASLI AWAAZ - SPEAKER SCRIPT
+100 lines to read aloud (34 Hindi, 33 English, 33 Hinglish), in the same order as the recording app.
+
+HOW TO RECORD
+- Sit in a quiet room: door shut, fans and AC off, phone on silent.
+- Keep the microphone about a hand-span away and speak at your normal speed.
+- One clip per line: press Record, pause a moment, read the line, press Stop.
+- Say it naturally, the way you would say it on a phone call. Do not over-act.
+- Read digit strings one digit at a time and amounts exactly as written.
+- If you make a mistake, press Redo and read the line again.
+- You may skip a line you cannot read and come back to it later.
+
+LINES
+
+001  [p001_hi | Hindi | Balance]
+     मेरे खाते में कितना बैलेंस है, बता दीजिए।
+
+002  [p002_en | English | Balance]
+     What is my current account balance?
+
+003  [p003_hg | Hinglish | Balance]
+     Mera savings account ka balance kitna hai, zara bata do.
+
+004  [p004_hi | Hindi | Mini statement]
+     मुझे आखिरी पाँच लेन-देन का मिनी स्टेटमेंट चाहिए।
+
+005  [p005_en | English | Mini statement]
+     Please send me a mini statement of my last five transactions.
+
+006  [p006_hg | Hinglish | Mini statement]
+     Pichhle das transactions ka mini statement SMS pe bhej do.
+
+007  [p007_hi | Hindi | Card block]
+     मेरा कार्ड खो गया है, इसे अभी ब्लॉक कर दीजिए।
+
+008  [p008_en | English | Card block]
+     I lost my debit card, please block it right now.
+
+009  [p009_hg | Hinglish | Card block]
+     Mera card chori ho gaya hai, jaldi block karo warna paise nikal jayenge.
+
+010  [p010_hi | Hindi | Card unblock]
+     मेरा कार्ड मिल गया है, कृपया उसे दोबारा चालू कर दीजिए।
+
+011  [p011_en | English | Card unblock]
+     I found my card, so please unblock it.
+
+012  [p012_hg | Hinglish | Card unblock]
+     Card mil gaya hai, usse unblock kar dijiye please.
+
+013  [p013_hi | Hindi | UPI]
+     यूपीआई से भेजे गए पैसे कट गए, पर सामने वाले को नहीं पहुँचे।
+
+014  [p014_en | English | UPI]
+     My UPI payment of 2,000 rupees failed, but the money was debited.
+
+015  [p015_hg | Hinglish | UPI]
+     UPI se paanch sau rupaye bheje, paise kat gaye par receiver ko nahi mile.
+
+016  [p016_hi | Hindi | NEFT]
+     मुझे नेफ्ट से पचास हज़ार रुपये भेजने हैं, कितना समय लगेगा?
+
+017  [p017_en | English | NEFT]
+     I am in a hurry, how long does an NEFT transfer take today?
+
+018  [p018_hg | Hinglish | NEFT]
+     NEFT karna hai, abhi karun toh paise kab tak pahunchenge?
+
+019  [p019_hi | Hindi | IMPS]
+     आईएमपीएस से तुरंत पैसे भेजने की सीमा कितनी है?
+
+020  [p020_en | English | IMPS]
+     I want to send ten thousand rupees using IMPS.
+
+021  [p021_hg | Hinglish | IMPS]
+     IMPS se turant paise bhejne hain, jaldi process kar do.
+
+022  [p022_hi | Hindi | RTGS]
+     दो लाख रुपये का आरटीजीएस करना है, शाखा कब तक खुली है?
+
+023  [p023_en | English | RTGS]
+     Is RTGS available after five thirty in the evening?
+
+024  [p024_hg | Hinglish | RTGS]
+     Do lakh ka RTGS karna hai, kya aaj ho jayega?
+
+025  [p025_hi | Hindi | Add payee]
+     मुझे नया लाभार्थी जोड़ना है, नाम प्रिया नायर है।
+
+026  [p026_en | English | Add payee]
+     Please add Amit Verma as a new payee to my account.
+
+027  [p027_hg | Hinglish | Add payee]
+     Umm, naya payee add karna hai, uska naam Rohan Mehta hai.
+
+028  [p028_hi | Hindi | Limit change]
+     मेरी रोज़ की ट्रांसफर लिमिट बढ़ाकर एक लाख कर दीजिए।
+
+029  [p029_en | English | Limit change]
+     Please reduce my daily transfer limit to 25,000 rupees.
+
+030  [p030_hg | Hinglish | Limit change]
+     Mera daily limit badha do, mujhe ek lakh tak bhejna hai.
+
+031  [p031_hi | Hindi | OTP]
+     ओटीपी नहीं आ रहा है, कृपया दोबारा भेजिए।
+
+032  [p032_en | English | OTP]
+     The OTP has expired, send me a new one.
+
+033  [p033_hg | Hinglish | OTP]
+     OTP aa gaya par app mein accept nahi ho raha, dobara bhejo.
+
+034  [p034_hi | Hindi | Mobile change]
+     मेरा रजिस्टर्ड मोबाइल नंबर बदलना है।
+
+035  [p035_en | English | Mobile change]
+     I need to update my registered mobile number.
+
+036  [p036_hg | Hinglish | Mobile change]
+     Mera number change hua hai, bank mein naya number update karna hai.
+
+037  [p037_hi | Hindi | Address change]
+     मैं जयपुर से लखनऊ शिफ्ट हो गया हूँ, मेरा पता बदल दीजिए।
+
+038  [p038_en | English | Address change]
+     I have moved to Bengaluru and want to change my address.
+
+039  [p039_hg | Hinglish | Address change]
+     Ghar badal liya hai, naya address Chennai ka daalna hai.
+
+040  [p040_hi | Hindi | Email change]
+     मेरी ईमेल आईडी अपडेट करनी है।
+
+041  [p041_en | English | Email change]
+     Please update my email address.
+
+042  [p042_hg | Hinglish | Email change]
+     Email id change karni hai, statement wahin aana chahiye.
+
+043  [p043_hi | Hindi | Loan EMI]
+     मेरी होम लोन की ईएमआई इस महीने की पाँच तारीख को कटनी थी।
+
+044  [p044_en | English | Loan EMI]
+     When is my loan EMI of 8,500 rupees due this month?
+
+045  [p045_hg | Hinglish | Loan EMI]
+     Meri car loan ki EMI kitni bachi hai, aur kab tak chalegi?
+
+046  [p046_hi | Hindi | Fixed deposit]
+     मैं एक लाख रुपये की एफडी एक साल के लिए खुलवाना चाहता हूँ।
+
+047  [p047_en | English | Fixed deposit]
+     What is the current interest rate on a one year fixed deposit?
+
+048  [p048_hg | Hinglish | Fixed deposit]
+     FD maturity se pehle tod doon toh kitna penalty lagega?
+
+049  [p049_hi | Hindi | Recurring deposit]
+     मुझे पाँच सौ रुपये महीने की आरडी शुरू करनी है।
+
+050  [p050_en | English | Recurring deposit]
+     I want to start a recurring deposit of 1,000 rupees every month.
+
+051  [p051_hg | Hinglish | Recurring deposit]
+     RD ki kisht miss ho gayi, ab kya karna padega?
+
+052  [p052_hi | Hindi | Cheque book]
+     नई चेकबुक चाहिए, पच्चीस पन्नों वाली।
+
+053  [p053_en | English | Cheque book]
+     Please issue a new cheque book to my registered address.
+
+054  [p054_hg | Hinglish | Cheque book]
+     Cheque book kab tak aayegi, pichhle hafte apply kiya tha.
+
+055  [p055_hi | Hindi | ATM issue]
+     एटीएम से पैसे नहीं निकले लेकिन खाते से कट गए।
+
+056  [p056_en | English | ATM issue]
+     The ATM did not give any cash, but my account was debited.
+
+057  [p057_hg | Hinglish | ATM issue]
+     ATM machine mein card atak gaya, jaldi batao, account band ho jayega kya?
+
+058  [p058_hi | Hindi | Complaint]
+     मुझे शिकायत दर्ज करनी है, रिफ़ंड अभी तक नहीं आया।
+
+059  [p059_en | English | Complaint]
+     I want to file a complaint, this is urgent, I have been waiting three weeks.
+
+060  [p060_hg | Hinglish | Complaint]
+     Complaint register karni hai, aap log sunte hi nahi ho, yeh bahut galat hai.
+
+061  [p061_hi | Hindi | Fraud report]
+     किसी ने मेरे खाते से बिना पूछे पैसे निकाल लिए, यह धोखाधड़ी है।
+
+062  [p062_en | English | Fraud report]
+     Someone withdrew money without my permission, this is fraud, block my account immediately.
+
+063  [p063_hg | Hinglish | Fraud report]
+     Mere account se fraud transaction hua hai, turant block karo, abhi ke abhi!
+
+064  [p064_hi | Hindi | KYC]
+     केवाईसी नहीं की तो खाता ब्लॉक हो जाएगा, कौन से कागज़ चाहिए?
+
+065  [p065_en | English | KYC]
+     Which documents do I need for KYC? My account will be blocked otherwise.
+
+066  [p066_hg | Hinglish | KYC]
+     KYC update nahi kiya toh account block ho jayega kya?
+
+067  [p067_hi | Hindi | Branch timing]
+     शाखा सुबह कितने बजे खुलती है और शाम को कब बंद होती है?
+
+068  [p068_en | English | Branch timing]
+     What are the branch timings on Saturday?
+
+069  [p069_hg | Hinglish | Branch timing]
+     Aapki Hyderabad wali branch kal khuli rahegi kya?
+
+070  [p070_hi | Hindi | Net banking login]
+     नेट बैंकिंग में लॉगिन नहीं हो रहा है।
+
+071  [p071_en | English | Net banking login]
+     I cannot log in to net banking, it keeps showing an error.
+
+072  [p072_hg | Hinglish | Net banking login]
+     Net banking login pe error aa raha hai, haan ji, password sahi hi daala tha.
+
+073  [p073_hi | Hindi | Forgot password]
+     मैं अपना पासवर्ड भूल गया हूँ, नया पासवर्ड बनाइए।
+
+074  [p074_en | English | Forgot password]
+     I forgot my password, how do I reset it?
+
+075  [p075_hg | Hinglish | Forgot password]
+     Password bhool gaya, reset karne ka link bhejo please.
+
+076  [p076_hi | Hindi | Credit card bill]
+     इस महीने का क्रेडिट कार्ड बिल कितना है, और आखिरी तारीख कब है?
+
+077  [p077_en | English | Credit card bill]
+     My credit card bill is 12,400 rupees, can I pay it in installments?
+
+078  [p078_hg | Hinglish | Credit card bill]
+     Credit card ka bill jaldi bharna hai, warna late fee lag jayegi.
+
+079  [p079_hi | Hindi | International usage]
+     मुझे विदेश यात्रा के लिए कार्ड पर अंतरराष्ट्रीय उपयोग चालू करना है।
+
+080  [p080_en | English | International usage]
+     Please enable international transactions on my card, I travel to Dubai on 15 August.
+
+081  [p081_hg | Hinglish | International usage]
+     Main next month Singapore ja raha hoon, card ka international usage on kar do.
+
+082  [p082_hi | Hindi | Standing instruction]
+     हर महीने की पहली तारीख को किराया भेजने का स्टैंडिंग इंस्ट्रक्शन लगाइए।
+
+083  [p083_en | English | Standing instruction]
+     Please set up a standing instruction to pay my rent on the first of every month.
+
+084  [p084_hg | Hinglish | Standing instruction]
+     Standing instruction cancel karna hai, har mahine paise kat rahe hain.
+
+085  [p085_hi | Hindi | Digits 0-9]
+     शून्य, एक, दो, तीन, चार, पाँच, छह, सात, आठ, नौ।
+
+086  [p086_en | English | Digits 0-9]
+     Zero, one, two, three, four, five, six, seven, eight, nine.
+
+087  [p087_hg | Hinglish | Digits 0-9]
+     Zero, ek, do, teen, chaar, paanch, chhe, saat, aath, nau.
+
+088  [p088_hi | Hindi | 4-digit code]
+     ओटीपी है 4 7 2 9, कृपया जाँच लीजिए।
+
+089  [p089_en | English | 6-digit code]
+     The six digit OTP is 3 8 0 5 6 2.
+
+090  [p090_hg | Hinglish | 6-digit code]
+     OTP hai 7 4 2 9 1 8, jaldi verify kar do.
+
+091  [p091_hi | Hindi | 10-digit number]
+     मेरा मोबाइल नंबर 9 0 1 2 3 4 5 6 7 8 है।
+
+092  [p092_en | English | 10-digit number]
+     My registered mobile number is 8 7 6 5 4 3 2 1 0 9.
+
+093  [p093_hg | Hinglish | 10-digit number]
+     Mera number hai 9 0 1 2 3 4 5 6 7 8, isi pe OTP bhejna.
+
+094  [p094_hi | Hindi | Dates]
+     मेरी एफडी पंद्रह अगस्त दो हज़ार छब्बीस को पूरी होगी।
+
+095  [p095_en | English | Dates and amounts]
+     On the third of March I deposited 15,000 rupees in my account.
+
+096  [p096_hg | Hinglish | Dates and amounts]
+     Pachees January ko mera salary aaya tha, paanch hazaar kam kyun hai?
+
+097  [p097_hi | Hindi | Names and places]
+     मेरा नाम सुनीता वर्मा है और मैं कोलकाता की शाखा से बोल रही हूँ।
+
+098  [p098_en | English | Names and places]
+     This is Karthik Iyer calling from Coimbatore about my account.
+
+099  [p099_hg | Hinglish | Fillers]
+     Haan ji, umm, main Ahmedabad se bol raha hoon, mera account ka thoda issue hai.
+
+100  [p100_hi | Hindi | Impatient]
+     मेरा खाता बंद हो जाएगा, जल्दी कुछ कीजिए, मैं बहुत परेशान हूँ।
