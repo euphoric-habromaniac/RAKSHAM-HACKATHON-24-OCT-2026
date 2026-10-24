@@ -1,0 +1,46 @@
+<section id="built" data-section="What we built this week and what we measured, with conditions." data-transition="fade" style="background:#d8e0e8;color:#0f1a30;font-family:'Archivo', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-family:'Archivo', Arial, sans-serif;font-size:68px;font-weight:800;line-height:74px;color:#0f1a30">Live detector and Hinglish data</h2>
+<div style="display:flex;gap:12px;align-items:center">
+<div style="flex:1;background:#f6f8fa;border:2px solid #0f1a30;padding:24px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#0f1a30">Caller audio</p>
+<p style="font-size:26px;line-height:34px;color:#34405a">16 kHz mono</p>
+</div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#0f1a30"></x-shape>
+<div style="flex:1;background:#f6f8fa;border:2px solid #0f1a30;padding:24px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#0f1a30">Speech gate</p>
+<p style="font-size:26px;line-height:34px;color:#34405a">Skips noise and silence</p>
+</div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#0f1a30"></x-shape>
+<div style="flex:1;background:#f6f8fa;border:2px solid #0f1a30;padding:24px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#0f1a30">0.5 s windows</p>
+<p style="font-size:26px;line-height:34px;color:#34405a">A decision every 0.25 s</p>
+</div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#0f1a30"></x-shape>
+<div style="flex:1;background:#f6f8fa;border:2px solid #0f1a30;padding:24px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#0f1a30">Detector</p>
+<p style="font-size:26px;line-height:34px;color:#34405a">167 KB, numpy only</p>
+</div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#0f1a30"></x-shape>
+<div style="flex:1;background:#f6f8fa;border:2px solid #0f1a30;padding:24px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#0f1a30">Band and case</p>
+<p style="font-size:26px;line-height:34px;color:#34405a">Alert, spectrogram, report</p>
+</div>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;border-top:2px solid #6f7d94;padding-top:24px;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#4e5a73;letter-spacing:0.28px;text-transform:uppercase">Data</p>
+<p style="font-size:32px;line-height:44px;color:#34405a">300 real clips and 300 consented clones: 3 speakers, Hindi, English and Hinglish, with GSM and G.711 copies.</p>
+</div>
+<div style="flex:1;border-top:2px solid #6f7d94;padding-top:24px;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#4e5a73;letter-spacing:0.28px;text-transform:uppercase">Detector</p>
+<p style="font-size:32px;line-height:44px;color:#34405a">Runs in a browser. First decision after 0.5 s of audio, about 1 ms of compute, no GPU.</p>
+</div>
+<div style="flex:1;border-top:2px solid #6f7d94;padding-top:24px;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#4e5a73;letter-spacing:0.28px;text-transform:uppercase">Agent tools</p>
+<p style="font-size:32px;line-height:44px;color:#34405a">A random-phrase challenge, a spectrogram with flagged stretches, and a case file saved with its audio.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1160px;font-size:24px;line-height:30px;color:#4e5a73">Source: model training run logs</p>
+<p style="position:absolute;right:128px;bottom:64px;width:440px;font-size:24px;line-height:30px;color:#4e5a73;text-align:right">Pitch page 6 of 11</p>
+<aside>What exists today. We recorded three consenting teammates reading 100 bank-call sentences in Hindi, English and Hinglish, cloned each voice with an open model (XTTS-v2), and added GSM and G.711 telephone copies. The detector is a small numpy model: it only judges windows that contain speech, decides every 0.25 s from the last 0.5 s, and runs in a browser with no GPU. The agent dashboard adds a random-phrase challenge, a spectrogram with the flagged stretches, and a case file saved with its audio. Say plainly that this is a feasibility build on three speakers. About 60 seconds.</aside>
+</section>

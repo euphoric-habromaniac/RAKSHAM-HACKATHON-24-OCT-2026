@@ -1,0 +1,32 @@
+<section id="results" data-transition="fade" style="background:#eaeff3;color:#0f1a30;font-family:'Archivo', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-family:'Archivo', Arial, sans-serif;font-size:68px;font-weight:800;line-height:74px;color:#0f1a30">Measured results, with conditions</h2>
+<div style="display:flex;gap:48px;align-items:flex-start">
+<div style="flex:1.25;display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#4e5a73;letter-spacing:0.28px;text-transform:uppercase">Our live detector</p>
+<table style="width:100%;font-family:'Archivo', Arial, sans-serif;font-size:26px;color:#34405a;border:2px solid #0f1a30">
+<tr style="background:#d8e0e8"><th style="width:62%;color:#0f1a30;font-weight:700;text-align:left">Measure</th><th style="width:38%;color:#0f1a30;font-weight:700;text-align:left">Result</th></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>Windows correct</b></span></td><td>98.9%</td></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>Fakes caught, real accepted</b></span></td><td>99.2%, 98.5%</td></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>Whole clips correct</b></span></td><td>100%</td></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>Clean, G.711, GSM windows</b></span></td><td>99.7%, 98.9%, 97.9%</td></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>First decision</b></span></td><td>0.5 s of audio</td></tr>
+</table>
+<p style="align-self:flex-start;font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#34405a;border:2px solid #34405a;border-radius:4px;padding:8px 16px;transform:rotate(-2deg)">3 speakers, 1 cloner</p>
+<p style="font-size:26px;line-height:34px;color:#4e5a73">0.5 s windows, 3 enrolled speakers, XTTS-v2 clones, five-fold cross-validation that never reuses a sentence.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'Archivo Narrow', Arial, sans-serif;font-size:28px;line-height:32px;font-weight:600;color:#4e5a73;letter-spacing:0.28px;text-transform:uppercase">Pretrained AASIST baseline</p>
+<table style="width:100%;font-family:'Archivo', Arial, sans-serif;font-size:26px;color:#34405a;border:2px solid #0f1a30">
+<tr style="background:#d8e0e8"><th style="width:60%;color:#0f1a30;font-weight:700;text-align:left">Line condition</th><th style="width:40%;color:#0f1a30;font-weight:700;text-align:left">EER</th></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>Clean 16 kHz</b></span></td><td>0.92%</td></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>G.711 mu-law</b></span></td><td>1.08%</td></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>GSM</b></span></td><td>7.36%</td></tr>
+<tr style="background:#f6f8fa"><td><span style="color:#0f1a30"><b>Noise at 10 dB</b></span></td><td>15.12%</td></tr>
+</table>
+<p style="font-size:26px;line-height:34px;color:#4e5a73">ASVspoof 2019 LA, English, 2,500 real and 2,500 fake clips per condition.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1160px;font-size:24px;line-height:30px;color:#4e5a73">Sources: live_detector/train.log; results/SUMMARY.md</p>
+<p style="position:absolute;right:128px;bottom:64px;width:440px;font-size:24px;line-height:30px;color:#4e5a73;text-align:right">Pitch page 7 of 11</p>
+<aside>Read the left table with its condition: three enrolled speakers, one cloner, windows from sentences the model never saw. 98.9% of half-second windows were right; every whole clip was right. This is a feasibility result, not field accuracy, and the stamp says so. The right table is a published detector, not ours: even a strong pretrained model goes from 0.92% EER on clean English to 7.36% on GSM and 15.12% under heavy noise, which is why we test on telephone copies. Never quote 98.9% or 100% without the conditions. About 60 seconds.</aside>
+</section>

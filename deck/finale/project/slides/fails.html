@@ -1,0 +1,25 @@
+<section id="fails" data-section="Where it fails, how consent and privacy work, and who else is here." data-transition="fade" style="background:#0e1730;color:#e8edf3;font-family:'Archivo', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<h2 style="font-family:'Archivo', Arial, sans-serif;font-size:68px;font-weight:800;line-height:74px;color:#e8edf3">Where it fails today</h2>
+<p style="font-size:44px;line-height:54px;font-weight:500;color:#e8edf3;width:1500px">It confirms three enrolled voices against one cloner. It is not a general fake-voice detector.</p>
+<div style="display:flex;flex-direction:column">
+<div style="border-top:2px solid #5c6b86;padding:20px 0;display:flex;gap:48px">
+<p style="width:300px;font-size:32px;line-height:44px;font-weight:800;color:#e8edf3">Strangers</p>
+<p style="flex:1;font-size:32px;line-height:44px;color:#b7c2d3">Real strangers were called fake 76.7% of the time. Unknown speakers must go to Step up, not fake. Not yet in the demo.</p>
+</div>
+<div style="border-top:2px solid #5c6b86;padding:20px 0;display:flex;gap:48px">
+<p style="width:300px;font-size:32px;line-height:44px;font-weight:800;color:#e8edf3">One cloner</p>
+<p style="flex:1;font-size:32px;line-height:44px;color:#b7c2d3">Trained and tested on XTTS-v2 clones. A second cloner is untested.</p>
+</div>
+<div style="border-top:2px solid #5c6b86;padding:20px 0;display:flex;gap:48px">
+<p style="width:300px;font-size:32px;line-height:44px;font-weight:800;color:#e8edf3">Baseline</p>
+<p style="flex:1;font-size:32px;line-height:44px;color:#b7c2d3">An English-trained model scored 41% on our Hinglish clones.</p>
+</div>
+<div style="border-top:2px solid #5c6b86;padding:20px 0;display:flex;gap:48px">
+<p style="width:300px;font-size:32px;line-height:44px;font-weight:800;color:#e8edf3">Not tested</p>
+<p style="flex:1;font-size:32px;line-height:44px;color:#b7c2d3">Real phone calls, replayed audio, live voice changers, other microphones.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1160px;font-size:24px;line-height:30px;color:#94a1b7">Source: verify_all.py (2,498 real English clips); notebook run, notebook_run/</p>
+<p style="position:absolute;right:128px;bottom:64px;width:440px;font-size:24px;line-height:30px;color:#b7c2d3;text-align:right">Pitch page 8 of 11</p>
+<aside>Say this before a judge does. The detector was tuned to three voices and one cloner. On 2,498 real English clips from other people it called 76.7% fake, so an unknown speaker must be routed to Step up, never labelled fake; that routing is a design intent, not in the demo yet. The English-trained notebook model scored 41% on our Hinglish clones, which is why we built a Hinglish set. Replay, live voice changers, real phone calls and other microphones are untested. Naming these is the point of the page. About 60 seconds.</aside>
+</section>

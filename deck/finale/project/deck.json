@@ -1,0 +1,21 @@
+{
+  "v": 4,
+  "createdOnFiles": { "v": 1, "at": "2026-10-25T09:00:00Z" },
+  "lists": "css",
+  "title": "Asli Awaaz finale deck",
+  "order": ["cover", "problem", "channel", "bands", "layers", "built", "results", "fails", "privacy", "others", "next"],
+  "sections": {
+    "s1": { "description": "Cloned voices ask for money, and voice is still a payment channel.", "start": "cover" },
+    "s2": { "description": "Three bands and five layers decide what happens to a call.", "start": "bands" },
+    "s3": { "description": "What we built this week and what we measured, with conditions.", "start": "built" },
+    "s4": { "description": "Where it fails, how consent and privacy work, and who else is here.", "start": "fails" },
+    "s5": { "description": "Next steps and the ask.", "start": "next" }
+  },
+  "faces": {
+    "archivo": { "family": "Archivo", "href": "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;800&display=swap" },
+    "archivo-narrow": { "family": "Archivo Narrow", "href": "https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600&display=swap" },
+    "kalam": { "family": "Kalam", "href": "https://fonts.googleapis.com/css2?family=Kalam:wght@400&display=swap" },
+    "rozha-one": { "family": "Rozha One", "href": "https://fonts.googleapis.com/css2?family=Rozha+One&display=swap" }
+  },
+  "designSystems": []
+}
