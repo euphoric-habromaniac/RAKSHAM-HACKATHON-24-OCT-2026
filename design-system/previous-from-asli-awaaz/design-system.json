@@ -1,0 +1,197 @@
+{
+ "v": 3,
+ "layout": "files",
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-24T16:30:00Z"
+ },
+ "title": "Asli Awaaz",
+ "namespace": "AsliAwaaz",
+ "libraries": [],
+ "sections": {},
+ "groups": [
+  "Logos",
+  "Icons"
+ ],
+ "assetGroups": {
+  "Logos": {
+   "name": "Logos",
+   "tile": "l",
+   "order": [
+    "logo-mark.svg",
+    "logo-mark-night.svg",
+    "logo-mark-mono-ink.svg",
+    "logo-mark-mono-paper.svg"
+   ],
+   "files": {
+    "logo-mark.svg": {
+     "name": "logo-mark.svg",
+     "blob": "b6a76825f95ed9d7eaba696f64708c93",
+     "size": 584,
+     "type": "image/svg+xml"
+    },
+    "logo-mark-night.svg": {
+     "name": "logo-mark-night.svg",
+     "blob": "a67767af44517515b25c1c0eb0dded23",
+     "size": 584,
+     "type": "image/svg+xml"
+    },
+    "logo-mark-mono-ink.svg": {
+     "name": "logo-mark-mono-ink.svg",
+     "blob": "3d456bbd72d9478dca7bce3306994795",
+     "size": 584,
+     "type": "image/svg+xml"
+    },
+    "logo-mark-mono-paper.svg": {
+     "name": "logo-mark-mono-paper.svg",
+     "blob": "ee92e98fcc5664ff5e63f2d61dd3cef2",
+     "size": 584,
+     "type": "image/svg+xml"
+    }
+   }
+  },
+  "Icons": {
+   "name": "Icons",
+   "tile": "m",
+   "order": [
+    "call.svg",
+    "voice-match.svg",
+    "synthetic.svg",
+    "step-up.svg",
+    "hold.svg",
+    "app-confirm.svg",
+    "analyst.svg",
+    "evidence.svg",
+    "lock.svg",
+    "call-night.svg",
+    "voice-match-night.svg",
+    "synthetic-night.svg",
+    "step-up-night.svg",
+    "hold-night.svg",
+    "app-confirm-night.svg",
+    "analyst-night.svg",
+    "evidence-night.svg",
+    "lock-night.svg"
+   ],
+   "files": {
+    "call.svg": {
+     "name": "call.svg",
+     "blob": "6745d8829d361efdfed9b7620772d706",
+     "size": 264,
+     "type": "image/svg+xml"
+    },
+    "voice-match.svg": {
+     "name": "voice-match.svg",
+     "blob": "8c5d8a3b14db270aa9c1a3e8c9c743d5",
+     "size": 273,
+     "type": "image/svg+xml"
+    },
+    "synthetic.svg": {
+     "name": "synthetic.svg",
+     "blob": "d15898328bc6fcbf1d1f33693d30fe80",
+     "size": 321,
+     "type": "image/svg+xml"
+    },
+    "step-up.svg": {
+     "name": "step-up.svg",
+     "blob": "77e4ce39c3df68561145dd6793f5ba05",
+     "size": 225,
+     "type": "image/svg+xml"
+    },
+    "hold.svg": {
+     "name": "hold.svg",
+     "blob": "c2054f56eab2c9881c3fee12e1c1c5b8",
+     "size": 258,
+     "type": "image/svg+xml"
+    },
+    "app-confirm.svg": {
+     "name": "app-confirm.svg",
+     "blob": "366741967591f4c47a2af8118b3b4a0d",
+     "size": 287,
+     "type": "image/svg+xml"
+    },
+    "analyst.svg": {
+     "name": "analyst.svg",
+     "blob": "9870f1234e79faa356d5bb5e39ac03c1",
+     "size": 252,
+     "type": "image/svg+xml"
+    },
+    "evidence.svg": {
+     "name": "evidence.svg",
+     "blob": "68847041c48bf828e75753824dce2d86",
+     "size": 272,
+     "type": "image/svg+xml"
+    },
+    "lock.svg": {
+     "name": "lock.svg",
+     "blob": "8ea8eb3500103430a089f8de1b1e915f",
+     "size": 281,
+     "type": "image/svg+xml"
+    },
+    "call-night.svg": {
+     "name": "call-night.svg",
+     "blob": "ade39d681a630274cdfd84ab32452349",
+     "size": 253,
+     "type": "image/svg+xml"
+    },
+    "voice-match-night.svg": {
+     "name": "voice-match-night.svg",
+     "blob": "0b82e14c7974c586096eab7e9dc9572d",
+     "size": 260,
+     "type": "image/svg+xml"
+    },
+    "synthetic-night.svg": {
+     "name": "synthetic-night.svg",
+     "blob": "63ac1c6c3903376dc42e5b00f95f440a",
+     "size": 308,
+     "type": "image/svg+xml"
+    },
+    "step-up-night.svg": {
+     "name": "step-up-night.svg",
+     "blob": "a8b396d0a3fad2e007fd2e906fd3c501",
+     "size": 220,
+     "type": "image/svg+xml"
+    },
+    "hold-night.svg": {
+     "name": "hold-night.svg",
+     "blob": "98933ddbae295f9636b8b3b19eea6166",
+     "size": 245,
+     "type": "image/svg+xml"
+    },
+    "app-confirm-night.svg": {
+     "name": "app-confirm-night.svg",
+     "blob": "05d11627dd5d06fb208cd7df3bba0f77",
+     "size": 276,
+     "type": "image/svg+xml"
+    },
+    "analyst-night.svg": {
+     "name": "analyst-night.svg",
+     "blob": "4a9b986f4ad5a23be1c04dfef011bd8c",
+     "size": 239,
+     "type": "image/svg+xml"
+    },
+    "evidence-night.svg": {
+     "name": "evidence-night.svg",
+     "blob": "4ee4e6a02b99f8e53ba39e4d50d23e97",
+     "size": 261,
+     "type": "image/svg+xml"
+    },
+    "lock-night.svg": {
+     "name": "lock-night.svg",
+     "blob": "3af83b97edb77576bbf88c41ca95d69a",
+     "size": 270,
+     "type": "image/svg+xml"
+    }
+   }
+  }
+ },
+ "blobs": {},
+ "docs": {
+  "sections": []
+ },
+ "lastChange": {
+  "by": "Pranjal Kumar",
+  "at": "2026-10-24T23:48:47Z",
+  "note": "Added Step up state, night icons, section counter; applied the colour-meaning rule."
+ }
+}

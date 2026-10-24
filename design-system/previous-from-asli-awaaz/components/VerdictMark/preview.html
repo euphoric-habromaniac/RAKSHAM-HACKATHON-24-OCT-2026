@@ -1,0 +1,19 @@
+<!-- @dsCard group="Marks" height=140 -->
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600&display=swap">
+<style>
+body{margin:0;background:var(--paper);display:flex;flex-wrap:wrap;gap:24px;align-items:center;padding:40px 32px}
+.v{display:flex;align-items:center;gap:10px;font-family:"Archivo Narrow",var(--font-narrow),sans-serif;font-weight:600;font-size:22px;line-height:26px;color:var(--ink);padding:8px 16px;border-radius:var(--radius-sm)}
+.g{background:var(--genuine-tint);border:3px solid var(--genuine)}
+.x{background:var(--synthetic-tint);border:3px dashed var(--synthetic)}
+.s{background:var(--paper-raised);border:3px solid var(--ink)}
+svg{flex:none}
+.tick{stroke:var(--genuine);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cross{stroke:var(--synthetic);stroke-width:3;fill:none;stroke-linecap:round}
+.ring{stroke:var(--ink);stroke-width:3;fill:none} .half{fill:var(--ink)}
+</style></head><body>
+<div class="v g"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path class="tick" d="M3 14 L10 21 L23 5"/></svg>Clear</div>
+<div class="v s"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle class="ring" cx="13" cy="13" r="10"/><path class="half" d="M13 3 A10 10 0 0 0 13 23 Z"/></svg>Step up</div>
+<div class="v x"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path class="cross" d="M5 5 L21 21 M21 5 L5 21"/></svg>Hold</div>
+</body></html>
