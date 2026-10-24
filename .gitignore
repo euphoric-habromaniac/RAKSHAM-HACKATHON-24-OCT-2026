@@ -1,0 +1,136 @@
+# =====================================================================
+# RAKSHAM .gitignore
+# Four groups: (1) personal / biometric data, (2) data and models we did
+# NOT copy into this folder (too big, regenerable), (3) environments and
+# caches, (4) runtime state. Sizes are as measured on 2026-10-25.
+# Note: git does not allow a comment after a pattern, so comments sit on their own lines.
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# 1. Personal and biometric data (consent: 90-day retention). Never commit.
+# ---------------------------------------------------------------------
+*.wav
+*.flac
+*.mp3
+*.m4a
+*.ogg
+
+# Real recordings: keep only the public script and prompts; names, ids, consent and
+# session logs stay local.
+data/recordings_awaaz/*
+!data/recordings_awaaz/README.txt
+!data/recordings_awaaz/SPEAKER_SCRIPT.txt
+!data/recordings_awaaz/prompts.csv
+
+# Voice clones: keep only the manifest (paths and prompt text, no audio).
+data/generated/*/
+
+# Merged dataset: keep labels.csv and its README, not the audio.
+data/sehaj_dataset/audio/
+
+# Calls saved by the demo (audio + analysis).
+cases/
+
+# ---------------------------------------------------------------------
+# 2. NOT COPIED into RAKSHAM (too large and regenerable). They still live in
+#    the original folders; `python rak.py link-heavy` junctions the first three
+#    in without copying.
+# ---------------------------------------------------------------------
+# asli-awaaz/data/raw: ASVspoof 2019 LA extracted audio, 7,587 MB, 127,318 files
+product/data/raw
+
+# asli-awaaz/data/deg: telephone-degraded copies (AMR-NB, G.711, GSM, Opus, packet loss, noise), 4,969 MB, 50,000 files
+product/data/deg
+
+# derived_db/finetune: per-speaker XTTS-v2 fine-tune checkpoints and training copies, 19,816 MB.
+# ft_model.pth is 1.9 GB each, best_model.pth 3.0 GB each, base model files 2.1 GB each.
+ml/models/finetune
+finetune/
+**/run/GPT_XTTS_FT-*/
+ft_model.pth
+best_model*.pth
+model.pth
+dvae.pth
+mel_stats.pth
+
+# asli-awaaz/downloads (about 11.2 GB): never needed to run anything here.
+downloads/
+# LA.zip is the ASVspoof 2019 LA archive, 7,641 MB.
+LA.zip
+# VBCABLE_Driver_Pack45.zip is a virtual audio cable installer for the live demo, 1.3 MB.
+VBCABLE_Driver_Pack45.zip
+vbcable/
+# vcclient is the RVC voice-changer client for the attack demo (vcclient_win_cuda_2.0.78-beta.zip).
+vcclient/
+# torch 2.5.1+cu121 wheel.
+torch-*.whl
+# recordings_awaaz.rar (31 MB) and recordings_awaaz.zip (38 MB) duplicate data/recordings_awaaz.
+recordings_awaaz.rar
+recordings_awaaz.zip
+
+# asli-awaaz/data/sehaj_dataset and its zip: older English-only copy, superseded by data/sehaj_dataset.
+product/data/sehaj_dataset/
+product/data/sehaj_dataset.zip
+features_mfcc80.npy
+
+# Feature caches of the notebook (regenerable by running it): features.npz was 307 MB in the
+# original notebook folder and 344 MB in our re-run.
+features.npz
+ml/notebooks/*.npz
+ml/notebooks/saved_models/
+
+# Model weights: hashes and origin are recorded in ml/models/MODELS.md.
+# aasist_baseline.pth, aasist_ts.pt, hubert_base.pt, rvc_f0D40k.pth, rvc_f0G40k.pth (390 MB in total)
+ml/models/weights/
+*.pth
+*.pt
+*.safetensors
+*.ckpt
+
+# Hugging Face and speaker-model caches (XTTS-v2 about 1.9 GB, ECAPA).
+.cache/
+.cache_ecapa/
+huggingface/
+
+# Unrelated files that were sitting in asli-awaaz: not part of the project, not copied.
+CheatEngine77.exe
+oriwotw.CT
+*.exe
+*.CT
+*.rar
+*.zip
+
+# ---------------------------------------------------------------------
+# 3. Environments, caches and build output
+# ---------------------------------------------------------------------
+.venv/
+.venv_nb/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+node_modules/
+
+# Regenerable with: python product/tools/build_handbooks.py
+product/docs/handbook/dist/
+
+# ---------------------------------------------------------------------
+# 4. Runtime state and logs
+# ---------------------------------------------------------------------
+product/data/evidence.jsonl
+product/data/alerts.jsonl
+product/data/hold_clips/
+.env
+.env.*
+
+# Logs, except the ones that back the numbers we quote.
+*.log
+!results/**/*.log
+
+# Documentation, internal handoffs and team notes (kept local)
+docs/
+product/docs/
+product/PROGRESS.md
+product/REPORT.md
+deck/round1/handoff/
