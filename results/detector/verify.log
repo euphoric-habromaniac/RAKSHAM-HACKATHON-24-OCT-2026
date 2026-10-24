@@ -1,0 +1,26 @@
+
+== A. ALL 1,800 Hinglish clips (model was trained on these, so optimistic) ==
+clips with no judged speech: 0; clip accuracy 1.0000; window accuracy 0.9996
+          clip_ok  win_ok
+spk                      
+Kushagra      1.0   1.000
+Pranjal       1.0   0.999
+Yash          1.0   1.000
+       clip_ok  win_ok
+cond                  
+clean      1.0   1.000
+g711u      1.0   1.000
+gsm        1.0   0.999
+
+== B. ENGLISH ASVspoof clean (5,000 other people - NOT the 3 of us) ==
+real English speakers              n=2498 judged REAL: 0.233  judged FAKE: 0.767
+fake English (ASVspoof attacks)    n=2489 judged REAL: 0.188  judged FAKE: 0.812
+=> real strangers are mostly called FAKE: the model is built to confirm the 3 of us, not to accept anyone's real voice.
+
+== C. non-speech through the full pipeline (gate + model) ==
+white    windows judged as speech: 0/300; of those called FAKE: 0
+pink     windows judged as speech: 0/300; of those called FAKE: 0
+rumble   windows judged as speech: 0/300; of those called FAKE: 0
+clicks   windows judged as speech: 3/300; of those called FAKE: 0
+recording lead-in (first 0.4 s, before speaking): passed as speech 29/400
+CHAIN_END

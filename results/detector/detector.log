@@ -1,0 +1,19 @@
+features 0 / 1800
+features 300 / 1800
+features 600 / 1800
+features 900 / 1800
+features 1200 / 1800
+features 1500 / 1800
+
+Leave-one-speaker-out (train on 2 speakers incl. augmented copies, test on the 3rd, threshold 0.5)
+LogReg  held-out YASH      acc=0.500 AUC=0.913 fake-caught=0.00 real-ok=1.00 | clean=0.50 gsm=0.50 g711u=0.50
+LogReg  held-out PRANJAL   acc=0.500 AUC=0.549 fake-caught=0.00 real-ok=1.00 | clean=0.50 gsm=0.50 g711u=0.50
+LogReg  held-out KUSHAGRA  acc=0.898 AUC=0.963 fake-caught=0.93 real-ok=0.86 | clean=0.94 gsm=0.88 g711u=0.89
+LogReg  POOLED LOSO accuracy 0.633
+
+HistGB  held-out YASH      acc=0.592 AUC=0.854 fake-caught=0.22 real-ok=0.96 | clean=0.59 gsm=0.67 g711u=0.52
+HistGB  held-out PRANJAL   acc=0.500 AUC=0.782 fake-caught=0.00 real-ok=1.00 | clean=0.50 gsm=0.50 g711u=0.50
+HistGB  held-out KUSHAGRA  acc=0.793 AUC=0.892 fake-caught=0.71 real-ok=0.88 | clean=0.94 gsm=0.67 g711u=0.78
+HistGB  POOLED LOSO accuracy 0.628
+
+saved final LogReg model (trained on all 3 speakers) -> hinglish_detector.joblib

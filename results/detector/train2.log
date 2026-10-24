@@ -1,0 +1,19 @@
+loaded 1800
+
+=== window 0.5s: 25882 windows (37s) ===
+   per speaker (out-of-fold): Kushagra=0.947 Yash=0.947 Pranjal=0.926
+LogReg  window acc=0.940 AUC=0.985 fake-caught=0.942 real-ok=0.937 | clean=0.967 gsm=0.912 g711u=0.940 | whole-clip acc=0.999
+   per speaker (out-of-fold): Kushagra=0.992 Yash=0.992 Pranjal=0.982
+MLP     window acc=0.989 AUC=0.999 fake-caught=0.992 real-ok=0.985 | clean=0.997 gsm=0.979 g711u=0.989 | whole-clip acc=1.000
+saved model_0p5s.npz (MLP)
+latency per decision: 0.6 ms (numpy only)
+
+=== window 1.0s: 27523 windows (58s) ===
+   per speaker (out-of-fold): Kushagra=0.980 Yash=0.982 Pranjal=0.969
+LogReg  window acc=0.977 AUC=0.997 fake-caught=0.979 real-ok=0.974 | clean=0.991 gsm=0.962 g711u=0.978 | whole-clip acc=1.000
+   per speaker (out-of-fold): Kushagra=0.997 Yash=0.996 Pranjal=0.993
+MLP     window acc=0.995 AUC=1.000 fake-caught=0.997 real-ok=0.994 | clean=0.998 gsm=0.992 g711u=0.996 | whole-clip acc=1.000
+saved model_1p0s.npz (MLP)
+latency per decision: 1.1 ms (numpy only)
+ALL_DONE
+exported model.json
