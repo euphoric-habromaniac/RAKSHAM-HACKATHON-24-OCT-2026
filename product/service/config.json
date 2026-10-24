@@ -1,0 +1,63 @@
+{
+  "_PLACEHOLDER_NOTICE": "Every number in this file is a PLACEHOLDER. None of it was fitted on real data. Replace the Platt parameters and thresholds with values fitted on a held-out set (see eval/) before any real use.",
+  "placeholder": true,
+  "version": "placeholder-0.1",
+  "deadline_seconds": 10.0,
+  "sensitive_request_types": ["limit_change", "new_payee", "mobile_change", "device_change"],
+  "layers": {
+    "l1": {
+      "_note": "PLACEHOLDER. Raw = cosine similarity to enrolled embedding. Platt output = probability the speaker is NOT the enrolled customer.",
+      "platt": {"a": -12.0, "b": 7.0},
+      "weak": 0.35,
+      "strong": 0.70
+    },
+    "l2": {
+      "_note": "PLACEHOLDER. Raw = synthetic-speech score in [0, 1], higher = more likely synthetic.",
+      "platt": {"a": 10.0, "b": -5.0},
+      "weak": 0.35,
+      "strong": 0.75
+    },
+    "l4": {
+      "_note": "PLACEHOLDER. Raw = weighted count of bank flags and urgency terms.",
+      "platt": {"a": 1.6, "b": -3.0},
+      "weak": 0.35,
+      "strong": 0.75
+    }
+  },
+  "challenge": {
+    "digits": 6,
+    "min_reply_seconds": 1.0,
+    "max_reply_seconds": 15.0,
+    "max_failed_attempts_per_account": 3,
+    "account_window_seconds": 3600.0
+  },
+  "l4": {
+    "flag_weights": {"new_device": 1.0, "new_payee": 1.0, "amount_jump": 1.0},
+    "urgency_cap": 2.0,
+    "urgency_terms": {
+      "urgent": 0.8,
+      "urgently": 0.8,
+      "immediately": 0.8,
+      "right now": 0.6,
+      "asap": 0.6,
+      "hurry": 0.6,
+      "emergency": 0.8,
+      "account will be blocked": 1.0,
+      "will be blocked": 0.8,
+      "jaldi": 0.8,
+      "jaldi karo": 0.8,
+      "turant": 0.8,
+      "foran": 0.8,
+      "abhi ke abhi": 0.8,
+      "abhi": 0.4,
+      "block ho jayega": 1.0,
+      "block ho jaayega": 1.0,
+      "band ho jayega": 1.0,
+      "जल्दी": 0.8,
+      "तुरंत": 0.8,
+      "अभी": 0.4,
+      "ब्लॉक हो जाएगा": 1.0,
+      "बंद हो जाएगा": 1.0
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "speaker_id": "cust_genuine",
+  "full_name": "Rajesh Sharma (Consented Demo Customer)",
+  "signed": true,
+  "signed_at": "2026-10-24T21:14:22.768309+00:00",
+  "allow_recording": true,
+  "allow_spoof_testing": true,
+  "allow_voice_cloning": true,
+  "retention_days": 90,
+  "metadata": {}
+}

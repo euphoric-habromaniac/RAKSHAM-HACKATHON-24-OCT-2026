@@ -1,0 +1,180 @@
+{
+  "_PLACEHOLDER_NOTICE": "Only layers.l2 was fitted on data (see provenance). L1 and L4 are still PLACEHOLDERS, hence the top-level placeholder flag stays true.",
+  "placeholder": true,
+  "version": "fitted-aasist-2026-10-24",
+  "deadline_seconds": 10.0,
+  "sensitive_request_types": [
+    "limit_change",
+    "new_payee",
+    "mobile_change",
+    "device_change"
+  ],
+  "layers": {
+    "l1": {
+      "_note": "PLACEHOLDER. Raw = cosine similarity to enrolled embedding. Platt output = probability the speaker is NOT the enrolled customer.",
+      "platt": {
+        "a": -12.0,
+        "b": 7.0
+      },
+      "weak": 0.35,
+      "strong": 0.7,
+      "placeholder": true
+    },
+    "l2": {
+      "placeholder": false,
+      "_note": "FITTED. Raw x = softmax spoof probability of pretrained AASIST = sigmoid(spoof_logit - bonafide_logit), p = sigmoid(a*x+b) = P(spoof). weak/strong are POOLED thresholds from fit-split genuine rates; see provenance (per_condition_thresholds is informational).",
+      "platt": {
+        "a": 8.652237973477945,
+        "b": -6.921175717820593
+      },
+      "weak": 0.8257355550970398,
+      "strong": 0.8440833759800448
+    },
+    "l4": {
+      "_note": "PLACEHOLDER. Raw = weighted count of bank flags and urgency terms.",
+      "platt": {
+        "a": 1.6,
+        "b": -3.0
+      },
+      "weak": 0.35,
+      "strong": 0.75,
+      "placeholder": true
+    }
+  },
+  "challenge": {
+    "digits": 6,
+    "min_reply_seconds": 1.0,
+    "max_reply_seconds": 15.0,
+    "max_failed_attempts_per_account": 3,
+    "account_window_seconds": 3600.0
+  },
+  "l4": {
+    "flag_weights": {
+      "new_device": 1.0,
+      "new_payee": 1.0,
+      "amount_jump": 1.0
+    },
+    "urgency_cap": 2.0,
+    "urgency_terms": {
+      "urgent": 0.8,
+      "urgently": 0.8,
+      "immediately": 0.8,
+      "right now": 0.6,
+      "asap": 0.6,
+      "hurry": 0.6,
+      "emergency": 0.8,
+      "account will be blocked": 1.0,
+      "will be blocked": 0.8,
+      "jaldi": 0.8,
+      "jaldi karo": 0.8,
+      "turant": 0.8,
+      "foran": 0.8,
+      "abhi ke abhi": 0.8,
+      "abhi": 0.4,
+      "block ho jayega": 1.0,
+      "block ho jaayega": 1.0,
+      "band ho jayega": 1.0,
+      "जल्दी": 0.8,
+      "तुरंत": 0.8,
+      "अभी": 0.4,
+      "ब्लॉक हो जाएगा": 1.0,
+      "बंद हो जाएगा": 1.0
+    }
+  },
+  "provenance": {
+    "version": "fitted-aasist-2026-10-24",
+    "source_csvs": [
+      "amrnb.csv",
+      "clean16k.csv",
+      "g711a.csv",
+      "g711u.csv",
+      "gsm.csv",
+      "loss10.csv",
+      "loss5.csv",
+      "noise10.csv",
+      "noise20.csv",
+      "opus8k.csv",
+      "pstn8k.csv"
+    ],
+    "split_seed": 0,
+    "n_utterances_fit": 2500,
+    "n_utterances_heldout": 2500,
+    "n_rows_fit": 27500,
+    "n_rows_heldout": 27500,
+    "fit_method": "pooled over all conditions on the fit split; Newton logistic regression of spoof label on x (see score_mapping); pooled thresholds from fit-split genuine quantiles",
+    "score_mapping": "x = service.scorers.spoof_probability([spoof_logit, bonafide_logit]) = sigmoid(spoof_logit - bonafide_logit), exactly the service's raw L2 input",
+    "stepup_target_pct": 5.0,
+    "weak_target_pct": 10.0,
+    "heldout_pooled": {
+      "n_genuine": 13750,
+      "n_spoof": 13750,
+      "eer_pct": 7.825454545454546,
+      "gen_stepup_pct": 5.789090909090909,
+      "gen_weak_pct": 10.98181818181818,
+      "spoof_strong_pct": 89.92727272727272,
+      "spoof_weak_pct": 94.03636363636365,
+      "brier": 0.08798936714438772,
+      "ece": 0.04234827395307675
+    },
+    "per_condition_thresholds": {
+      "note": "informational only; the operative thresholds are the pooled layers.l2 weak/strong",
+      "thresholds": {
+        "amrnb": {
+          "weak": 0.7121200746080902,
+          "strong": 0.8443222345250794
+        },
+        "clean16k": {
+          "weak": 0.000986167155354528,
+          "strong": 0.0009875624854127516
+        },
+        "g711a": {
+          "weak": 0.0009927427211222622,
+          "strong": 0.0010345707285664212
+        },
+        "g711u": {
+          "weak": 0.0009923336551608596,
+          "strong": 0.0010259073019409366
+        },
+        "gsm": {
+          "weak": 0.83801824821615,
+          "strong": 0.8488164368729345
+        },
+        "loss10": {
+          "weak": 0.8468744645288913,
+          "strong": 0.8486637830785977
+        },
+        "loss5": {
+          "weak": 0.7959034839016701,
+          "strong": 0.8392728036928313
+        },
+        "noise10": {
+          "weak": 0.8462353477937348,
+          "strong": 0.8476864768715584
+        },
+        "noise20": {
+          "weak": 0.6442001973247882,
+          "strong": 0.798752974817319
+        },
+        "opus8k": {
+          "weak": 0.8229358940053603,
+          "strong": 0.8480303899793851
+        },
+        "pstn8k": {
+          "weak": 0.000992088309168805,
+          "strong": 0.0010273686137764449
+        }
+      },
+      "heldout_pooled": {
+        "n_genuine": 13750,
+        "n_spoof": 13750,
+        "eer_pct": 7.825454545454546,
+        "gen_stepup_pct": 5.287272727272727,
+        "gen_weak_pct": 10.523636363636363,
+        "spoof_strong_pct": 93.37454545454545,
+        "spoof_weak_pct": 96.72727272727273,
+        "brier": 0.08798936714438772,
+        "ece": 0.04234827395307675
+      }
+    }
+  }
+}

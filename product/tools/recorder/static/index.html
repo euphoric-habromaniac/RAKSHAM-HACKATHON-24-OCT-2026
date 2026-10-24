@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asli Awaaz // Voice Recorder</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Asli Awaaz Voice Recorder</h1>
+    <p class="lead">Every clip is saved to a folder on this computer the moment you press Stop. Nothing is uploaded anywhere.</p>
+
+    <div id="save-bar" class="save-bar off" role="status">
+      <span id="save-text" class="grow">Connecting to the recorder...</span>
+      <button id="btn-retry" class="btn btn-small btn-secondary hidden" type="button">Retry now</button>
+      <a id="zip-speaker" class="btn btn-small btn-blue" href="#" aria-disabled="true" download>Download zip</a>
+      <a id="zip-all" class="btn btn-small btn-secondary" href="/api/zip" download>Download zip (all speakers)</a>
+    </div>
+
+    <!-- Step 1: speaker profile -->
+    <div id="step-profile" class="card">
+      <h2>Speaker profile</h2>
+      <div class="panel">
+        <h3>Continue a speaker</h3>
+        <p class="small">Resumes at the first sentence that has no saved clip. Which sentences are done is read from the files on disk.</p>
+        <label for="speaker-list">Existing speakers</label>
+        <select id="speaker-list"></select>
+        <div id="continue-note" class="warn" role="status"></div>
+        <button id="btn-continue" class="btn btn-teal" type="button">Continue this speaker &rarr;</button>
+      </div>
+
+      <div class="panel">
+        <h3>New speaker</h3>
+        <p class="small">The speaker must have read the consent form (docs/consent) before this step. Nothing is ticked or filled for you. The speaker ID is generated automatically and stays the same whenever this person continues.</p>
+        <div id="exists-note" class="banner-amber hidden" role="alert"></div>
+        <div class="grid2">
+          <div><label for="full-name">Full name (typed signature)</label><input type="text" id="full-name" autocomplete="off"></div>
+          <div><label for="device">Device / microphone</label><input type="text" id="device" placeholder="e.g. laptop built-in mic" autocomplete="off"></div>
+          <div><label for="age-band">Age band</label>
+            <select id="age-band"><option value="">Choose...</option><option>18-24</option><option>25-34</option><option>35-44</option><option>45-59</option><option>60+</option></select></div>
+          <div><label for="gender">Gender (optional)</label>
+            <select id="gender"><option value="">Prefer not to say</option><option>female</option><option>male</option><option>other</option></select></div>
+          <div><label for="accent-group">Accent / region group</label>
+            <select id="accent-group"><option value="">Choose...</option><option>Hindi-belt</option><option>Punjabi</option><option>Bengali</option><option>South-Indian</option><option>Gujarati/Marathi</option><option>Other</option></select></div>
+          <div><label for="language">Language of the consent form signed</label>
+            <select id="language"><option value="">Choose...</option><option value="en">English</option><option value="hi">Hindi</option></select></div>
+        </div>
+        <div class="panel">
+          <h3>Consent declarations</h3>
+          <label class="checkbox-item"><input type="checkbox" id="c-rec">
+            <span><strong>Recording (required):</strong> I agree to have my voice recorded for the Asli Awaaz research project.</span></label>
+          <label class="checkbox-item"><input type="checkbox" id="c-spoof">
+            <span><strong>Spoof testing (optional):</strong> My recordings may be used to benchmark anti-spoofing and speaker verification.</span></label>
+          <label class="checkbox-item"><input type="checkbox" id="c-clone">
+            <span><strong>Voice cloning (optional):</strong> The team may train a voice conversion model on my voice <strong>strictly for testing fraud detection</strong>.</span></label>
+        </div>
+        <div id="profile-error" class="error" role="alert"></div>
+        <button id="btn-sign" class="btn btn-teal" type="button">Sign and start recording &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Step 2: recording -->
+    <div id="step-prompts" class="card hidden">
+      <div class="head">
+        <h2 id="prompt-counter"></h2>
+        <span id="prompt-category" class="tag"></span>
+      </div>
+      <div id="speaker-line" class="small"></div>
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+      <div class="prompt-box">
+        <div id="active-prompt-text" class="prompt-text"></div>
+        <div class="prompt-sub">Press Record, pause a moment, read the line naturally, then press Stop.</div>
+      </div>
+      <div class="meter"><div id="meter-fill" class="meter-fill"></div></div>
+      <div id="take-warning" class="warn" role="status"></div>
+      <div id="take-state" class="take-state" role="status"></div>
+      <div class="row">
+        <button id="btn-rec" class="btn btn-red" type="button">Record</button>
+        <button id="btn-stop" class="btn btn-secondary" type="button" disabled>Stop</button>
+        <button id="btn-redo" class="btn btn-secondary" type="button" disabled>Redo</button>
+        <button id="btn-next" class="btn btn-blue" type="button" disabled>Next &rarr;</button>
+      </div>
+      <div class="row">
+        <button id="btn-back" class="btn btn-secondary" type="button">&larr; Back</button>
+        <input type="number" id="jump-to" min="1" max="100" value="1" aria-label="Go to sentence number">
+        <button id="btn-jump" class="btn btn-secondary" type="button">Go to sentence</button>
+        <button id="btn-switch" class="btn btn-secondary" type="button">Switch speaker</button>
+        <button id="btn-finish" class="btn btn-teal hidden" type="button">Finish &amp; download zip</button>
+      </div>
+      <div id="progress-note" class="warn" role="status"></div>
+      <div id="playback-container" class="hidden"><audio id="audio-preview" controls style="width: 100%; height: 36px;"></audio></div>
+    </div>
+
+    <!-- Step 3: done -->
+    <div id="step-complete" class="card hidden" style="text-align: center;">
+      <h2 id="complete-title" style="color: var(--teal);">Speaker finished</h2>
+      <p id="complete-text" class="lead"></p>
+      <div class="row">
+        <a id="complete-zip" class="btn btn-teal" href="#" download>Download zip</a>
+        <button id="btn-back-prompts" class="btn btn-secondary" type="button">Back to sentences</button>
+        <button id="btn-switch2" class="btn btn-blue" type="button">Switch speaker</button>
+      </div>
+    </div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

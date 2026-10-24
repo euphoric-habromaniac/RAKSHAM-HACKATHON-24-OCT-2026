@@ -1,0 +1,31 @@
+{
+  "_comment": "Team target decisions for slide placeholder filling (governed by DECISIONS.md and STATUS.md).",
+  "genuine_stepup_target_pct": {
+    "slide": "evidence.html (page 7)",
+    "meaning": "Target: under [x]% of genuine callers stepped up, per accent group, at a fixed alarm rate. Number 0 to 100.",
+    "comment": "Target under 5% per accent group as specified in Deck Promise 66 / STATUS.md.",
+    "value": 5,
+    "decided_by": "Team (STATUS.md Promise 66)"
+  },
+  "fairness_gap_points": {
+    "slide": "trust.html (page 8)",
+    "meaning": "Allowed gap in Step-up and Hold rates between accent groups, in percentage points. Number >= 0.",
+    "comment": "Max 3 percentage point fairness gap across accent groups as specified in Deck Promise 70 / STATUS.md.",
+    "value": 3.0,
+    "decided_by": "Team (STATUS.md Promise 70)"
+  },
+  "bank_retention_policy": {
+    "slide": "arch2.html",
+    "meaning": "Short text for the 'Kept' cell of the Evidence clip row. Supplied by the bank or the team's agreed assumption.",
+    "comment": "Governed by Dec8 and Deck Promise 97: 90 days on Held calls, 0 days on Clear.",
+    "value": "90 days on Held calls, 0 days on Clear",
+    "decided_by": "Team (DECISIONS.md Dec8)"
+  },
+  "hinglish_m_rule": {
+    "slide": "evidence.html (page 7)",
+    "meaning": "Optional. [M] is clips per speaker. If speakers have unequal counts it stays open unless this is set to \"min\" (use the smallest count).",
+    "comment": "Use minimum count when speaker clip counts differ, consistent with Dec3 dataset floor.",
+    "value": "min",
+    "decided_by": "Team (DECISIONS.md Dec3)"
+  }
+}

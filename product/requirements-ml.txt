@@ -1,0 +1,12 @@
+# For eval/run_aasist.py, eval/train_degraded.py and the degrade/ module.
+# Versions are the ones this code was written against; Colab's preinstalled
+# torch is usually fine too (skip the torch/torchaudio lines there).
+torch==2.4.1
+torchaudio==2.4.1
+numpy==1.26.4
+scipy==1.13.1
+soundfile==0.12.1
+pandas==2.2.2
+tqdm==4.66.5
+pytest==8.3.3
+scikit-learn==1.9.1

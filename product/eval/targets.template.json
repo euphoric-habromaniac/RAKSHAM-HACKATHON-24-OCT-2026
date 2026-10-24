@@ -1,0 +1,31 @@
+{
+  "_comment": "Copy to targets.json and edit. A target is used only when value is not null AND decided_by names who chose it. Leave null to keep the slide placeholder. These are team decisions: do not copy numbers from elsewhere.",
+  "genuine_stepup_target_pct": {
+    "slide": "evidence.html (page 7)",
+    "meaning": "Target: under [x]% of genuine callers stepped up, per accent group, at a fixed alarm rate. Number 0 to 100.",
+    "comment": "Team must choose this target.",
+    "value": null,
+    "decided_by": null
+  },
+  "fairness_gap_points": {
+    "slide": "trust.html (page 8)",
+    "meaning": "Allowed gap in Step-up and Hold rates between accent groups, in percentage points. Number >= 0.",
+    "comment": "Team must choose this target.",
+    "value": null,
+    "decided_by": null
+  },
+  "bank_retention_policy": {
+    "slide": "arch2.html",
+    "meaning": "Short text for the 'Kept' cell of the Evidence clip row. Supplied by the bank or the team's agreed assumption.",
+    "comment": "Team must supply this text; state whose policy it is.",
+    "value": null,
+    "decided_by": null
+  },
+  "hinglish_m_rule": {
+    "slide": "evidence.html (page 7)",
+    "meaning": "Optional. [M] is clips per speaker. If speakers have unequal counts it stays open unless this is set to \"min\" (use the smallest count).",
+    "comment": "Leave null unless counts differ and the team accepts the minimum.",
+    "value": null,
+    "decided_by": null
+  }
+}

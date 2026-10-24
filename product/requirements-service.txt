@@ -1,0 +1,7 @@
+# Service runtime and tests. Heavy ML packages are in requirements-ml.txt (separate).
+# Optional: pyyaml, only if you want a YAML config instead of JSON.
+fastapi==0.143.0
+uvicorn==0.53.0
+pydantic==2.13.5
+httpx==0.28.1
+pytest==9.1.1

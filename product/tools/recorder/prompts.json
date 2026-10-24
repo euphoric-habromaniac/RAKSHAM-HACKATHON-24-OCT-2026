@@ -1,0 +1,702 @@
+[
+ {
+  "id": "p001_hi",
+  "n": 1,
+  "lang": "hindi",
+  "topic": "Balance",
+  "text": "मेरे खाते में कितना बैलेंस है, बता दीजिए।"
+ },
+ {
+  "id": "p002_en",
+  "n": 2,
+  "lang": "english",
+  "topic": "Balance",
+  "text": "What is my current account balance?"
+ },
+ {
+  "id": "p003_hg",
+  "n": 3,
+  "lang": "hinglish",
+  "topic": "Balance",
+  "text": "Mera savings account ka balance kitna hai, zara bata do."
+ },
+ {
+  "id": "p004_hi",
+  "n": 4,
+  "lang": "hindi",
+  "topic": "Mini statement",
+  "text": "मुझे आखिरी पाँच लेन-देन का मिनी स्टेटमेंट चाहिए।"
+ },
+ {
+  "id": "p005_en",
+  "n": 5,
+  "lang": "english",
+  "topic": "Mini statement",
+  "text": "Please send me a mini statement of my last five transactions."
+ },
+ {
+  "id": "p006_hg",
+  "n": 6,
+  "lang": "hinglish",
+  "topic": "Mini statement",
+  "text": "Pichhle das transactions ka mini statement SMS pe bhej do."
+ },
+ {
+  "id": "p007_hi",
+  "n": 7,
+  "lang": "hindi",
+  "topic": "Card block",
+  "text": "मेरा कार्ड खो गया है, इसे अभी ब्लॉक कर दीजिए।"
+ },
+ {
+  "id": "p008_en",
+  "n": 8,
+  "lang": "english",
+  "topic": "Card block",
+  "text": "I lost my debit card, please block it right now."
+ },
+ {
+  "id": "p009_hg",
+  "n": 9,
+  "lang": "hinglish",
+  "topic": "Card block",
+  "text": "Mera card chori ho gaya hai, jaldi block karo warna paise nikal jayenge."
+ },
+ {
+  "id": "p010_hi",
+  "n": 10,
+  "lang": "hindi",
+  "topic": "Card unblock",
+  "text": "मेरा कार्ड मिल गया है, कृपया उसे दोबारा चालू कर दीजिए।"
+ },
+ {
+  "id": "p011_en",
+  "n": 11,
+  "lang": "english",
+  "topic": "Card unblock",
+  "text": "I found my card, so please unblock it."
+ },
+ {
+  "id": "p012_hg",
+  "n": 12,
+  "lang": "hinglish",
+  "topic": "Card unblock",
+  "text": "Card mil gaya hai, usse unblock kar dijiye please."
+ },
+ {
+  "id": "p013_hi",
+  "n": 13,
+  "lang": "hindi",
+  "topic": "UPI",
+  "text": "यूपीआई से भेजे गए पैसे कट गए, पर सामने वाले को नहीं पहुँचे।"
+ },
+ {
+  "id": "p014_en",
+  "n": 14,
+  "lang": "english",
+  "topic": "UPI",
+  "text": "My UPI payment of 2,000 rupees failed, but the money was debited."
+ },
+ {
+  "id": "p015_hg",
+  "n": 15,
+  "lang": "hinglish",
+  "topic": "UPI",
+  "text": "UPI se paanch sau rupaye bheje, paise kat gaye par receiver ko nahi mile."
+ },
+ {
+  "id": "p016_hi",
+  "n": 16,
+  "lang": "hindi",
+  "topic": "NEFT",
+  "text": "मुझे नेफ्ट से पचास हज़ार रुपये भेजने हैं, कितना समय लगेगा?"
+ },
+ {
+  "id": "p017_en",
+  "n": 17,
+  "lang": "english",
+  "topic": "NEFT",
+  "text": "I am in a hurry, how long does an NEFT transfer take today?"
+ },
+ {
+  "id": "p018_hg",
+  "n": 18,
+  "lang": "hinglish",
+  "topic": "NEFT",
+  "text": "NEFT karna hai, abhi karun toh paise kab tak pahunchenge?"
+ },
+ {
+  "id": "p019_hi",
+  "n": 19,
+  "lang": "hindi",
+  "topic": "IMPS",
+  "text": "आईएमपीएस से तुरंत पैसे भेजने की सीमा कितनी है?"
+ },
+ {
+  "id": "p020_en",
+  "n": 20,
+  "lang": "english",
+  "topic": "IMPS",
+  "text": "I want to send ten thousand rupees using IMPS."
+ },
+ {
+  "id": "p021_hg",
+  "n": 21,
+  "lang": "hinglish",
+  "topic": "IMPS",
+  "text": "IMPS se turant paise bhejne hain, jaldi process kar do."
+ },
+ {
+  "id": "p022_hi",
+  "n": 22,
+  "lang": "hindi",
+  "topic": "RTGS",
+  "text": "दो लाख रुपये का आरटीजीएस करना है, शाखा कब तक खुली है?"
+ },
+ {
+  "id": "p023_en",
+  "n": 23,
+  "lang": "english",
+  "topic": "RTGS",
+  "text": "Is RTGS available after five thirty in the evening?"
+ },
+ {
+  "id": "p024_hg",
+  "n": 24,
+  "lang": "hinglish",
+  "topic": "RTGS",
+  "text": "Do lakh ka RTGS karna hai, kya aaj ho jayega?"
+ },
+ {
+  "id": "p025_hi",
+  "n": 25,
+  "lang": "hindi",
+  "topic": "Add payee",
+  "text": "मुझे नया लाभार्थी जोड़ना है, नाम प्रिया नायर है।"
+ },
+ {
+  "id": "p026_en",
+  "n": 26,
+  "lang": "english",
+  "topic": "Add payee",
+  "text": "Please add Amit Verma as a new payee to my account."
+ },
+ {
+  "id": "p027_hg",
+  "n": 27,
+  "lang": "hinglish",
+  "topic": "Add payee",
+  "text": "Umm, naya payee add karna hai, uska naam Rohan Mehta hai."
+ },
+ {
+  "id": "p028_hi",
+  "n": 28,
+  "lang": "hindi",
+  "topic": "Limit change",
+  "text": "मेरी रोज़ की ट्रांसफर लिमिट बढ़ाकर एक लाख कर दीजिए।"
+ },
+ {
+  "id": "p029_en",
+  "n": 29,
+  "lang": "english",
+  "topic": "Limit change",
+  "text": "Please reduce my daily transfer limit to 25,000 rupees."
+ },
+ {
+  "id": "p030_hg",
+  "n": 30,
+  "lang": "hinglish",
+  "topic": "Limit change",
+  "text": "Mera daily limit badha do, mujhe ek lakh tak bhejna hai."
+ },
+ {
+  "id": "p031_hi",
+  "n": 31,
+  "lang": "hindi",
+  "topic": "OTP",
+  "text": "ओटीपी नहीं आ रहा है, कृपया दोबारा भेजिए।"
+ },
+ {
+  "id": "p032_en",
+  "n": 32,
+  "lang": "english",
+  "topic": "OTP",
+  "text": "The OTP has expired, send me a new one."
+ },
+ {
+  "id": "p033_hg",
+  "n": 33,
+  "lang": "hinglish",
+  "topic": "OTP",
+  "text": "OTP aa gaya par app mein accept nahi ho raha, dobara bhejo."
+ },
+ {
+  "id": "p034_hi",
+  "n": 34,
+  "lang": "hindi",
+  "topic": "Mobile change",
+  "text": "मेरा रजिस्टर्ड मोबाइल नंबर बदलना है।"
+ },
+ {
+  "id": "p035_en",
+  "n": 35,
+  "lang": "english",
+  "topic": "Mobile change",
+  "text": "I need to update my registered mobile number."
+ },
+ {
+  "id": "p036_hg",
+  "n": 36,
+  "lang": "hinglish",
+  "topic": "Mobile change",
+  "text": "Mera number change hua hai, bank mein naya number update karna hai."
+ },
+ {
+  "id": "p037_hi",
+  "n": 37,
+  "lang": "hindi",
+  "topic": "Address change",
+  "text": "मैं जयपुर से लखनऊ शिफ्ट हो गया हूँ, मेरा पता बदल दीजिए।"
+ },
+ {
+  "id": "p038_en",
+  "n": 38,
+  "lang": "english",
+  "topic": "Address change",
+  "text": "I have moved to Bengaluru and want to change my address."
+ },
+ {
+  "id": "p039_hg",
+  "n": 39,
+  "lang": "hinglish",
+  "topic": "Address change",
+  "text": "Ghar badal liya hai, naya address Chennai ka daalna hai."
+ },
+ {
+  "id": "p040_hi",
+  "n": 40,
+  "lang": "hindi",
+  "topic": "Email change",
+  "text": "मेरी ईमेल आईडी अपडेट करनी है।"
+ },
+ {
+  "id": "p041_en",
+  "n": 41,
+  "lang": "english",
+  "topic": "Email change",
+  "text": "Please update my email address."
+ },
+ {
+  "id": "p042_hg",
+  "n": 42,
+  "lang": "hinglish",
+  "topic": "Email change",
+  "text": "Email id change karni hai, statement wahin aana chahiye."
+ },
+ {
+  "id": "p043_hi",
+  "n": 43,
+  "lang": "hindi",
+  "topic": "Loan EMI",
+  "text": "मेरी होम लोन की ईएमआई इस महीने की पाँच तारीख को कटनी थी।"
+ },
+ {
+  "id": "p044_en",
+  "n": 44,
+  "lang": "english",
+  "topic": "Loan EMI",
+  "text": "When is my loan EMI of 8,500 rupees due this month?"
+ },
+ {
+  "id": "p045_hg",
+  "n": 45,
+  "lang": "hinglish",
+  "topic": "Loan EMI",
+  "text": "Meri car loan ki EMI kitni bachi hai, aur kab tak chalegi?"
+ },
+ {
+  "id": "p046_hi",
+  "n": 46,
+  "lang": "hindi",
+  "topic": "Fixed deposit",
+  "text": "मैं एक लाख रुपये की एफडी एक साल के लिए खुलवाना चाहता हूँ।"
+ },
+ {
+  "id": "p047_en",
+  "n": 47,
+  "lang": "english",
+  "topic": "Fixed deposit",
+  "text": "What is the current interest rate on a one year fixed deposit?"
+ },
+ {
+  "id": "p048_hg",
+  "n": 48,
+  "lang": "hinglish",
+  "topic": "Fixed deposit",
+  "text": "FD maturity se pehle tod doon toh kitna penalty lagega?"
+ },
+ {
+  "id": "p049_hi",
+  "n": 49,
+  "lang": "hindi",
+  "topic": "Recurring deposit",
+  "text": "मुझे पाँच सौ रुपये महीने की आरडी शुरू करनी है।"
+ },
+ {
+  "id": "p050_en",
+  "n": 50,
+  "lang": "english",
+  "topic": "Recurring deposit",
+  "text": "I want to start a recurring deposit of 1,000 rupees every month."
+ },
+ {
+  "id": "p051_hg",
+  "n": 51,
+  "lang": "hinglish",
+  "topic": "Recurring deposit",
+  "text": "RD ki kisht miss ho gayi, ab kya karna padega?"
+ },
+ {
+  "id": "p052_hi",
+  "n": 52,
+  "lang": "hindi",
+  "topic": "Cheque book",
+  "text": "नई चेकबुक चाहिए, पच्चीस पन्नों वाली।"
+ },
+ {
+  "id": "p053_en",
+  "n": 53,
+  "lang": "english",
+  "topic": "Cheque book",
+  "text": "Please issue a new cheque book to my registered address."
+ },
+ {
+  "id": "p054_hg",
+  "n": 54,
+  "lang": "hinglish",
+  "topic": "Cheque book",
+  "text": "Cheque book kab tak aayegi, pichhle hafte apply kiya tha."
+ },
+ {
+  "id": "p055_hi",
+  "n": 55,
+  "lang": "hindi",
+  "topic": "ATM issue",
+  "text": "एटीएम से पैसे नहीं निकले लेकिन खाते से कट गए।"
+ },
+ {
+  "id": "p056_en",
+  "n": 56,
+  "lang": "english",
+  "topic": "ATM issue",
+  "text": "The ATM did not give any cash, but my account was debited."
+ },
+ {
+  "id": "p057_hg",
+  "n": 57,
+  "lang": "hinglish",
+  "topic": "ATM issue",
+  "text": "ATM machine mein card atak gaya, jaldi batao, account band ho jayega kya?"
+ },
+ {
+  "id": "p058_hi",
+  "n": 58,
+  "lang": "hindi",
+  "topic": "Complaint",
+  "text": "मुझे शिकायत दर्ज करनी है, रिफ़ंड अभी तक नहीं आया।"
+ },
+ {
+  "id": "p059_en",
+  "n": 59,
+  "lang": "english",
+  "topic": "Complaint",
+  "text": "I want to file a complaint, this is urgent, I have been waiting three weeks."
+ },
+ {
+  "id": "p060_hg",
+  "n": 60,
+  "lang": "hinglish",
+  "topic": "Complaint",
+  "text": "Complaint register karni hai, aap log sunte hi nahi ho, yeh bahut galat hai."
+ },
+ {
+  "id": "p061_hi",
+  "n": 61,
+  "lang": "hindi",
+  "topic": "Fraud report",
+  "text": "किसी ने मेरे खाते से बिना पूछे पैसे निकाल लिए, यह धोखाधड़ी है।"
+ },
+ {
+  "id": "p062_en",
+  "n": 62,
+  "lang": "english",
+  "topic": "Fraud report",
+  "text": "Someone withdrew money without my permission, this is fraud, block my account immediately."
+ },
+ {
+  "id": "p063_hg",
+  "n": 63,
+  "lang": "hinglish",
+  "topic": "Fraud report",
+  "text": "Mere account se fraud transaction hua hai, turant block karo, abhi ke abhi!"
+ },
+ {
+  "id": "p064_hi",
+  "n": 64,
+  "lang": "hindi",
+  "topic": "KYC",
+  "text": "केवाईसी नहीं की तो खाता ब्लॉक हो जाएगा, कौन से कागज़ चाहिए?"
+ },
+ {
+  "id": "p065_en",
+  "n": 65,
+  "lang": "english",
+  "topic": "KYC",
+  "text": "Which documents do I need for KYC? My account will be blocked otherwise."
+ },
+ {
+  "id": "p066_hg",
+  "n": 66,
+  "lang": "hinglish",
+  "topic": "KYC",
+  "text": "KYC update nahi kiya toh account block ho jayega kya?"
+ },
+ {
+  "id": "p067_hi",
+  "n": 67,
+  "lang": "hindi",
+  "topic": "Branch timing",
+  "text": "शाखा सुबह कितने बजे खुलती है और शाम को कब बंद होती है?"
+ },
+ {
+  "id": "p068_en",
+  "n": 68,
+  "lang": "english",
+  "topic": "Branch timing",
+  "text": "What are the branch timings on Saturday?"
+ },
+ {
+  "id": "p069_hg",
+  "n": 69,
+  "lang": "hinglish",
+  "topic": "Branch timing",
+  "text": "Aapki Hyderabad wali branch kal khuli rahegi kya?"
+ },
+ {
+  "id": "p070_hi",
+  "n": 70,
+  "lang": "hindi",
+  "topic": "Net banking login",
+  "text": "नेट बैंकिंग में लॉगिन नहीं हो रहा है।"
+ },
+ {
+  "id": "p071_en",
+  "n": 71,
+  "lang": "english",
+  "topic": "Net banking login",
+  "text": "I cannot log in to net banking, it keeps showing an error."
+ },
+ {
+  "id": "p072_hg",
+  "n": 72,
+  "lang": "hinglish",
+  "topic": "Net banking login",
+  "text": "Net banking login pe error aa raha hai, haan ji, password sahi hi daala tha."
+ },
+ {
+  "id": "p073_hi",
+  "n": 73,
+  "lang": "hindi",
+  "topic": "Forgot password",
+  "text": "मैं अपना पासवर्ड भूल गया हूँ, नया पासवर्ड बनाइए।"
+ },
+ {
+  "id": "p074_en",
+  "n": 74,
+  "lang": "english",
+  "topic": "Forgot password",
+  "text": "I forgot my password, how do I reset it?"
+ },
+ {
+  "id": "p075_hg",
+  "n": 75,
+  "lang": "hinglish",
+  "topic": "Forgot password",
+  "text": "Password bhool gaya, reset karne ka link bhejo please."
+ },
+ {
+  "id": "p076_hi",
+  "n": 76,
+  "lang": "hindi",
+  "topic": "Credit card bill",
+  "text": "इस महीने का क्रेडिट कार्ड बिल कितना है, और आखिरी तारीख कब है?"
+ },
+ {
+  "id": "p077_en",
+  "n": 77,
+  "lang": "english",
+  "topic": "Credit card bill",
+  "text": "My credit card bill is 12,400 rupees, can I pay it in installments?"
+ },
+ {
+  "id": "p078_hg",
+  "n": 78,
+  "lang": "hinglish",
+  "topic": "Credit card bill",
+  "text": "Credit card ka bill jaldi bharna hai, warna late fee lag jayegi."
+ },
+ {
+  "id": "p079_hi",
+  "n": 79,
+  "lang": "hindi",
+  "topic": "International usage",
+  "text": "मुझे विदेश यात्रा के लिए कार्ड पर अंतरराष्ट्रीय उपयोग चालू करना है।"
+ },
+ {
+  "id": "p080_en",
+  "n": 80,
+  "lang": "english",
+  "topic": "International usage",
+  "text": "Please enable international transactions on my card, I travel to Dubai on 15 August."
+ },
+ {
+  "id": "p081_hg",
+  "n": 81,
+  "lang": "hinglish",
+  "topic": "International usage",
+  "text": "Main next month Singapore ja raha hoon, card ka international usage on kar do."
+ },
+ {
+  "id": "p082_hi",
+  "n": 82,
+  "lang": "hindi",
+  "topic": "Standing instruction",
+  "text": "हर महीने की पहली तारीख को किराया भेजने का स्टैंडिंग इंस्ट्रक्शन लगाइए।"
+ },
+ {
+  "id": "p083_en",
+  "n": 83,
+  "lang": "english",
+  "topic": "Standing instruction",
+  "text": "Please set up a standing instruction to pay my rent on the first of every month."
+ },
+ {
+  "id": "p084_hg",
+  "n": 84,
+  "lang": "hinglish",
+  "topic": "Standing instruction",
+  "text": "Standing instruction cancel karna hai, har mahine paise kat rahe hain."
+ },
+ {
+  "id": "p085_hi",
+  "n": 85,
+  "lang": "hindi",
+  "topic": "Digits 0-9",
+  "text": "शून्य, एक, दो, तीन, चार, पाँच, छह, सात, आठ, नौ।"
+ },
+ {
+  "id": "p086_en",
+  "n": 86,
+  "lang": "english",
+  "topic": "Digits 0-9",
+  "text": "Zero, one, two, three, four, five, six, seven, eight, nine."
+ },
+ {
+  "id": "p087_hg",
+  "n": 87,
+  "lang": "hinglish",
+  "topic": "Digits 0-9",
+  "text": "Zero, ek, do, teen, chaar, paanch, chhe, saat, aath, nau."
+ },
+ {
+  "id": "p088_hi",
+  "n": 88,
+  "lang": "hindi",
+  "topic": "4-digit code",
+  "text": "ओटीपी है 4 7 2 9, कृपया जाँच लीजिए।"
+ },
+ {
+  "id": "p089_en",
+  "n": 89,
+  "lang": "english",
+  "topic": "6-digit code",
+  "text": "The six digit OTP is 3 8 0 5 6 2."
+ },
+ {
+  "id": "p090_hg",
+  "n": 90,
+  "lang": "hinglish",
+  "topic": "6-digit code",
+  "text": "OTP hai 7 4 2 9 1 8, jaldi verify kar do."
+ },
+ {
+  "id": "p091_hi",
+  "n": 91,
+  "lang": "hindi",
+  "topic": "10-digit number",
+  "text": "मेरा मोबाइल नंबर 9 0 1 2 3 4 5 6 7 8 है।"
+ },
+ {
+  "id": "p092_en",
+  "n": 92,
+  "lang": "english",
+  "topic": "10-digit number",
+  "text": "My registered mobile number is 8 7 6 5 4 3 2 1 0 9."
+ },
+ {
+  "id": "p093_hg",
+  "n": 93,
+  "lang": "hinglish",
+  "topic": "10-digit number",
+  "text": "Mera number hai 9 0 1 2 3 4 5 6 7 8, isi pe OTP bhejna."
+ },
+ {
+  "id": "p094_hi",
+  "n": 94,
+  "lang": "hindi",
+  "topic": "Dates",
+  "text": "मेरी एफडी पंद्रह अगस्त दो हज़ार छब्बीस को पूरी होगी।"
+ },
+ {
+  "id": "p095_en",
+  "n": 95,
+  "lang": "english",
+  "topic": "Dates and amounts",
+  "text": "On the third of March I deposited 15,000 rupees in my account."
+ },
+ {
+  "id": "p096_hg",
+  "n": 96,
+  "lang": "hinglish",
+  "topic": "Dates and amounts",
+  "text": "Pachees January ko mera salary aaya tha, paanch hazaar kam kyun hai?"
+ },
+ {
+  "id": "p097_hi",
+  "n": 97,
+  "lang": "hindi",
+  "topic": "Names and places",
+  "text": "मेरा नाम सुनीता वर्मा है और मैं कोलकाता की शाखा से बोल रही हूँ।"
+ },
+ {
+  "id": "p098_en",
+  "n": 98,
+  "lang": "english",
+  "topic": "Names and places",
+  "text": "This is Karthik Iyer calling from Coimbatore about my account."
+ },
+ {
+  "id": "p099_hg",
+  "n": 99,
+  "lang": "hinglish",
+  "topic": "Fillers",
+  "text": "Haan ji, umm, main Ahmedabad se bol raha hoon, mera account ka thoda issue hai."
+ },
+ {
+  "id": "p100_hi",
+  "n": 100,
+  "lang": "hindi",
+  "topic": "Impatient",
+  "text": "मेरा खाता बंद हो जाएगा, जल्दी कुछ कीजिए, मैं बहुत परेशान हूँ।"
+ }
+]
