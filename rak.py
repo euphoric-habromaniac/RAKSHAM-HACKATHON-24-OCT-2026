@@ -10,6 +10,7 @@
     python rak.py demo          Voice Check demo + case storage on http://127.0.0.1:8765/
     python rak.py service       the Asli Awaaz decision service on http://127.0.0.1:8000/  (--live uses our detector as L2)
     python rak.py precommit     size guard, secret scan, quick tests: run before every commit
+    python rak.py pack          zip the whole folder for another computer (no .venv, refuses if junctions exist)
     python rak.py link-heavy    OPT-IN: junction the big regenerable data from the original folders (no copy)
 """
 import csv
@@ -36,11 +37,33 @@ OK, BAD, WARN = "[ok]  ", "[FAIL]", "[warn]"
 failures = []
 
 
-def py() -> str:
+def _venv_python():
     for p in (VENV / "Scripts" / "python.exe", VENV / "bin" / "python"):
         if p.exists():
-            return str(p)
-    return sys.executable
+            return p
+    return None
+
+
+def venv_state() -> str:
+    """'absent', 'ok' or 'stale' (present but unusable here, e.g. the folder was zipped over from another computer)."""
+    p = _venv_python()
+    if p is None:
+        return "absent"
+    try:
+        ok = subprocess.run([str(p), "-c", "import sys"], capture_output=True, timeout=30).returncode == 0
+    except (OSError, subprocess.SubprocessError):
+        ok = False
+    return "ok" if ok else "stale"
+
+
+_PY = None
+
+
+def py() -> str:
+    global _PY
+    if _PY is None:
+        _PY = str(_venv_python()) if venv_state() == "ok" else sys.executable
+    return _PY
 
 
 def report(ok: bool, msg: str, warn: bool = False):
@@ -55,8 +78,15 @@ def run(cmd, env=None, cwd=None) -> int:
 
 
 def cmd_setup(args):
-    if not VENV.exists():
+    state = venv_state()
+    if state == "stale":
+        print("the existing .venv does not work on this computer (copied from another one): rebuilding it")
+        shutil.rmtree(VENV)
+        state = "absent"
+    if state == "absent":
         subprocess.check_call([sys.executable, "-m", "venv", str(VENV)])
+    global _PY
+    _PY = None
     subprocess.check_call([py(), "-m", "pip", "install", "-q", "-U", "pip"])
     reqs = ["-r", str(PRODUCT / "requirements-service.txt"), "-r", str(PRODUCT / "requirements-docs.txt"), "numpy", "scipy", "soundfile", "pandas", "tqdm", "scikit-learn"]
     subprocess.check_call([py(), "-m", "pip", "install", "-q", *reqs])
@@ -66,10 +96,22 @@ def cmd_setup(args):
     return 0
 
 
+def junctions():
+    """Directory junctions / symlinks inside the repo (a zip tool would follow them into the originals)."""
+    found = []
+    for t in ORIGINALS:
+        if t.is_symlink() or (hasattr(os.path, "isjunction") and os.path.isjunction(t)):
+            found.append(t)
+    return found
+
+
 def cmd_doctor(_):
     print(f"RAKSHAM at {ROOT}\n")
     report(sys.version_info >= (3, 10), f"Python {sys.version.split()[0]} (need 3.10+)")
-    report(VENV.exists(), "virtual environment .venv present (python rak.py setup)", warn=True)
+    vs = venv_state()
+    report(vs == "ok", f".venv is {vs}" + ("" if vs == "ok" else " (run: python rak.py setup)"), warn=True)
+    j = junctions()
+    report(not j, "no junction links in the tree" if not j else f"junction links present, remove before zipping: {', '.join(str(x.relative_to(ROOT)) for x in j)}", warn=True)
     for d in (PRODUCT / "service", PRODUCT / "ui", PRODUCT / "tests", ML / "live_detector", ML / "voice_data", SEHAJ, REC, GEN,
               ROOT / "deck" / "finale", ROOT / "design-system", ROOT / "docs"):
         report(d.exists(), f"folder {d.relative_to(ROOT)}")
@@ -220,6 +262,34 @@ def cmd_precommit(args):
     return 1 if failures else 0
 
 
+def cmd_pack(args):
+    """Zip the whole folder (code, data, models, .git) for another computer. Not .venv (rebuilt there by setup)."""
+    import zipfile
+    from datetime import date
+
+    j = junctions()
+    if j:
+        print(f"{BAD} refusing to pack: junction links would pull in the original data ({', '.join(str(x.relative_to(ROOT)) for x in j)}).")
+        print("       remove them first: rmdir <link>   (never a recursive delete)")
+        return 1
+    skip_dirs = {".venv", "__pycache__", ".pytest_cache", ".ipynb_checkpoints", "node_modules"}
+    if "--no-cases" in args:
+        skip_dirs.add("cases")
+    out = ROOT.parent / f"RAKSHAM_portable_{date.today().isoformat()}.zip"
+    if "-o" in args:
+        out = Path(args[args.index("-o") + 1])
+    files = [p for p in ROOT.rglob("*") if p.is_file() and not (set(p.relative_to(ROOT).parts) & skip_dirs) and p != out]
+    size = sum(p.stat().st_size for p in files) / 1e6
+    print(f"{len(files)} files, {size:,.0f} MB before compression -> {out}")
+    if "--dry-run" in args:
+        return 0
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED, compresslevel=3) as z:
+        for p in files:
+            z.write(p, Path("RAKSHAM") / p.relative_to(ROOT))
+    print(f"{OK} wrote {out} ({out.stat().st_size / 1e6:,.0f} MB). On the other computer: unzip, python rak.py setup, python rak.py check")
+    return 0
+
+
 def cmd_link_heavy(_):
     made = 0
     for target, original in ORIGINALS.items():
@@ -241,7 +311,7 @@ def cmd_link_heavy(_):
 
 
 COMMANDS = {"setup": cmd_setup, "doctor": cmd_doctor, "data-check": cmd_data_check, "test": cmd_test, "smoke": cmd_smoke,
-            "check": cmd_check, "demo": cmd_demo, "service": cmd_service, "precommit": cmd_precommit, "link-heavy": cmd_link_heavy}
+            "check": cmd_check, "pack": cmd_pack, "demo": cmd_demo, "service": cmd_service, "precommit": cmd_precommit, "link-heavy": cmd_link_heavy}
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:

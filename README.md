@@ -31,6 +31,20 @@ python rak.py service --live   # Asli Awaaz service on :8000 with our detector a
 python rak.py precommit     # before every commit
 ```
 
+## Move it to another computer
+
+```
+python rak.py pack          # writes ../RAKSHAM_portable_<date>.zip (about 2.4 GB: code, data, models, git history; no .venv)
+# on the other computer: unzip, then
+python rak.py setup --ml    # needs Python 3.10+ and internet, builds a fresh .venv (a copied .venv never works)
+python rak.py check         # everything passes, as it did in a relocated test copy with spaces in its path
+python rak.py demo          # works even before setup: the demo server needs only Python itself
+```
+
+- `pack` refuses to run while junction links from `link-heavy` exist, because a zip tool would follow them into the 32 GB of original data. If you zip by hand, remove those links first (`rmdir`, never a recursive delete).
+- The zip contains the real recordings, clones and saved calls (biometric data, 90-day consent). Share it only with the people who signed.
+- `ml/notebooks/DC and MT (original).ipynb` keeps Sehaj's original Mac paths on purpose; the `_executed` copy uses relative paths (run it from `ml/notebooks`).
+
 ## How the pieces fit
 
 - The product's L2 (synthetic-speech check) can use our detector: `ASLI_L2_BACKEND=live` (adapter: `product/service/live_scorer.py`). No speech in the audio means the scorer raises and the engine falls back to Step up.
