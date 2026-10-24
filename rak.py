@@ -9,6 +9,8 @@
     python rak.py check         doctor + data-check + test + smoke (the "does everything work" command)
     python rak.py demo          Voice Check demo + case storage on http://127.0.0.1:8765/
     python rak.py service       the Asli Awaaz decision service on http://127.0.0.1:8000/  (--live uses our detector as L2)
+    python rak.py recorder      recording kit (consent + 100-sentence script) saving into data/recordings_awaaz, on :8766
+    python rak.py hinglish      feed data/recordings_awaaz through the product's Hinglish pipeline (ingest, split, protocol)
     python rak.py precommit     size guard, secret scan, quick tests: run before every commit
     python rak.py pack          zip the folder for another computer (no .venv, no heavy data unless --with-heavy; refuses if junctions exist)
     python rak.py link-heavy    OPT-IN: junction the big regenerable data from the original folders (no copy)
@@ -188,6 +190,27 @@ def cmd_check(args):
     return 1 if (rc or failures) else 0
 
 
+def cmd_recorder(args):
+    print("Recording kit on http://127.0.0.1:8766/  (saves to data/recordings_awaaz; new speakers get a consent form first)")
+    return run([py(), "-m", "tools.recorder.server", "--port", "8766", "--dir", str(REC)], env={"PYTHONPATH": str(PRODUCT)}, cwd=PRODUCT)
+
+
+def cmd_hinglish(args):
+    """Product-side Hinglish pipeline over our recordings: consent-gated ingest, speaker split, protocol files."""
+    out = PRODUCT / "data" / "hinglish"
+    env = {"PYTHONPATH": str(PRODUCT)}
+    steps = [
+        ["-m", "tools.ingest_hinglish", "--incoming", str(REC), "--out", str(out)],
+        ["-m", "tools.split_hinglish", "--hinglish", str(out)],
+        ["-m", "tools.make_hinglish_protocol", "--hinglish", str(out)],
+    ]
+    for s in steps:
+        rc = run([py(), "-X", "utf8", *s], env=env, cwd=PRODUCT)
+        report(rc == 0, "product step: " + s[1])
+    print(f"\noutput: {out.relative_to(ROOT)}  (git-ignored; contains copies of the recordings)")
+    return 1 if failures else 0
+
+
 def cmd_demo(_):
     print("Voice Check on http://127.0.0.1:8765/  (saved calls go to ./cases)")
     return run([py(), str(ML / "live_detector" / "server.py")])
@@ -319,7 +342,7 @@ def cmd_link_heavy(_):
 
 
 COMMANDS = {"setup": cmd_setup, "doctor": cmd_doctor, "data-check": cmd_data_check, "test": cmd_test, "smoke": cmd_smoke,
-            "check": cmd_check, "pack": cmd_pack, "demo": cmd_demo, "service": cmd_service, "precommit": cmd_precommit, "link-heavy": cmd_link_heavy}
+            "check": cmd_check, "pack": cmd_pack, "recorder": cmd_recorder, "hinglish": cmd_hinglish, "demo": cmd_demo, "service": cmd_service, "precommit": cmd_precommit, "link-heavy": cmd_link_heavy}
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:

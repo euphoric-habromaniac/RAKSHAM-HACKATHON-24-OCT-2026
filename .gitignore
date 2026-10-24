@@ -28,6 +28,9 @@ data/generated/*/
 # Merged dataset: keep labels.csv and its README, not the audio.
 data/sehaj_dataset/audio/
 
+# The product's Hinglish working copy (made by `python rak.py hinglish`; holds copies of the recordings).
+product/data/hinglish/
+
 # Calls saved by the demo (audio + analysis).
 cases/
 

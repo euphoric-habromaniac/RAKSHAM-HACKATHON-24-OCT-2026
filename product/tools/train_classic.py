@@ -19,7 +19,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from eval.eer import compute_eer  # noqa: E402
 
-DATA = ROOT / "data/sehaj_dataset"
+# RAKSHAM: the merged English + Hinglish dataset is shared at the top level (product/ and ml/ both read it)
+DATA = ROOT.parent / "data" / "sehaj_dataset"
 OUT = ROOT / "results_classic"
 _MFCC = torchaudio.transforms.MFCC(sample_rate=16000, n_mfcc=20,
                                    melkwargs={"n_fft": 512, "hop_length": 160, "n_mels": 40})

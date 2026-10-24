@@ -16,7 +16,8 @@ from urllib.parse import parse_qs, quote, urlsplit
 from tools.recorder.store import MAX_S, RATE, RecorderStore, StoreError
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_DIR = REPO_ROOT / "downloads" / "recordings_awaaz"
+# RAKSHAM: new recordings land in the shared data folder next to product/ and ml/
+DEFAULT_DIR = REPO_ROOT.parent / "data" / "recordings_awaaz"
 DEFAULT_PORT = 8765
 HOST = "127.0.0.1"
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -174,7 +175,7 @@ def make_server(root=DEFAULT_DIR, port: int = DEFAULT_PORT, verbose: bool = Fals
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--port", type=int, default=DEFAULT_PORT)
-    ap.add_argument("--dir", type=Path, default=DEFAULT_DIR, help="recordings folder (default: <repo>/downloads/recordings_awaaz)")
+    ap.add_argument("--dir", type=Path, default=DEFAULT_DIR, help="recordings folder (default: RAKSHAM/data/recordings_awaaz)")
     ap.add_argument("--verbose", action="store_true")
     a = ap.parse_args(argv)
     try:
