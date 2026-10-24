@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large binary audio / weights / models (keep out of git per ground rules)
+data/audio/
+data/raw/
+models/weights/
+*.flac
+*.wav
+*.mp3
+*.onnx
+*.pt
+*.bin
+*.tar.gz
+final-source.zip
+
+# Runtime data & logs
+data/alerts.jsonl
+data/evidence.jsonl
+data/cases/*
+!data/cases/.gitkeep
+data/hold_clips/*
+!data/hold_clips/.gitkeep
+
+# OS / temp
+Thumbs.db
+.DS_Store
+
+# Local third-party downloads, cloned repos, degraded audio, unrelated files
+downloads/
+downloads/recordings_awaaz/
+aasist/
+data/deg/
+
+# Sehaj dataset (zip is handed over directly)
+data/sehaj_dataset/
+data/sehaj_dataset.zip
+results_classic/features*
+*.npy
+
+# Handbook PDFs are regenerated with tools/build_handbooks.py
+docs/handbook/dist/*.pdf
+
+# Voice recordings are biometric data: never commit
+data/hinglish_incoming/
+data/hinglish/
+data/consent/spk*.json
+data/enrolments/spk*.json
