@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Voice Check</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1a1d23;--mute:#667085;--line:#e4e7ec;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--acc:#2563eb}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1115;--card:#171a21;--ink:#eceef2;--mute:#98a2b3;--line:#2a2f3a;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--acc:#60a5fa}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:22px;margin:0 0 4px}p.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+h2{font-size:16px;margin:0 0 12px}
+button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer}
+button.primary{background:var(--acc);border-color:var(--acc);color:#fff}button:disabled{opacity:.5;cursor:default}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}th{color:var(--mute);font-weight:500}
+.tag{display:inline-block;padding:1px 9px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line)}
+.real{color:var(--ok);border-color:var(--ok)}.fake{color:var(--bad);border-color:var(--bad)}.sil{color:var(--mute)}
+#big{font-size:44px;font-weight:700;text-align:center;padding:22px 0;border-radius:10px;border:2px solid var(--line);margin:12px 0;letter-spacing:1px}
+#big.real{border-color:var(--ok);color:var(--ok)}#big.fake{border-color:var(--bad);color:var(--bad)}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.mute{color:var(--mute);font-size:13px}
+canvas{width:100%;height:70px;display:block;background:var(--bg);border-radius:8px}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;width:0;background:var(--acc)}
+.note{font-size:13px;color:var(--mute);border-left:3px solid var(--warn);padding:2px 10px;margin-top:10px}
+
+#report{display:none}
+ul#alerts{margin:10px 0 0;padding-left:18px}ul#alerts li{margin:3px 0}
+.chbig{font-size:22px;font-weight:700;letter-spacing:1px}
+@media print{body>main{display:none}#report{display:block;color:#111;background:#fff;padding:12px;font-size:12px}
+#report table{width:100%;border-collapse:collapse;margin:6px 0 14px}#report th,#report td{border:1px solid #bbb;padding:4px 6px;text-align:left}
+#report img{width:100%;border:1px solid #bbb}#report h1{font-size:20px}#report h3{margin:14px 0 4px}}
+</style>
+</head>
+<body>
+<main>
+<h1>Voice Check</h1>
+<p class="sub">Real-vs-fake voice detector for Yash, Kushagra and Pranjal. Runs fully in this page (no server-side model). <span id="status" class="mute">loading model…</span></p>
+
+<div class="card">
+  <h2>1 · Live microphone</h2>
+  <div class="row"><button id="mic" class="primary" disabled>Start listening</button>
+    <span class="mute">Decides every 0.25 s from the last 0.5 s of audio · compute <b id="lat">–</b> ms</span></div>
+  <div id="big" class="sil">—</div>
+  <div class="row" style="margin-bottom:8px"><span class="mute" style="width:110px">P(real) smoothed</span><div class="bar" style="flex:1"><i id="pbar"></i></div><b id="pval" style="width:48px;text-align:right">–</b></div>
+  <div class="row" style="margin-bottom:8px"><span class="mute" style="width:110px">mic level</span><div class="bar" style="flex:1"><i id="lvl" style="background:var(--mute)"></i></div></div>
+  <canvas id="tl" width="800" height="70"></canvas>
+  <div class="mute">Timeline: green = judged real, red = judged fake (last ~15 s).</div>
+  <div class="note">Real test: talk normally (should say REAL if you are one of the three), then play one of the fake clips below out loud near the mic. Speaker playback adds room noise the model never saw, so treat that as a stress test, not a pass/fail.</div>
+</div>
+
+<div class="card" id="dash">
+  <h2>Agent dashboard · challenge, explain, report</h2>
+  <div class="row">
+    <button id="chIssue">Issue challenge</button>
+    <button id="chOk" disabled>Phrase correct</button>
+    <button id="chBad" disabled>Wrong / no answer</button>
+    <button id="flagBtn">Flag suspected fake</button>
+    <button id="endBtn">End call &amp; analyse</button>
+  </div>
+  <div id="chBox" class="mute" style="margin:10px 0">No challenge issued. Start listening (or replay a sample below) first.</div>
+  <canvas id="spec" width="800" height="170" style="height:170px"></canvas>
+  <div class="mute">Spectrogram of the call (0–8 kHz). Red = stretches the detector judged synthetic; blue brackets = challenge windows.</div>
+  <ul id="alerts"><li class="mute">No alerts yet.</li></ul>
+  <div id="saveStatus" class="mute" style="margin-top:8px"></div>
+  <audio id="player" controls style="width:100%;margin-top:8px;display:none"></audio>
+  <div class="row" style="margin-top:10px"><button id="expJson" disabled>Export JSON</button><button id="expPdf" disabled>Print / save as PDF</button>
+    <select id="rpSel"></select><button id="rpBtn" disabled>Replay sample as a call</button></div>
+  <div class="note">The challenge proves the speaker can respond on demand; it does not stop real-time voice conversion, which is why it is combined with the detection score. The detector only knows three enrolled voices (Yash, Kushagra, Pranjal); other speakers' real voices are often scored fake.</div>
+</div>
+
+<div class="card">
+  <h2>Saved cases (stored on this machine)</h2>
+  <div class="mute" style="margin-bottom:8px">Every finished call is saved as <code>cases/&lt;id&gt;/audio.wav</code> + <code>case.json</code> next to the app, never uploaded. Open one to review the waveform, spectrogram, alerts and report later.</div>
+  <table><thead><tr><th>Case</th><th>Started</th><th>Length</th><th>Verdict</th><th>Flags</th><th></th></tr></thead><tbody id="cases"><tr><td colspan="6" class="mute">none yet</td></tr></tbody></table>
+</div>
+
+<div class="card">
+  <h2>2 · Sample recordings (real vs clone)</h2>
+  <div class="row" style="margin-bottom:10px"><button id="runall" disabled>Test all samples</button><span id="summary" class="mute"></span></div>
+  <table><thead><tr><th>Speaker</th><th>Sent.</th><th>Channel</th><th>Truth</th><th>Model says</th><th>P(real)</th><th>Windows</th><th></th></tr></thead><tbody id="rows"></tbody></table>
+  <div class="note">These clips were part of the model's training data (the final model was fit on all of them), so ~100% here is expected. The honest held-out figure is 99.0% per 0.5 s window on sentences it never saw.</div>
+</div>
+
+<div class="card">
+  <h2>3 · Your own file</h2>
+  <input type="file" id="file" accept="audio/*"> <span id="fres" class="mute"></span>
+</div>
+</main>
+
+<div id="report"></div>
+<script>
+const SR=16000,NFFT=512,HOP=160,NM=64,NC=20,SIL=0.002;
+let M=null;
+// ---------- model ----------
+function flat(rows){const R=rows.length,C=rows[0].length,a=new Float32Array(R*C);for(let i=0;i<R;i++)for(let j=0;j<C;j++)a[i*C+j]=rows[i][j];return{a,R,C}}
+async function loadModel(){
+  const j=await (await fetch('model.json')).json();
+  M={win:j.win,mu:Float32Array.from(j.mu),sd:Float32Array.from(j.sd),fb:flat(j.fb),dct:flat(j.dct),hann:Float32Array.from(j.hann),
+     layers:j.layers.map(l=>({W:flat(l.W),b:Float32Array.from(l.b)}))};
+  // fft tables
+  const N=NFFT;M.rev=new Uint16Array(N);for(let i=0;i<N;i++){let r=0,x=i;for(let b=0;b<9;b++){r=(r<<1)|(x&1);x>>=1}M.rev[i]=r}
+  M.cos=new Float32Array(N/2);M.sin=new Float32Array(N/2);for(let i=0;i<N/2;i++){M.cos[i]=Math.cos(2*Math.PI*i/N);M.sin[i]=-Math.sin(2*Math.PI*i/N)}
+}
+function fft(re,im){const N=NFFT;for(let i=0;i<N;i++){const j=M.rev[i];if(j>i){let t=re[i];re[i]=re[j];re[j]=t;t=im[i];im[i]=im[j];im[j]=t}}
+  for(let size=2;size<=N;size<<=1){const half=size>>1,step=N/size;for(let s=0;s<N;s+=size)for(let k=0;k<half;k++){
+    const wr=M.cos[k*step],wi=M.sin[k*step],a=s+k,b=a+half,tr=re[b]*wr-im[b]*wi,ti=re[b]*wi+im[b]*wr;
+    re[b]=re[a]-tr;im[b]=im[a]-ti;re[a]+=tr;im[a]+=ti}}}
+function pct(arr,q){const a=Float32Array.from(arr).sort();const idx=q/100*(a.length-1),lo=Math.floor(idx),hi=Math.ceil(idx);return a[lo]+(a[hi]-a[lo])*(idx-lo)}
+function features(x){
+  const n=x.length,pad=NFFT/2;let mean=0;for(let i=0;i<n;i++)mean+=x[i];mean/=n;
+  const xp=new Float32Array(n+2*pad);for(let i=0;i<n;i++)xp[pad+i]=x[i]-mean;
+  for(let i=1;i<=pad;i++){xp[pad-i]=xp[pad+i];xp[pad+n-1+i]=xp[pad+n-1-i]}
+  const nf=1+Math.floor((xp.length-NFFT)/HOP),mel=new Float32Array(nf*NM),re=new Float32Array(NFFT),im=new Float32Array(NFFT),S=new Float32Array(NFFT/2+1);
+  for(let f=0;f<nf;f++){for(let k=0;k<NFFT;k++){re[k]=xp[f*HOP+k]*M.hann[k];im[k]=0}fft(re,im);
+    for(let k=0;k<=NFFT/2;k++)S[k]=re[k]*re[k]+im[k]*im[k];
+    for(let m=0;m<NM;m++){let s=0;const o=m*M.fb.C;for(let k=0;k<=NFFT/2;k++)s+=S[k]*M.fb.a[o+k];mel[f*NM+m]=10*Math.log10(s+1e-10)}}
+  const p95=pct(mel,95);for(let i=0;i<mel.length;i++)mel[i]-=p95;
+  const mf=new Float32Array(nf*NC);for(let f=0;f<nf;f++)for(let c=0;c<NC;c++){let s=0;for(let m=0;m<NM;m++)s+=mel[f*NM+m]*M.dct.a[c*NM+m];mf[f*NC+c]=s}
+  const out=new Float32Array(251);let o=0;
+  const stat=(get,len,cnt,fromC)=>{};
+  for(let m=0;m<NM;m++){let s=0;for(let f=0;f<nf;f++)s+=mel[f*NM+m];out[o++]=s/nf}
+  for(let m=0;m<NM;m++){let s=0,mu=0;for(let f=0;f<nf;f++)mu+=mel[f*NM+m];mu/=nf;for(let f=0;f<nf;f++){const d=mel[f*NM+m]-mu;s+=d*d}out[o++]=Math.sqrt(s/nf)}
+  for(let m=0;m<NM;m++){const col=new Float32Array(nf);for(let f=0;f<nf;f++)col[f]=mel[f*NM+m];out[o++]=pct(col,10)}
+  for(let c=1;c<NC;c++){let s=0;for(let f=0;f<nf;f++)s+=mf[f*NC+c];out[o++]=s/nf}
+  for(let c=0;c<NC;c++){let mu=0,s=0;for(let f=0;f<nf;f++)mu+=mf[f*NC+c];mu/=nf;for(let f=0;f<nf;f++){const d=mf[f*NC+c]-mu;s+=d*d}out[o++]=Math.sqrt(s/nf)}
+  for(let c=0;c<NC;c++){const n2=nf-1;let mu=0;for(let f=0;f<n2;f++)mu+=mf[(f+1)*NC+c]-mf[f*NC+c];mu/=n2;let s=0;for(let f=0;f<n2;f++){const d=mf[(f+1)*NC+c]-mf[f*NC+c]-mu;s+=d*d}out[o++]=Math.sqrt(s/n2)}
+  return out;
+}
+function pReal(x){
+  let a=features(x);for(let i=0;i<a.length;i++)a[i]=(a[i]-M.mu[i])/M.sd[i];
+  M.layers.forEach((L,li)=>{const R=L.W.R,C=L.W.C,y=new Float32Array(C);for(let j=0;j<C;j++)y[j]=L.b[j];
+    for(let i=0;i<R;i++){const v=a[i];if(v===0)continue;const o=i*C;for(let j=0;j<C;j++)y[j]+=v*L.W.a[o+j]}
+    if(li<M.layers.length-1)for(let j=0;j<C;j++)if(y[j]<0)y[j]=0;a=y});
+  return 1/(1+Math.exp(-a[0]));
+}
+function makeFFT(N){const bits=Math.log2(N),rev=new Uint16Array(N),cs=new Float32Array(N/2),sn=new Float32Array(N/2);
+  for(let i=0;i<N;i++){let r=0,x=i;for(let b=0;b<bits;b++){r=(r<<1)|(x&1);x>>=1}rev[i]=r}
+  for(let i=0;i<N/2;i++){cs[i]=Math.cos(2*Math.PI*i/N);sn[i]=-Math.sin(2*Math.PI*i/N)}
+  return(re,im)=>{for(let i=0;i<N;i++){const j=rev[i];if(j>i){let t=re[i];re[i]=re[j];re[j]=t;t=im[i];im[i]=im[j];im[j]=t}}
+    for(let size=2;size<=N;size<<=1){const half=size>>1,step=N/size;for(let s=0;s<N;s+=size)for(let k=0;k<half;k++){
+      const wr=cs[k*step],wi=sn[k*step],a=s+k,b=a+half,tr=re[b]*wr-im[b]*wi,ti=re[b]*wi+im[b]*wr;
+      re[b]=re[a]-tr;im[b]=im[a]-ti;re[a]+=tr;im[a]+=ti}}}}
+let fft1024=null;
+// speech gate: voiced (pitch-periodic, 70-400 Hz) frames with energy above 800 Hz and a varying pitch; rejects noise, rumble, hum, silence
+function hasSpeech(x,minVoiced=0.08){
+  if(!fft1024)fft1024=makeFFT(1024);
+  const L=400,hop=160,n=Math.floor((x.length-L)/hop)+1;if(n<1)return false;
+  const f=new Float32Array(L),re=new Float32Array(1024),im=new Float32Array(1024),ac=new Float32Array(231),lags=[];let voiced=0,hfSum=0;
+  for(let fr=0;fr<n;fr++){let mean=0;for(let i=0;i<L;i++){f[i]=x[fr*hop+i];mean+=f[i]}mean/=L;let e2=0;for(let i=0;i<L;i++){f[i]-=mean;e2+=f[i]*f[i]}
+    const e=Math.sqrt(e2/L);if(e<=0.002)continue;
+    re.fill(0);im.fill(0);for(let i=0;i<L;i++)re[i]=f[i];fft1024(re,im);let tot=0,hf=0;for(let k=0;k<=512;k++){const pw=re[k]*re[k]+im[k]*im[k];tot+=pw;if(k>=52)hf+=pw}
+    const hr=hf/(tot+1e-9);if(!(hr>0.02))continue;
+    for(let k=0;k<=230;k++){let s=0;for(let i=0;i+k<L;i++)s+=f[i]*f[i+k];ac[k]=s}
+    let first=999;for(let k=1;k<=230;k++)if(ac[k]<0){first=k;break}
+    const start=Math.max(first,40);let peak=0,lag=0;for(let k=start;k<=230;k++)if(ac[k]>peak){peak=ac[k];lag=k}
+    if(peak/(ac[0]+1e-9)>0.4){voiced++;lags.push(lag);hfSum+=hr}}
+  if(voiced/n<minVoiced)return false;
+  if(voiced<5||hfSum/voiced>=0.15)return true;
+  const sorted=[...lags].sort((a,b)=>a-b),med=sorted.length%2?sorted[(sorted.length-1)/2]:(sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+  return lags.filter(l=>Math.abs(l-med)<=4).length/lags.length<0.75}
+const rms=x=>{let s=0;for(let i=0;i<x.length;i++)s+=x[i]*x[i];return Math.sqrt(s/x.length)};
+// ---------- offline clip scoring ----------
+async function decode(buf){const ctx=new AudioContext({sampleRate:SR});const a=await ctx.decodeAudioData(buf.slice(0));ctx.close();return a.getChannelData(0)}
+function scoreClip(x){const ps=[];for(let s=0;s+M.win<=x.length;s+=4000){const w=x.subarray(s,s+M.win);if(!hasSpeech(w))continue;ps.push(pReal(w))}
+  if(!ps.length)return null;const mean=ps.reduce((a,b)=>a+b,0)/ps.length;return{p:mean,real:ps.filter(p=>p>.5).length,fake:ps.filter(p=>p<=.5).length}}
+const tag=(l)=>`<span class="tag ${l}">${l}</span>`;
+// ---------- samples ----------
+let SAMPLES=[];
+async function initSamples(){SAMPLES=await (await fetch('samples.json')).json();const tb=document.getElementById('rows');
+  SAMPLES.forEach((s,i)=>{const tr=document.createElement('tr');tr.id='r'+i;tr.innerHTML=`<td>${s.speaker}</td><td>${s.sentence}</td><td>${s.cond}</td><td>${tag(s.truth)}</td><td class="v">–</td><td class="p">–</td><td class="w">–</td><td><button data-i="${i}">▶</button></td>`;tb.appendChild(tr)});
+  tb.onclick=e=>{const b=e.target.closest('button');if(b)new Audio('samples/'+SAMPLES[b.dataset.i].file).play()}}
+async function runAll(){const btn=document.getElementById('runall');btn.disabled=true;let ok=0,t0=performance.now();
+  for(let i=0;i<SAMPLES.length;i++){const s=SAMPLES[i],x=await decode(await (await fetch('samples/'+s.file)).arrayBuffer()),r=scoreClip(x),tr=document.getElementById('r'+i);
+    const v=r.p>.5?'real':'fake',good=v===s.truth;if(good)ok++;
+    tr.querySelector('.v').innerHTML=tag(v)+(good?' ✓':' ✗');tr.querySelector('.p').textContent=r.p.toFixed(3);tr.querySelector('.w').textContent=`${r.real} real / ${r.fake} fake`}
+  document.getElementById('summary').textContent=`${ok}/${SAMPLES.length} correct`;btn.disabled=false}
+document.getElementById('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;const r=scoreClip(await decode(await f.arrayBuffer())),o=document.getElementById('fres');
+  o.innerHTML=r?`${tag(r.p>.5?'real':'fake')} P(real)=${r.p.toFixed(3)} · windows ${r.real} real / ${r.fake} fake`:'too short or silent'};
+
+// ---------- agent dashboard: session log, challenge, explain, report ----------
+const S={active:false,id:null,start:null,ended:null,ev:[],actions:[],challenges:[],audio:[],n:0};
+let alertTimer=null,specImg=null;
+const tnow=()=>S.n/SR,fmt=t=>{const m=Math.floor(t/60),s=(t%60).toFixed(1);return m+':'+(s<10?'0':'')+s};
+function newSession(){S.id='CASE-'+new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+  S.start=new Date();S.ended=null;S.ev=[];S.actions=[];S.challenges=[];S.audio=[];S.n=0;S.active=true;specImg=null;
+  document.getElementById('expJson').disabled=true;document.getElementById('expPdf').disabled=true;
+  document.getElementById('chBox').textContent='Call in progress ('+S.id+'). Issue a challenge when you want one.';
+  clearInterval(alertTimer);alertTimer=setInterval(renderAlerts,1000);renderAlerts()}
+function logEvent(p,sm,label){S.ev.push({t:+tnow().toFixed(2),p_real:p==null?null:+p.toFixed(4),smoothed:sm==null?null:+sm.toFixed(4),label})}
+function logAction(text){S.actions.push({t:+tnow().toFixed(2),wall:new Date().toISOString(),action:text})}
+function segments(){const sc=S.ev.filter(e=>e.p_real!=null),segs=[];let cur=null;
+  for(const e of sc){if(e.p_real<0.5){const st=e.t-0.5;if(cur&&st-cur.end<=0.75){cur.end=e.t;cur.n++;cur.sum+=e.p_real}else{if(cur)segs.push(cur);cur={start:st,end:e.t,n:1,sum:e.p_real}}}}
+  if(cur)segs.push(cur);
+  return segs.filter(g=>g.n>=3).map(g=>({start_s:+Math.max(0,g.start).toFixed(2),end_s:+g.end.toFixed(2),windows:g.n,mean_p_real:+(g.sum/g.n).toFixed(3),fake_confidence:+(1-g.sum/g.n).toFixed(3),
+    reason:`Detector scored this stretch as synthetic (fake confidence ${Math.round((1-g.sum/g.n)*100)}% over ${g.n} half-second windows)`}))}
+function summary(){const sc=S.ev.filter(e=>e.p_real!=null),bad=sc.filter(e=>e.p_real<0.5),segs=segments(),fails=S.challenges.filter(c=>c.result&&c.result.startsWith('FAIL')).length;
+  let verdict=!sc.length?'NO SPEECH ANALYSED':(bad.length/sc.length>=0.5?'LIKELY SYNTHETIC':(segs.length?'PARTIALLY FLAGGED':'NO SYNTHETIC VOICE DETECTED'));
+  if(fails&&verdict==='NO SYNTHETIC VOICE DETECTED')verdict='CHALLENGE FAILED';
+  return{windows_scored:sc.length,windows_flagged:bad.length,pct_flagged:sc.length?+(100*bad.length/sc.length).toFixed(1):0,flagged_segments:segs.length,challenges:S.challenges.length,challenges_failed:fails,verdict}}
+function renderAlerts(){const ul=document.getElementById('alerts'),sm=summary(),items=[];
+  items.push(`<li><b>${sm.verdict}</b> · ${sm.windows_scored} windows scored, ${sm.pct_flagged}% flagged · ${S.n?fmt(tnow()):'0:00'} elapsed</li>`);
+  segments().forEach(g=>items.push(`<li>⚠ <b>${fmt(g.start_s)}–${fmt(g.end_s)}</b> — ${g.reason}</li>`));
+  S.challenges.forEach(c=>items.push(`<li>🔑 Challenge “${c.phrase}” at ${fmt(c.issued_t)}: <b>${c.result||'pending'}</b>${c.response_latency_s!=null?' (responded after '+c.response_latency_s+' s)':''}</li>`));
+  S.actions.forEach(a=>items.push(`<li class="mute">${fmt(a.t)} · ${a.action}</li>`));ul.innerHTML=items.join('')}
+const COLORS=['blue','green','red','white','black','orange','yellow','purple'];
+function issueChallenge(){if(!S.active){alert('Start a call first (mic or sample replay).');return}
+  if(S.challenges.find(c=>!c.result))return;
+  const d=()=>Math.floor(Math.random()*10),phrase=`${d()}-${d()}-${d()} ${COLORS[Math.floor(Math.random()*COLORS.length)]}`;
+  S.challenges.push({id:S.challenges.length+1,phrase,issued_t:+tnow().toFixed(2)});logAction('Challenge issued: '+phrase);
+  document.getElementById('chBox').innerHTML=`Ask the caller to say: <span class="chbig">${phrase}</span>`;
+  document.getElementById('chOk').disabled=false;document.getElementById('chBad').disabled=false;renderAlerts()}
+function closeChallenge(ok){const c=S.challenges.find(x=>!x.result);if(!c)return;c.closed_t=+tnow().toFixed(2);
+  const ev=S.ev.filter(e=>e.t>=c.issued_t&&e.t<=c.closed_t&&e.p_real!=null);c.windows=ev.length;
+  c.mean_p_real=ev.length?+(ev.reduce((a,e)=>a+e.p_real,0)/ev.length).toFixed(3):null;
+  c.response_latency_s=ev.length?+Math.max(0,ev[0].t-0.5-c.issued_t).toFixed(2):null;c.agent_heard_correct=ok;
+  c.result=!ev.length?'FAIL (no speech detected in the response)':!ok?'FAIL (agent: wrong or no answer)':c.mean_p_real<=0.5?'FAIL (voice judged synthetic during response)':'PASS';
+  logAction(`Challenge "${c.phrase}" closed: ${c.result}`);document.getElementById('chBox').textContent=`Last challenge “${c.phrase}”: ${c.result}`;
+  document.getElementById('chOk').disabled=true;document.getElementById('chBad').disabled=true;renderAlerts()}
+function drawSpec(){const cv=document.getElementById('spec'),g=cv.getContext('2d'),W=cv.width,H=cv.height;g.clearRect(0,0,W,H);
+  let total=0;S.audio.forEach(a=>total+=a.length);if(total<2048){g.fillStyle='#888';g.fillText('no audio',10,20);return}
+  const x=new Float32Array(total);let o=0;S.audio.forEach(a=>{x.set(a,o);o+=a.length});
+  const f512=makeFFT(512),hop=320,nf=Math.floor((x.length-512)/hop)+1,re=new Float32Array(512),im=new Float32Array(512),win=M.hann;
+  const off=document.createElement('canvas');off.width=nf;off.height=128;const og=off.getContext('2d'),img=og.createImageData(nf,128),db=new Float32Array(nf*128);let mx=-1e9;
+  for(let f=0;f<nf;f++){for(let k=0;k<512;k++){re[k]=x[f*hop+k]*win[k];im[k]=0}f512(re,im);
+    for(let r=0;r<128;r++){const a=2*r,pw=re[a]*re[a]+im[a]*im[a]+re[a+1]*re[a+1]+im[a+1]*im[a+1],v=10*Math.log10(pw+1e-10);db[f*128+r]=v;if(v>mx)mx=v}}
+  for(let f=0;f<nf;f++)for(let r=0;r<128;r++){const t=Math.max(0,Math.min(1,(db[f*128+r]-(mx-70))/70)),y=127-r,i=(y*nf+f)*4;
+    img.data[i]=Math.round(255*Math.max(0,t*1.5-0.5));img.data[i+1]=Math.round(255*Math.min(1,t*1.2));img.data[i+2]=Math.round(255*(0.2+0.8*t));img.data[i+3]=255}
+  og.putImageData(img,0,0);g.imageSmoothingEnabled=false;g.drawImage(off,0,0,W,H);
+  const dur=x.length/SR;segments().forEach(s=>{const x0=s.start_s/dur*W,w=Math.max(2,(s.end_s-s.start_s)/dur*W);g.fillStyle='rgba(220,38,38,0.35)';g.fillRect(x0,0,w,H);g.strokeStyle='#ef4444';g.lineWidth=2;g.strokeRect(x0,1,w,H-2)});
+  S.challenges.forEach(c=>{if(c.closed_t==null)return;const x0=c.issued_t/dur*W,x1=c.closed_t/dur*W;g.strokeStyle='#60a5fa';g.lineWidth=3;g.beginPath();g.moveTo(x0,4);g.lineTo(x0,18);g.lineTo(x1,18);g.lineTo(x1,4);g.stroke()});
+  g.fillStyle='#fff';g.font='11px system-ui';const step=dur>60?10:dur>20?5:2;for(let t=0;t<=dur;t+=step){const x0=t/dur*W;g.fillRect(x0,H-12,1,12);g.fillText(fmt(t),x0+3,H-3)}
+  specImg=cv.toDataURL('image/png')}
+function endSession(){if(!S.active)return;S.active=false;S.ended=new Date();clearInterval(alertTimer);
+  const pend=S.challenges.find(c=>!c.result);if(pend){pend.result='FAIL (call ended before the challenge was answered)';pend.closed_t=+tnow().toFixed(2);logAction('Call ended with a challenge pending')}
+  logAction('Call ended; analysis generated');document.getElementById('chBox').textContent='Call ended ('+S.id+'). Review the analysis below, then export the case file.';document.getElementById('chOk').disabled=true;document.getElementById('chBad').disabled=true;
+  drawSpec();renderAlerts();document.getElementById('expJson').disabled=false;document.getElementById('expPdf').disabled=false;saveCase()}
+function buildReport(){const sm=summary(),sc=S.ev.filter(e=>e.p_real!=null),bins={};
+  sc.forEach(e=>{const b=Math.floor(e.t);(bins[b]=bins[b]||[]).push(1-e.p_real)});
+  return{case_id:S.id,generated_at:new Date().toISOString(),
+    call:{started:S.start&&S.start.toISOString(),ended:S.ended&&S.ended.toISOString(),duration_s:+tnow().toFixed(1)},
+    system:{detector:'Live voice detector, 0.5 s windows, numpy MLP (Hinglish, 3 enrolled speakers)',decision_every_s:0.25,
+      limits:['Tuned to three enrolled voices (Yash, Kushagra, Pranjal); other speakers real voices are often scored fake.','Trained on XTTS-v2 clones only; other synthesis tools are untested.','Real-time voice conversion could still pass the spoken challenge; detection and challenge are combined for that reason.','Out-of-fold accuracy on its own data 98.9% per window; not evidence about real phone calls.']},
+    summary:sm,flagged_segments:segments(),challenges:S.challenges,agent_actions:S.actions,
+    risk_timeline_1s:Object.keys(bins).sort((a,b)=>a-b).map(b=>({t:+b,fake_prob:+(bins[b].reduce((x,y)=>x+y,0)/bins[b].length).toFixed(3)})),decisions:S.ev}}
+document.getElementById('expJson').onclick=()=>{const r=buildReport(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(r,null,2)],{type:'application/json'}));a.download=r.case_id+'.json';a.click()};
+document.getElementById('expPdf').onclick=()=>{const r=buildReport(),esc=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const tl=document.createElement('canvas');tl.width=800;tl.height=60;const g=tl.getContext('2d');g.fillStyle='#eee';g.fillRect(0,0,800,60);
+  const dur=Math.max(1,r.call.duration_s);r.risk_timeline_1s.forEach(b=>{g.fillStyle=`rgb(${Math.round(60+195*b.fake_prob)},${Math.round(160*(1-b.fake_prob))},60)`;g.fillRect(b.t/dur*800,60*(1-b.fake_prob),Math.max(2,800/dur),60*b.fake_prob+2)});
+  document.getElementById('report').innerHTML=`<h1>Incident report ${esc(r.case_id)}</h1>
+   <table><tr><th>Generated</th><td>${esc(r.generated_at)}</td><th>Call</th><td>${esc(r.call.started||'')} → ${esc(r.call.ended||'')} (${r.call.duration_s} s)</td></tr>
+   <tr><th>Verdict</th><td colspan=3><b>${esc(r.summary.verdict)}</b> — ${r.summary.windows_flagged}/${r.summary.windows_scored} windows flagged (${r.summary.pct_flagged}%), ${r.summary.flagged_segments} flagged segment(s), ${r.summary.challenges_failed}/${r.summary.challenges} challenge(s) failed</td></tr></table>
+   <h3>Spectrogram with flagged segments</h3>${specImg?`<img src="${specImg}">`:''}
+   <h3>Risk timeline (fake probability per second)</h3><img src="${tl.toDataURL()}">
+   <h3>Flagged segments</h3><table><tr><th>From</th><th>To</th><th>Windows</th><th>Fake confidence</th><th>Reason</th></tr>${r.flagged_segments.map(s=>`<tr><td>${fmt(s.start_s)}</td><td>${fmt(s.end_s)}</td><td>${s.windows}</td><td>${Math.round(s.fake_confidence*100)}%</td><td>${esc(s.reason)}</td></tr>`).join('')||'<tr><td colspan=5>None</td></tr>'}</table>
+   <h3>Challenges</h3><table><tr><th>#</th><th>Phrase</th><th>Issued</th><th>Response after</th><th>Mean P(real)</th><th>Agent heard correct</th><th>Result</th></tr>${r.challenges.map(c=>`<tr><td>${c.id}</td><td>${esc(c.phrase)}</td><td>${fmt(c.issued_t)}</td><td>${c.response_latency_s??'–'} s</td><td>${c.mean_p_real??'–'}</td><td>${c.agent_heard_correct}</td><td>${esc(c.result)}</td></tr>`).join('')||'<tr><td colspan=7>None</td></tr>'}</table>
+   <h3>Actions taken</h3><table><tr><th>Call time</th><th>Wall clock</th><th>Action</th></tr>${r.agent_actions.map(a=>`<tr><td>${fmt(a.t)}</td><td>${esc(a.wall)}</td><td>${esc(a.action)}</td></tr>`).join('')}</table>
+   <h3>Limits of this evidence</h3><ul>${r.system.limits.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;window.print()};
+document.getElementById('chIssue').onclick=issueChallenge;document.getElementById('chOk').onclick=()=>closeChallenge(true);document.getElementById('chBad').onclick=()=>closeChallenge(false);
+document.getElementById('flagBtn').onclick=()=>{if(!S.active)return;logAction('Agent flagged the call as a suspected fake');renderAlerts()};
+document.getElementById('endBtn').onclick=()=>{if(running)document.getElementById('mic').click();else endSession()};
+function resetStream(){buf=new Float32Array(0);since=0;ema=null;gap=0;hist.length=0}
+async function replayClip(x){if(running)return;resetStream();newSession();for(let i=0;i<x.length;i+=2048)onAudio(x.subarray(i,Math.min(i+2048,x.length)),SR);endSession()}
+document.getElementById('rpBtn').onclick=async()=>{const s=SAMPLES[document.getElementById('rpSel').value];replayClip(await decode(await (await fetch('samples/'+s.file)).arrayBuffer()))};
+
+// ---------- on-disk case storage (via server.py) ----------
+function wavBlob(chunks){let n=0;chunks.forEach(c=>n+=c.length);const buf=new ArrayBuffer(44+n*2),v=new DataView(buf),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};
+  w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,SR,true);v.setUint32(28,SR*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+  let o=44;chunks.forEach(c=>{for(let i=0;i<c.length;i++){const x=Math.max(-1,Math.min(1,c[i]));v.setInt16(o,x<0?x*32768:x*32767,true);o+=2}});return new Blob([buf],{type:'audio/wav'})}
+function showPlayer(blob){const pl=document.getElementById('player');pl.src=URL.createObjectURL(blob);pl.style.display='block'}
+async function saveCase(){const st=document.getElementById('saveStatus');
+  try{const blob=wavBlob(S.audio),hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',await blob.arrayBuffer()))].map(b=>b.toString(16).padStart(2,'0')).join('');
+    showPlayer(blob);const r=buildReport();r.audio={file:'audio.wav',sample_rate:SR,channels:1,bit_depth:16,samples:S.n,sha256:hash};
+    const a=await fetch(`/api/case/${S.id}/audio.wav`,{method:'PUT',body:blob}),b=await fetch(`/api/case/${S.id}/case.json`,{method:'PUT',body:JSON.stringify(r)});
+    if(!a.ok||!b.ok)throw new Error('server said '+a.status+'/'+b.status);
+    st.textContent=`Saved on this machine: cases/${S.id}/ (audio.wav + case.json, SHA-256 ${hash.slice(0,12)}…)`;refreshCases()}
+  catch(e){st.textContent='NOT SAVED ('+e.message+'). Start the app with: python server.py'}}
+async function refreshCases(){const tb=document.getElementById('cases');
+  try{const list=await (await fetch('/api/cases',{cache:'no-store'})).json();
+    tb.innerHTML=list.length?list.map(c=>`<tr><td>${c.case_id}</td><td>${(c.started||'').replace('T',' ').slice(0,19)}</td><td>${c.duration_s}s</td><td>${c.verdict}</td><td>${c.flagged_segments} seg · ${c.challenges} ch</td><td><button data-id="${c.case_id}">Open</button></td></tr>`).join(''):'<tr><td colspan="6" class="mute">none yet</td></tr>'}
+  catch(e){tb.innerHTML='<tr><td colspan="6" class="mute">storage unavailable (run python server.py)</td></tr>'}}
+async function openCase(id){if(running)return;const [cj,aw]=await Promise.all([fetch(`/api/case/${id}/case.json`).then(r=>r.json()),fetch(`/api/case/${id}/audio.wav`).then(r=>r.arrayBuffer())]);
+  const pcm=new Int16Array(aw.slice(44)),f=new Float32Array(pcm.length);for(let i=0;i<pcm.length;i++)f[i]=pcm[i]/32768;
+  clearInterval(alertTimer);S.active=false;S.id=cj.case_id;S.start=new Date(cj.call.started);S.ended=new Date(cj.call.ended);S.ev=cj.decisions;S.actions=cj.agent_actions;S.challenges=cj.challenges;S.audio=[f];S.n=f.length;
+  document.getElementById('chBox').textContent='Viewing saved case '+id+' (read-only).';document.getElementById('saveStatus').textContent=`Loaded from disk: cases/${id}/ · audio SHA-256 ${cj.audio?cj.audio.sha256.slice(0,12)+'…':'n/a'}`;
+  showPlayer(new Blob([aw],{type:'audio/wav'}));drawSpec();renderAlerts();document.getElementById('expJson').disabled=false;document.getElementById('expPdf').disabled=false;document.getElementById('dash').scrollIntoView()}
+document.getElementById('cases').onclick=e=>{const b=e.target.closest('button');if(b)openCase(b.dataset.id)};
+// ---------- live mic ----------
+let ctx,stream,proc,running=false,buf=new Float32Array(0),since=0,ema=null,gap=0;const hist=[];
+const big=document.getElementById('big');
+function show(label,p){big.className=label==='real'?'real':label==='FAKE'?'fake':'sil';big.textContent=label==='real'?'REAL':label==='FAKE'?'FAKE':'no speech';
+  if(p!=null){document.getElementById('pbar').style.width=(p*100)+'%';document.getElementById('pval').textContent=p.toFixed(2)}}
+function draw(){const c=document.getElementById('tl'),g=c.getContext('2d'),W=c.width,H=c.height;g.clearRect(0,0,W,H);const n=60,bw=W/n;
+  const cs=getComputedStyle(document.documentElement);hist.slice(-n).forEach((h,i)=>{if(h==null)return;g.fillStyle=h==='real'?cs.getPropertyValue('--ok'):h==='FAKE'?cs.getPropertyValue('--bad'):cs.getPropertyValue('--line');g.fillRect(i*bw+1,6,bw-2,H-12)})}
+function onAudio(chunk,rate){
+  let x=chunk;if(rate!==SR){const r=rate/SR,n=Math.floor(chunk.length/r);x=new Float32Array(n);for(let i=0;i<n;i++){const p=i*r,i0=Math.floor(p),f=p-i0;x[i]=chunk[i0]*(1-f)+(chunk[Math.min(i0+1,chunk.length-1)])*f}}
+  document.getElementById('lvl').style.width=Math.min(100,rms(x)*400)+'%';
+  if(S.active){S.audio.push(x);S.n+=x.length}
+  const nb=new Float32Array(Math.min(buf.length+x.length,M.win*2));const keep=nb.length-x.length;nb.set(buf.subarray(buf.length-keep),0);nb.set(x,keep);buf=nb;since+=x.length;
+  if(buf.length<M.win||since<4000)return;since=0;const w=buf.subarray(buf.length-M.win);
+  if(!hasSpeech(w)){gap+=4000;if(ema!=null&&gap<=16000){const l=ema>.5?'real':'FAKE';hist.push(l);logEvent(null,ema,l);show(l,ema);draw();return}ema=null;hist.push(null);logEvent(null,null,'no speech');show('silence',null);draw();return}gap=0;
+  const t=performance.now(),p=pReal(w);document.getElementById('lat').textContent=(performance.now()-t).toFixed(1);
+  ema=ema==null?p:.5*p+.5*ema;const lab=ema>.5?'real':'FAKE';hist.push(lab);logEvent(p,ema,lab);show(lab,ema);draw()}
+document.getElementById('mic').onclick=async()=>{
+  const b=document.getElementById('mic');
+  if(running){running=false;proc.disconnect();stream.getTracks().forEach(t=>t.stop());ctx.close();b.textContent='Start listening';b.classList.add('primary');show('silence',null);endSession();return}
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}catch(e){alert('Microphone blocked: '+e.message);return}
+  try{ctx=new AudioContext({sampleRate:SR})}catch(e){ctx=new AudioContext()}
+  const src=ctx.createMediaStreamSource(stream);proc=ctx.createScriptProcessor(2048,1,1);buf=new Float32Array(0);since=0;ema=null;gap=0;hist.length=0;
+  proc.onaudioprocess=e=>{if(running)onAudio(new Float32Array(e.inputBuffer.getChannelData(0)),ctx.sampleRate)};
+  src.connect(proc);proc.connect(ctx.destination);newSession();running=true;b.textContent='Stop';b.classList.remove('primary')};
+// ---------- boot ----------
+(async()=>{try{await loadModel();await initSamples();refreshCases();document.getElementById('status').textContent='model ready ('+(M.win/SR)+' s window)';
+  document.getElementById('mic').disabled=false;document.getElementById('rpSel').innerHTML=SAMPLES.map((s,i)=>`<option value="${i}">${s.speaker} · sent ${s.sentence} · ${s.truth} · ${s.cond}</option>`).join('');document.getElementById('rpBtn').disabled=false;document.getElementById('runall').disabled=false;document.getElementById('runall').onclick=runAll}
+  catch(e){document.getElementById('status').textContent='failed to load: '+e.message}})();
+</script>
+</body>
+</html>

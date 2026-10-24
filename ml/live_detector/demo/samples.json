@@ -1,0 +1,170 @@
+[
+ {
+  "file": "uwrncdc6_012_real.wav",
+  "speaker": "Kushagra",
+  "sentence": 12,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "uwrncdc6_012_fake.wav",
+  "speaker": "Kushagra",
+  "sentence": 12,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "uwrncdc6_047_real.wav",
+  "speaker": "Kushagra",
+  "sentence": 47,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "uwrncdc6_047_fake.wav",
+  "speaker": "Kushagra",
+  "sentence": 47,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "uwrncdc6_083_real.wav",
+  "speaker": "Kushagra",
+  "sentence": 83,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "uwrncdc6_083_fake.wav",
+  "speaker": "Kushagra",
+  "sentence": 83,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "gsm_uwrncdc6_047_real.wav",
+  "speaker": "Kushagra",
+  "sentence": 47,
+  "truth": "real",
+  "cond": "phone (gsm)"
+ },
+ {
+  "file": "gsm_uwrncdc6_047_fake.wav",
+  "speaker": "Kushagra",
+  "sentence": 47,
+  "truth": "fake",
+  "cond": "phone (gsm)"
+ },
+ {
+  "file": "vukqxv0v_012_real.wav",
+  "speaker": "Yash",
+  "sentence": 12,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "vukqxv0v_012_fake.wav",
+  "speaker": "Yash",
+  "sentence": 12,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "vukqxv0v_047_real.wav",
+  "speaker": "Yash",
+  "sentence": 47,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "vukqxv0v_047_fake.wav",
+  "speaker": "Yash",
+  "sentence": 47,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "vukqxv0v_083_real.wav",
+  "speaker": "Yash",
+  "sentence": 83,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "vukqxv0v_083_fake.wav",
+  "speaker": "Yash",
+  "sentence": 83,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "gsm_vukqxv0v_047_real.wav",
+  "speaker": "Yash",
+  "sentence": 47,
+  "truth": "real",
+  "cond": "phone (gsm)"
+ },
+ {
+  "file": "gsm_vukqxv0v_047_fake.wav",
+  "speaker": "Yash",
+  "sentence": 47,
+  "truth": "fake",
+  "cond": "phone (gsm)"
+ },
+ {
+  "file": "n5heuy41_012_real.wav",
+  "speaker": "Pranjal",
+  "sentence": 12,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "n5heuy41_012_fake.wav",
+  "speaker": "Pranjal",
+  "sentence": 12,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "n5heuy41_047_real.wav",
+  "speaker": "Pranjal",
+  "sentence": 47,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "n5heuy41_047_fake.wav",
+  "speaker": "Pranjal",
+  "sentence": 47,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "n5heuy41_083_real.wav",
+  "speaker": "Pranjal",
+  "sentence": 83,
+  "truth": "real",
+  "cond": "clean"
+ },
+ {
+  "file": "n5heuy41_083_fake.wav",
+  "speaker": "Pranjal",
+  "sentence": 83,
+  "truth": "fake",
+  "cond": "clean"
+ },
+ {
+  "file": "gsm_n5heuy41_047_real.wav",
+  "speaker": "Pranjal",
+  "sentence": 47,
+  "truth": "real",
+  "cond": "phone (gsm)"
+ },
+ {
+  "file": "gsm_n5heuy41_047_fake.wav",
+  "speaker": "Pranjal",
+  "sentence": 47,
+  "truth": "fake",
+  "cond": "phone (gsm)"
+ }
+]
