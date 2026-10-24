@@ -10,7 +10,7 @@
     python rak.py demo          Voice Check demo + case storage on http://127.0.0.1:8765/
     python rak.py service       the Asli Awaaz decision service on http://127.0.0.1:8000/  (--live uses our detector as L2)
     python rak.py precommit     size guard, secret scan, quick tests: run before every commit
-    python rak.py pack          zip the whole folder for another computer (no .venv, refuses if junctions exist)
+    python rak.py pack          zip the folder for another computer (no .venv, no heavy data unless --with-heavy; refuses if junctions exist)
     python rak.py link-heavy    OPT-IN: junction the big regenerable data from the original folders (no copy)
 """
 import csv
@@ -128,7 +128,7 @@ def cmd_doctor(_):
     free = shutil.disk_usage(ROOT).free / 1e9
     report(free > 10, f"disk free {free:.1f} GB (need > 10)", warn=free <= 10)
     for target, original in ORIGINALS.items():
-        state = "linked" if target.exists() else ("not linked (optional: python rak.py link-heavy)" if original.exists() else "original not found")
+        state = ("present" + (" (junction)" if target in junctions() else " (real copy)")) if target.exists() else ("not linked (optional: python rak.py link-heavy)" if original.exists() else "original not found")
         print(f"{WARN if not target.exists() else OK} heavy data {target.relative_to(ROOT)}: {state}")
     print("\nsummary:", "ALL REQUIRED CHECKS PASSED" if not failures else f"{len(failures)} FAILED")
     return 1 if failures else 0
@@ -275,10 +275,18 @@ def cmd_pack(args):
     skip_dirs = {".venv", "__pycache__", ".pytest_cache", ".ipynb_checkpoints", "node_modules"}
     if "--no-cases" in args:
         skip_dirs.add("cases")
+    heavy = [t for t in ORIGINALS if t.exists()]
+    if "--with-heavy" not in args:
+        skip_paths = {t.relative_to(ROOT).as_posix() for t in heavy}
+    else:
+        skip_paths = set()
     out = ROOT.parent / f"RAKSHAM_portable_{date.today().isoformat()}.zip"
     if "-o" in args:
         out = Path(args[args.index("-o") + 1])
-    files = [p for p in ROOT.rglob("*") if p.is_file() and not (set(p.relative_to(ROOT).parts) & skip_dirs) and p != out]
+    files = [p for p in ROOT.rglob("*") if p.is_file() and not (set(p.relative_to(ROOT).parts) & skip_dirs) and p != out
+             and not any(p.relative_to(ROOT).as_posix().startswith(sp + "/") for sp in skip_paths)]
+    if skip_paths:
+        print(f"(left out the regenerable heavy data: {', '.join(sorted(skip_paths))}; add --with-heavy to include it)")
     size = sum(p.stat().st_size for p in files) / 1e6
     print(f"{len(files)} files, {size:,.0f} MB before compression -> {out}")
     if "--dry-run" in args:
