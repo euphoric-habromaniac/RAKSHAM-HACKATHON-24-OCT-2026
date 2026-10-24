@@ -85,7 +85,17 @@ def _l2_from_env() -> Optional[SpoofScorer]:
     """Opt-in real L2: ASLI_L2_MODEL names a TorchScript model. Unset means mocks.
 
     A set but unusable path fails at startup rather than falling back to the mock.
+    ASLI_L2_BACKEND=live selects the numpy-only live detector (ml/live_detector) instead.
     """
+    if os.environ.get("ASLI_L2_BACKEND", "").lower() == "live":
+        from .live_scorer import LiveDetectorSpoofScorer  # lazy: numpy only
+
+        live = LiveDetectorSpoofScorer(model_path=os.environ.get("ASLI_L2_LIVE_MODEL"))
+        try:
+            live.load()  # fail fast, never fall back to the mock
+        except Exception as exc:
+            raise RuntimeError(f"ASLI_L2_BACKEND=live could not load the detector: {exc}") from exc
+        return live
     path = os.environ.get("ASLI_L2_MODEL")
     if not path:
         return None
@@ -107,8 +117,9 @@ def _l2_from_env() -> Optional[SpoofScorer]:
 
 def _warn_if_uncalibrated_l2(cfg: ServiceConfig) -> None:
     """A real L2 model with placeholder Platt/thresholds gives meaningless probabilities."""
-    if os.environ.get("ASLI_L2_MODEL") and cfg.layers["l2"].placeholder:
-        log.warning("ASLI_L2_MODEL is set but the l2 config layer is still a PLACEHOLDER (uncalibrated). "
+    real_l2 = os.environ.get("ASLI_L2_MODEL") or os.environ.get("ASLI_L2_BACKEND", "").lower() == "live"
+    if real_l2 and cfg.layers["l2"].placeholder:
+        log.warning("A real L2 (ASLI_L2_MODEL or ASLI_L2_BACKEND=live) is set but the l2 config layer is still a PLACEHOLDER (uncalibrated). "
                     "Pass config_path=service/config.calibrated.json to create_app.")
 
 
