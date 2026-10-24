@@ -1,0 +1,42 @@
+{
+ "schemaVersion": 2,
+ "generatedAt": "2026-10-24T00:00:00Z",
+ "title": "Design System: Asli Awaaz",
+ "extensions": {
+  "colorMeta": {
+   "genuine": {"role": "primary", "displayName": "Genuine Teal", "canonical": "#086b62", "tonalRamp": ["#021b19", "#033c37", "#055850", "#086b62", "#4a9189", "#86b5b0", "#bcd7d4", "#e8f2f1"]},
+   "synthetic": {"role": "primary", "displayName": "Synthetic Magenta", "canonical": "#b0105a", "tonalRamp": ["#2d0417", "#5a082d", "#870c44", "#b0105a", "#c85d8d", "#dd9bbb", "#eccadb", "#f8ebf1"]},
+   "paper": {"role": "neutral", "displayName": "Cool Paper", "canonical": "#eaeff3", "tonalRamp": ["#2f3a45", "#5a6874", "#8794a0", "#b3bfc9", "#d8e0e8", "#eaeff3", "#f6f8fa", "#ffffff"]},
+   "ink": {"role": "neutral", "displayName": "Navy Ink", "canonical": "#0f1a30", "tonalRamp": ["#030509", "#070d18", "#0f1a30", "#34405a", "#4e5a73", "#6f7d94", "#b7c2d3", "#e8edf3"]},
+   "rule": {"role": "neutral", "displayName": "Rule Grey", "canonical": "#6f7d94", "tonalRamp": ["#1f2530", "#3a4352", "#556073", "#6f7d94", "#97a2b3", "#bcc4d0", "#dde1e8", "#f1f3f6"]}
+  },
+  "typographyMeta": {
+   "slide-title": {"displayName": "Slide title", "purpose": "One heading per page at the top margin."},
+   "label": {"displayName": "Label", "purpose": "Chips, diagram labels, stamps."}
+  },
+  "shadows": [],
+  "motion": [],
+  "breakpoints": [{"name": "canvas", "value": "1920x1080"}]
+ },
+ "components": [
+  {"name": "Clear chip", "kind": "chip", "refersTo": "chip-clear", "description": "Genuine voice verdict.", "html": "<span class=\"ds-chip-clear\">&#10003; Clear</span>", "css": ".ds-chip-clear{display:inline-block;font-family:'Archivo Narrow',Arial,sans-serif;font-size:28px;font-weight:600;color:#0f1a30;background:#d2eae6;border:3px solid #086b62;border-radius:4px;padding:6px 12px}"},
+  {"name": "Step up chip", "kind": "chip", "refersTo": "chip-step-up", "description": "Middle verdict, ink only.", "html": "<span class=\"ds-chip-stepup\">&#9680; Step up</span>", "css": ".ds-chip-stepup{display:inline-block;font-family:'Archivo Narrow',Arial,sans-serif;font-size:28px;font-weight:600;color:#0f1a30;background:#f6f8fa;border:3px solid #0f1a30;border-radius:4px;padding:6px 12px}"},
+  {"name": "Hold chip", "kind": "chip", "refersTo": "chip-hold", "description": "Synthetic voice or alert verdict.", "html": "<span class=\"ds-chip-hold\">&#10005; Hold</span>", "css": ".ds-chip-hold{display:inline-block;font-family:'Archivo Narrow',Arial,sans-serif;font-size:28px;font-weight:600;color:#0f1a30;background:#f3d3e1;border:3px dashed #b0105a;border-radius:4px;padding:6px 12px}"},
+  {"name": "Stamp", "kind": "custom", "refersTo": "stamp", "description": "Neutral claim-status label.", "html": "<span class=\"ds-stamp\">Target, not a result</span>", "css": ".ds-stamp{display:inline-block;font-family:'Archivo Narrow',Arial,sans-serif;font-size:26px;font-weight:600;color:#34405a;background:#d8e0e8;border:2px solid #34405a;border-radius:4px;padding:6px 8px;transform:rotate(-1.5deg)}"},
+  {"name": "Panel", "kind": "card", "refersTo": "panel", "description": "Raised flat rectangle with ink outline.", "html": "<div class=\"ds-panel\">Detection layers</div>", "css": ".ds-panel{background:#f6f8fa;color:#0f1a30;border:2px solid #0f1a30;border-radius:0;padding:32px;font-family:Archivo,Arial,sans-serif;font-size:32px}"}
+ ],
+ "narrative": {
+  "northStar": "The Printed Pitch Sheet",
+  "overview": "Every page is a 1920 by 1080 sheet read as a PDF, so it behaves like paper: cool ground, navy ink, flat rectangles, hairlines. Colour is a vocabulary: teal for genuine, magenta for synthetic, everything else ink or grey.",
+  "keyCharacteristics": ["Cool paper grounds, navy ink, two meaning-bearing accents", "Flat surfaces: 2-3px ink outlines or tint fills, square corners", "Colour always paired with a word and a shape", "Archivo 800 titles, Archivo Narrow labels, sparing Kalam hand notes", "Fixed 128px margins, one-line footer with source and section counter"],
+  "rules": [
+   {"name": "The Two Meanings Rule", "body": "Teal and magenta mean genuine and synthetic and nothing else.", "section": "colors"},
+   {"name": "The Never Alone Rule", "body": "Every status colour is paired with a word and a glyph or outline style.", "section": "colors"},
+   {"name": "The 24px Floor Rule", "body": "Nothing is set below 24px; footers sit at exactly 24px.", "section": "typography"},
+   {"name": "The Hindi Once Rule", "body": "The wordmark appears on the cover only.", "section": "typography"},
+   {"name": "The Flat Sheet Rule", "body": "Surfaces are rectangles with an outline or a tint; no shadows, gradients or glass.", "section": "elevation"}
+  ],
+  "dos": ["Do set pages on paper, alternate paper-deep, put panels on paper-raised.", "Do pair every status colour with a word and a glyph or outline style."],
+  "donts": ["Don't use teal or magenta as decoration, a button colour, or on stamps and placeholders.", "Don't add gradients, shadows, glass, photographs, faces, emoji or motion."]
+ }
+}
