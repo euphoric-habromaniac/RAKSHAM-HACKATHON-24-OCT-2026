@@ -1,0 +1,78 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-24T16:50:00Z"
+ },
+ "lists": "css",
+ "title": "Asli Awaaz Round 1 Pitch",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "harm",
+  "journey",
+  "flow",
+  "detect",
+  "diff",
+  "evidence",
+  "trust",
+  "rollout",
+  "finale",
+  "arch1",
+  "arch2",
+  "arch3",
+  "app1",
+  "app2",
+  "app3",
+  "app4"
+ ],
+ "sections": {
+  "s1": {
+   "description": "Who we are, the problem and the journey it changes.",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "The detection approach, evidence and safeguards.",
+   "start": "flow"
+  },
+  "s3": {
+   "description": "Adoption and the 48-hour plan.",
+   "start": "rollout"
+  },
+  "s4": {
+   "description": "Architectural overview, three pages.",
+   "start": "arch1"
+  },
+  "s5": {
+   "description": "Appendix: disclosures, assumptions and sources.",
+   "start": "app1"
+  }
+ },
+ "faces": {
+  "archivo": {
+   "family": "Archivo",
+   "href": "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap"
+  },
+  "archivo-narrow": {
+   "family": "Archivo Narrow",
+   "href": "https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&display=swap"
+  },
+  "kalam": {
+   "family": "Kalam",
+   "href": "https://fonts.googleapis.com/css2?family=Kalam:wght@400&display=swap"
+  },
+  "rozha-one": {
+   "family": "Rozha One",
+   "href": "https://fonts.googleapis.com/css2?family=Rozha+One&display=swap"
+  }
+ },
+ "designSystems": [
+  {
+   "title": "Asli Awaaz",
+   "namespace": "asliawaaz",
+   "artifact": "",
+   "version": "1791676128-e886",
+   "copiedAt": "2026-10-24T23:55:00Z"
+  }
+ ]
+}
